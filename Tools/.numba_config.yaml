@@ -1,0 +1,3 @@
+disable_jit: 0
+num_threads: 8
+threading_layer: omp
