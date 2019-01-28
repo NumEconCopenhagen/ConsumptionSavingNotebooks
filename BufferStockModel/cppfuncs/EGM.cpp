@@ -5,7 +5,6 @@
 // standard C++ libraries
 #include <windows.h>
 #include <stdio.h>
-
 #include <cmath>
 #include <omp.h>
 

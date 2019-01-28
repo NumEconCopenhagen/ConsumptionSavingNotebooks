@@ -22,11 +22,11 @@ typedef struct par_struct
  double *xi;
  double *xi_w;
  double tol;
- bool do_print;
- bool do_simple_w;
- int cppthreads;
  int simT;
  int simN;
  int sim_seed;
+ bool do_print;
+ bool do_simple_w;
+ int cppthreads;
 } par_struct;
 

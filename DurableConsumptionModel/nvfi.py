@@ -14,29 +14,19 @@ import utility
 
 # a. define objective function
 @njit
-def obj_keep(c,db,m,inv_w,par):
+def obj_keep(c,n,m,inv_w,par):
     """ evaluate bellman equation """
-
-    penalty = 0
-    c_min = np.fmin(m/2,1e-8)
-    if c < c_min:
-        penalty += 1000*(c-c_min)**2
-        c = c_min
-    if c > m:
-        penalty += 1000*(c-m)**2
-        c = m
 
     # a. end-of-period assets
     a = m-c
     
     # b. continuation value
-    inv_w = linear_interp.interp_1d(par.grid_a,inv_w,a)
-    w = -1/inv_w
+    w = -1.0/linear_interp.interp_1d(par.grid_a,inv_w,a)
 
     # c. total value
-    value_of_choice = utility.func(c,db,par) + w
+    value_of_choice = utility.func(c,n,par) + w
 
-    return -value_of_choice + penalty # we are minimizing
+    return -value_of_choice # we are minimizing
 
 # b. create optimizer
 opt_keep = golden_section_search.create_optimizer(obj_keep)
@@ -50,26 +40,26 @@ def solve_keep(t,sol,par):
     c = sol.c_keep[t]
 
     # loop over outer states
-    for ip in prange(par.Np):
-        for idb in range(par.Ndb):
+    for i_p in prange(par.Np):
+        for i_n in range(par.Nn):
             
             # outer states
-            db = par.grid_db[idb]
+            n = par.grid_n[i_n]
 
             # loop over m state
-            for im in range(par.Nm):
+            for i_m in range(par.Nm):
                 
                 # a. cash-on-hand
-                m = par.grid_m[im]
+                m = par.grid_m[i_m]
                 
                 # b. optimal choice
                 c_low = np.fmin(m/2,1e-8)
                 c_high = m
-                c[ip,idb,im] = opt_keep(c_low,c_high,par.tol,db,m,sol.inv_w[t,ip,idb],par)
+                c[i_p,i_n,i_m] = opt_keep(c_low,c_high,par.tol,n,m,sol.inv_w[t,i_p,i_n],par)
 
-                # d. optimal value
-                v = -obj_keep(c[ip,idb,im],db,m,sol.inv_w[t,ip,idb],par)
-                inv_v[ip,idb,im] = -1/v
+                # c. optimal value
+                v = -obj_keep(c[i_p,i_n,i_m],n,m,sol.inv_w[t,i_p,i_n],par)
+                inv_v[i_p,i_n,i_m] = -1/v
 
 #######
 # adj #
@@ -84,12 +74,10 @@ def obj_adj(d,x,inv_v_keep,par):
     m = x-d
 
     # b. durables
-    db = d
+    n = d
     
-    # b. value-of-choice
-    inv_v_keep = linear_interp.interp_2d(par.grid_db,par.grid_m,inv_v_keep,db,m)
-    
-    return -inv_v_keep # we are minimizing
+    # c. value-of-choice
+    return -linear_interp.interp_2d(par.grid_n,par.grid_m,inv_v_keep,n,m)  # we are minimizing
 
 # b. create optimizer
 opt_adj = golden_section_search.create_optimizer(obj_adj)
@@ -104,21 +92,21 @@ def solve_adj(t,sol,par):
     c = sol.c_adj[t]
 
     # loop over outer states
-    for ip in prange(par.Np):
+    for i_p in prange(par.Np):
             
-        # loop over m state
-        for ix in range(par.Nx):
+        # loop over x state
+        for i_x in range(par.Nx):
             
-            # i. cash-on-hand
-            x = par.grid_x[ix]
+            # a. cash-on-hand
+            x = par.grid_x[i_x]
             
-            # ii. optimal choice
-            db_low = np.fmin(x/2,1e-8)
-            db_high = np.fmin(x,par.db_max)
-            d[ip,ix] = opt_adj(db_low,db_high,par.tol,x,sol.inv_v_keep[t,ip],par)
+            # b. optimal choice
+            d_low = np.fmin(x/2,1e-8)
+            d_high = np.fmin(x,par.n_max)
+            d[i_p,i_x] = opt_adj(d_low,d_high,par.tol,x,sol.inv_v_keep[t,i_p],par)
 
-            # iii. optimal value
-            m = x - d[ip,ix]
-            c[ip,ix] = linear_interp.interp_2d(par.grid_db,par.grid_m,sol.c_keep[t,ip],d[ip,ix],m)
-            inv_v[ip,ix] = -obj_adj(d[ip,ix],x,sol.inv_v_keep[t,ip],par)
+            # c. optimal value
+            m = x - d[i_p,i_x]
+            c[i_p,i_x] = linear_interp.interp_2d(par.grid_n,par.grid_m,sol.c_keep[t,i_p],d[i_p,i_x],m)
+            inv_v[i_p,i_x] = -obj_adj(d[i_p,i_x],x,sol.inv_v_keep[t,i_p],par)
 

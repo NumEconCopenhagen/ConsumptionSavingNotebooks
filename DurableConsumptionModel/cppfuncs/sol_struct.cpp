@@ -7,5 +7,7 @@ typedef struct sol_struct
  double *d_adj;
  double *inv_w;
  double *q;
+ double *q_c;
+ double *q_m;
 } sol_struct;
 

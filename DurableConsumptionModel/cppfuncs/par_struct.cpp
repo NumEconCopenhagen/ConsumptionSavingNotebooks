@@ -1,10 +1,11 @@
 typedef struct par_struct
 {
  int T;
+ int t;
  double beta;
  double rho;
  double alpha;
- double db_ubar;
+ double d_ubar;
  double R;
  double tau;
  double delta;
@@ -21,9 +22,9 @@ typedef struct par_struct
  double *grid_p;
  double p_min;
  double p_max;
- int Ndb;
- double *grid_db;
- double db_max;
+ int Nn;
+ double *grid_n;
+ double n_max;
  int Nx;
  double *grid_x;
  double x_max;
@@ -35,19 +36,23 @@ typedef struct par_struct
  double *psi_w;
  double *xi;
  double *xi_w;
- double tol;
- bool do_print;
- bool do_print_t;
+ double sigma_p0;
+ double mu_d0;
+ double sigma_d0;
+ double mu_a0;
+ double sigma_a0;
  int simT;
  int simN;
- int Nc_keep;
- int Nd_adj;
- int Nc_adj;
- double *grid_c_keep;
- double *grid_d_adj;
- double *grid_c_adj;
- int t;
- int cppthreads;
  int sim_seed;
+ double euler_cutoff;
+ double tol;
+ bool do_print;
+ bool do_print_period;
+ int cppthreads;
+ bool do_simple_wq;
+ bool use_gs_in_vfi;
+ double *time_w;
+ double *time_keep;
+ double *time_adj;
 } par_struct;
 

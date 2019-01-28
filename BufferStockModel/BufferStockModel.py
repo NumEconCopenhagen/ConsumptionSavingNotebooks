@@ -43,14 +43,15 @@ class BufferStockModelClass(ConsumptionSavingModel):
     # setup #
     #########
     
-    def __init__(self,name='baseline',solmethod='vfi',load=False,**kwargs):
+    def __init__(self,name='baseline',load=False,solmethod='vfi',compiler='vs',**kwargs):
         """ basic setup
 
         Args:
 
             name (str,optional): name, used when saving/loading
-            solmethod (str,optional): solmethod, used when solving
             load (bool,optinal): load from disc
+            solmethod (str,optional): solmethod, used when solving
+            compiler (str,optional): compiler, 'vs' or 'intel' (used for c++)
              **kwargs: change to baseline parameter in .par
             
         Define parlist, sollist and simlist contain information on the
@@ -62,7 +63,11 @@ class BufferStockModelClass(ConsumptionSavingModel):
 
         self.name = name 
         self.solmethod = solmethod
-
+        self.compiler = compiler
+        self.vs_path = 'C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/'
+        self.intel_path = 'C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/bin/'
+        self.intel_vs_version = 'vs2017'
+        
         # a. define subclasses
         parlist = [ # (name,numba type), parameters, grids etc.
             ('T',int32), # integer 32bit
@@ -87,12 +92,12 @@ class BufferStockModelClass(ConsumptionSavingModel):
             ('xi',double[:]),        
             ('xi_w',double[:]),        
             ('tol',double),
-            ('do_print',boolean), # boolean
-            ('do_simple_w',boolean),
-            ('cppthreads',int32),  
             ('simT',int32), 
             ('simN',int32), 
-            ('sim_seed',int32)  
+            ('sim_seed',int32),
+            ('do_print',boolean), # boolean
+            ('do_simple_w',boolean),
+            ('cppthreads',int32) 
         ]
         
         sollist = [ # (name, numba type), solution data
@@ -274,7 +279,7 @@ class BufferStockModelClass(ConsumptionSavingModel):
 
         # b. compile
         funcnames = ['solve','simulate']
-        self.setup_cpp(compiler=compiler)
+        self.setup_cpp()
         self.link_cpp(EGM,funcnames)
 
         # c. solve by EGM

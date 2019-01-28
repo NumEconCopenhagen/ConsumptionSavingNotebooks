@@ -1,4 +1,7 @@
+import numpy as np
 from numba import njit, prange
+
+# consav
 from consav import golden_section_search
 
 # local modules
@@ -14,7 +17,7 @@ def obj_last_period(d,x,par):
 
     return -utility.func(c,d,par)
 
-# b. create optimizer
+# b. create optcreate_optimizer
 opt_last_period = golden_section_search.create_optimizer(obj_last_period)
 
 @njit(parallel=True)
@@ -29,45 +32,47 @@ def solve(t,sol,par):
     c_adj = sol.c_adj[t]
 
     # a. keep
-    for ip in prange(par.Np):
-        for idb in range(par.Ndb):
-            for im in range(par.Nm):
+    for i_p in prange(par.Np):
+        for i_n in range(par.Nn):
+            for i_m in range(par.Nm):
                             
-                # a. states
-                _p = par.grid_p[ip]
-                db = par.grid_db[idb]
-                m = par.grid_m[im]
+                # i. states
+                _p = par.grid_p[i_p]
+                n = par.grid_n[i_n]
+                m = par.grid_m[i_m]
 
                 if m == 0: # forced c = 0 
-                    c_keep[ip,idb,im] = 0
-                    inv_v_keep[ip,idb,im] = 0
+                    c_keep[i_p,i_n,i_m] = 0
+                    inv_v_keep[i_p,i_n,i_m] = 0
                     continue
                 
-                # b. optimal choice
-                c_keep[ip,idb,im] = m
+                # ii. optimal choice
+                c_keep[i_p,i_n,i_m] = m
 
-                # c. optimal value
-                v_keep = utility.func(c_keep[ip,idb,im],db,par)
-                inv_v_keep[ip,idb,im] = -1.0/v_keep
+                # iii. optimal value
+                v_keep = utility.func(c_keep[i_p,i_n,i_m],n,par)
+                inv_v_keep[i_p,i_n,i_m] = -1.0/v_keep
 
     # b. adj
-    for ip in prange(par.Np):
-        for ix in range(par.Nx):
+    for i_p in prange(par.Np):
+        for i_x in range(par.Nx):
             
             # i. states
-            _p = par.grid_p[ip]
-            x = par.grid_x[ix]
+            _p = par.grid_p[i_p]
+            x = par.grid_x[i_x]
 
             if x == 0: # forced c = d = 0
-                d_adj[ip,ix] = 0
-                c_adj[ip,ix] = 0
-                inv_v_adj[ip,ix] = 0
+                d_adj[i_p,i_x] = 0
+                c_adj[i_p,i_x] = 0
+                inv_v_adj[i_p,i_x] = 0
                 continue
 
             # ii. optimal choices
-            d_adj[ip,ix] = opt_last_period(0,x,par.tol,x,par)
-            c_adj[ip,ix] = x-d_adj[ip,ix]
+            d_low = np.fmin(x/2,1e-8)
+            d_high = np.fmin(x,par.n_max)            
+            d_adj[i_p,i_x] = opt_last_period(d_low,d_high,par.tol,x,par)
+            c_adj[i_p,i_x] = x-d_adj[i_p,i_x]
 
             # iii. optimal value
-            v_adj = -obj_last_period(d_adj[ip,ix],x,par)
-            inv_v_adj[ip,ix] = -1.0/v_adj
+            v_adj = -obj_last_period(d_adj[i_p,i_x],x,par)
+            inv_v_adj[i_p,i_x] = -1.0/v_adj

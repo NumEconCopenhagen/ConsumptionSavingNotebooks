@@ -1,7 +1,11 @@
 typedef struct sim_struct
 {
+ double *utility;
+ double *p0;
+ double *d0;
+ double *a0;
  double *p;
- double *db;
+ double *n;
  double *m;
  double *x;
  double *c;
@@ -9,6 +13,9 @@ typedef struct sim_struct
  double *a;
  double *psi;
  double *xi;
- double *discrete;
+ int *discrete;
+ double *euler_error;
+ double *euler_error_c;
+ double *euler_error_rel;
 } sim_struct;
 

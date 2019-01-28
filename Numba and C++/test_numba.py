@@ -35,8 +35,8 @@ Z = np.zeros(NX)
 # d. compile cpp
 funcs = [('fun',[ct.POINTER(ct.c_double),ct.POINTER(ct.c_double),ct.POINTER(ct.c_double),
                  ct.c_long,ct.c_long,ct.c_long])]
-test_numba_vs = cpptools.link('test_numba_vs',funcs,compiler='vs',do_print=False)
-test_numba_intel = cpptools.link('test_numba_intel',funcs,compiler='intel',do_print=False)
+test_numba_vs = cpptools.link('test_numba_vs',funcs,use_openmp_with_vs=True,do_print=False)
+test_numba_intel = cpptools.link('test_numba_intel',funcs,do_print=False)
 
 def wrapper_vs(X,Y,Z,NX,NY,threads):
     p_X = np.ctypeslib.as_ctypes(X)

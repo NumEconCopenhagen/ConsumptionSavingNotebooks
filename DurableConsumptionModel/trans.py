@@ -9,10 +9,10 @@ def p_plus_func(p,psi,par):
     return p_plus
 
 @njit(fastmath=True)
-def db_plus_func(d,par):
-    db_plus = (1-par.delta)*d
-    db_plus = np.fmin(db_plus,par.db_max) # upper bound
-    return db_plus
+def n_plus_func(d,par):
+    n_plus = (1-par.delta)*d
+    n_plus = np.fmin(n_plus,par.n_max) # upper bound
+    return n_plus
 
 @njit(fastmath=True)
 def m_plus_func(a,p_plus,xi_plus,par):
@@ -21,5 +21,5 @@ def m_plus_func(a,p_plus,xi_plus,par):
     return m_plus
 
 @njit(fastmath=True)
-def x_plus_func(m_plus,db_plus,par):
-    return m_plus + (1-par.tau)*db_plus
+def x_plus_func(m_plus,n_plus,par):
+    return m_plus + (1-par.tau)*n_plus

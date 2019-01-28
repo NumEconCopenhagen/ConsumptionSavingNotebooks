@@ -26,7 +26,7 @@ def solve_bellman(t,sol,par):
             m_temp[ia+1] = par.grid_a[ia] + c_temp[ia+1]
         
         # b. re-interpolate consumption to common grid
-        if 1 == 1 or par.do_simple_w: # use an explicit loop
+        if par.do_simple_w: # use an explicit loop
             for im in range(par.Nm):
                 c[ip,im] = linear_interp.interp_1d(m_temp,c_temp,par.grid_m[im])
         else: # use a vectorized call
