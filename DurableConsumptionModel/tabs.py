@@ -54,7 +54,7 @@ def euler_errors(models,postfix=''):
 
     txt = 'Keepers (average)'
     for i,model in enumerate(models):
-        txt += f' & {avg_euler_error(model,adjusters[i]):.3f}'
+        txt += f' & {avg_euler_error(model,keepers[i]):.3f}'
     txt += '\\\\ \n'         
     lines.append(txt)
 
@@ -77,13 +77,13 @@ def timings(models,postfix=''):
     txt += '\\\\ \n'    
     lines.append(txt)
 
-    txt = 'Keeper problems'
+    txt = 'Keeper problem'
     for model in models:
         txt += f' & {np.sum(model.par.time_keep)/60:.2f}'
     txt += '\\\\ \n' 
     lines.append(txt)
 
-    txt = 'Adjuster problems'
+    txt = 'Adjuster problem'
     for model in models:
         txt += f' & {np.sum(model.par.time_adj)/60:.2f}'
     txt += '\\\\ \n' 
@@ -96,13 +96,13 @@ def simulation(models,postfix=''):
 
     lines = []
 
-    txt = 'Expected utility'
+    txt = 'Expected discounted utility'
     for model in models:
         txt += f' & {np.mean(model.sim.utility):.3f}'
     txt += '\\\\ \n'
     lines.append(txt)
 
-    txt = 'Adjuster share'
+    txt = 'Adjuster share ($d_t \neq n_t$)'
     for model in models:
         txt += f' & {np.mean(model.sim.discrete):.3f}'
     txt += '\\\\ \n'
