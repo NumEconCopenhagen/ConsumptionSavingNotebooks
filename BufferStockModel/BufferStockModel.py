@@ -265,7 +265,7 @@ class BufferStockModelClass(ConsumptionSavingModel):
                 print(msg)
 
     def solve_cpp(self,compiler='vs'):
-        """ solve the model using egm written in cpp 
+        """ solve the model using egm written in C++
         
         Args:
             compiler (str,optional): compiler choice (vs or intel)
@@ -359,9 +359,7 @@ class BufferStockModelClass(ConsumptionSavingModel):
         self.par.do_print = False
 
         # b. test run
-        Np,Nm,Na = self.par.Np,self.par.Nm,self.par.Na
         self.solve()
-        self.par.Np,self.par.Nm,self.par.Na = Np,Nm,Na
 
         # c. timed run
         tic = time.time()

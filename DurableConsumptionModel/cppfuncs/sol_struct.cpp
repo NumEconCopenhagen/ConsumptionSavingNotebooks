@@ -2,7 +2,9 @@ typedef struct sol_struct
 {
  double *c_keep;
  double *inv_v_keep;
+ double *inv_marg_u_keep;
  double *inv_v_adj;
+ double *inv_marg_u_adj;
  double *c_adj;
  double *d_adj;
  double *inv_w;

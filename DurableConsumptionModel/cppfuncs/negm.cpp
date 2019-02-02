@@ -12,6 +12,7 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim){
     
     int index_keep_t = index::d4(t,0,0,0,par->T,par->Np,par->Nn,par->Nm);
     auto inv_v = &sol->inv_v_keep[index_keep_t];
+    auto inv_marg_u = &sol->inv_marg_u_keep[index_keep_t];
     auto c = &sol->c_keep[index_keep_t];
 
     int index_post_t = index::d4(t,0,0,0,par->T-1,par->Np,par->Nn,par->Na);
@@ -48,7 +49,10 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim){
 
             // negative inverse
             for(int i_m = 0; i_m < par->Nm; i_m++){
-                inv_v[index_keep + i_m] = -1.0/v_ast_vec[i_m];
+                inv_v[index_keep+i_m] = -1.0/v_ast_vec[i_m];
+                if(par->do_marg_u){
+                    inv_marg_u[index_keep+i_m] = 1.0/utility::marg_func(c[index_keep+i_m],n,par);
+                }
             }
         
         } // n

@@ -21,10 +21,9 @@ void compute_wq(int t, sol_struct *sol, par_struct *par, bool compute_q)
         auto x_plus = new double[par->Na];
         auto w = new double[par->Na]; 
         auto inv_v_keep_plus = new double[par->Na];
-        auto c_keep_plus = new double[par->Na];
+        auto inv_marg_u_keep_plus = new double[par->Na];
         auto inv_v_adj_plus = new double[par->Na];
-        auto d_adj_plus = new double[par->Na];
-        auto c_adj_plus = new double[par->Na];
+        auto inv_marg_u_adj_plus = new double[par->Na];
 
     #pragma omp for
     for(int i_p = 0; i_p < par->Np; i_p++){
@@ -87,12 +86,10 @@ void compute_wq(int t, sol_struct *sol, par_struct *par, bool compute_q)
                                                 p_plus,x_plus[i_a]);
 
                         if(compute_q){
-
-                            c_keep_plus[i_a] = linear_interp::interp_3d(par->grid_p,par->grid_n,par->grid_m,par->Np,par->Nn,par->Nm,&sol->c_keep[index_keep_plus],
+                                                        
+                            inv_marg_u_keep_plus[i_a] = linear_interp::interp_3d(par->grid_p,par->grid_n,par->grid_m,par->Np,par->Nn,par->Nm,&sol->inv_marg_u_keep[index_keep_plus],
                                                     p_plus,n_plus,m_plus[i_a]);
-                            d_adj_plus[i_a] = linear_interp::interp_2d(par->grid_p,par->grid_x,par->Np,par->Nx,&sol->d_adj[index_adj_plus],
-                                                    p_plus,x_plus[i_a]);
-                            c_adj_plus[i_a] = linear_interp::interp_2d(par->grid_p,par->grid_x,par->Np,par->Nx,&sol->c_adj[index_adj_plus],
+                            inv_marg_u_adj_plus[i_a] = linear_interp::interp_2d(par->grid_p,par->grid_x,par->Np,par->Nx,&sol->inv_marg_u_adj[index_adj_plus],
                                                     p_plus,x_plus[i_a]);
 
                         }
@@ -107,13 +104,11 @@ void compute_wq(int t, sol_struct *sol, par_struct *par, bool compute_q)
                                                             p_plus,x_plus,inv_v_adj_plus,par->Na);
 
                     if(compute_q){
-
-                        linear_interp::interp_3d_only_last_vec_mon_rep(prep_keep,par->grid_p,par->grid_n,par->grid_m,par->Np,par->Nn,par->Nm,&sol->c_keep[index_keep_plus],
-                                                                    p_plus,n_plus,m_plus,c_keep_plus,par->Na);
-                        linear_interp::interp_2d_only_last_vec_mon_rep(prep_adj,par->grid_p,par->grid_x,par->Np,par->Nx,&sol->d_adj[index_adj_plus],
-                                                                    p_plus,x_plus,d_adj_plus,par->Na);
-                        linear_interp::interp_2d_only_last_vec_mon_rep(prep_adj,par->grid_p,par->grid_x,par->Np,par->Nx,&sol->c_adj[index_adj_plus],
-                                                                    p_plus,x_plus,c_adj_plus,par->Na);
+                        
+                        linear_interp::interp_3d_only_last_vec_mon_rep(prep_keep,par->grid_p,par->grid_n,par->grid_m,par->Np,par->Nn,par->Nm,&sol->inv_marg_u_keep[index_keep_plus],
+                                                                    p_plus,n_plus,m_plus,inv_marg_u_keep_plus,par->Na);
+                        linear_interp::interp_2d_only_last_vec_mon_rep(prep_adj,par->grid_p,par->grid_x,par->Np,par->Nx,&sol->inv_marg_u_adj[index_adj_plus],
+                                                                    p_plus,x_plus,inv_marg_u_adj_plus,par->Na);
 
                     } // compute q
                 
@@ -127,22 +122,18 @@ void compute_wq(int t, sol_struct *sol, par_struct *par, bool compute_q)
 
                     for(int i_a = 0; i_a < par->Na; i_a++){                              
                                                 
-                        double v_plus, d_plus, c_plus;
+                        double v_plus, marg_u_plus;
                         bool keep = inv_v_keep_plus[i_a] > inv_v_adj_plus[i_a];
                         if(keep){
                             v_plus = -1.0/inv_v_keep_plus[i_a];
-                            d_plus = n_plus;
-                            c_plus = c_keep_plus[i_a];
+                            marg_u_plus = 1.0/inv_marg_u_keep_plus[i_a];
                         } else {
                             v_plus = -1.0/inv_v_adj_plus[i_a];
-                            d_plus = d_adj_plus[i_a];
-                            c_plus = c_adj_plus[i_a];
+                            marg_u_plus = 1.0/inv_marg_u_adj_plus[i_a];
                         }
 
-                        d_plus = MAX(d_plus,0);
-
                         w[i_a] += weight*par->beta*v_plus;
-                        q[index::d3(i_p,i_n,i_a,par->Np,par->Nn,par->Na)] += weight*par->beta*par->R*utility::marg_func(c_plus,d_plus,par);
+                        q[index::d3(i_p,i_n,i_a,par->Np,par->Nn,par->Na)] += weight*par->beta*par->R*marg_u_plus;
 
                     } // a
 
@@ -169,10 +160,9 @@ void compute_wq(int t, sol_struct *sol, par_struct *par, bool compute_q)
         delete[] x_plus;
         delete[] w;
         delete[] inv_v_keep_plus;
-        delete[] c_keep_plus;
+        delete[] inv_marg_u_keep_plus;
         delete[] inv_v_adj_plus;
-        delete[] d_adj_plus;
-        delete[] c_adj_plus;
+        delete[] inv_marg_u_adj_plus;
 
     } // parallel
 

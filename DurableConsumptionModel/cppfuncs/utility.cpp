@@ -11,7 +11,7 @@ double func(double c, double d, par_struct *par){
     return pow(c_total,1.0-par->rho)/(1.0-par->rho);
 }
 
-double marg_func(double c, double  d,par_struct *par){
+double marg_func(double c, double d, par_struct *par){
     double dtot = d+par->d_ubar;
     double c_power = par->alpha*(1.0-par->rho)-1.0;
     double d_power = (1.0-par->alpha)*(1.0-par->rho);

@@ -40,7 +40,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
     # setup #
     #########
 
-    def __init__(self,name='baseline',load=False,solmethod='vfi_cpp',compiler='vs',**kwargs):
+    def __init__(self,name='baseline',load=False,solmethod='negm',compiler='vs',**kwargs):
         """ basic setup
 
         Args:
@@ -116,6 +116,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
             ('do_print',boolean),
             ('do_print_period',boolean), 
             ('cppthreads',int32),
+            ('do_marg_u',boolean),
             ('do_simple_wq',boolean),
             ('use_gs_in_vfi',boolean),
             ('time_w',double[:]),
@@ -126,7 +127,9 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         sollist = [
             ('c_keep',double[:,:,:,:]),
             ('inv_v_keep',double[:,:,:,:]),
+            ('inv_marg_u_keep',double[:,:,:,:]),
             ('inv_v_adj',double[:,:,:]),
+            ('inv_marg_u_adj',double[:,:,:]),
             ('c_adj',double[:,:,:]),
             ('d_adj',double[:,:,:]),
             ('inv_w',double[:,:,:,:]),
@@ -225,6 +228,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         self.par.cppthreads = 8
         self.par.do_simple_wq = False # not using optimized interpolation in c++
         self.par.use_gs_in_vfi = False # use golden section search for vfi
+        self.par.do_marg_u = False # calculate marginal utility for use in egm
 
         # b. update baseline parameters using keywords 
         for key,val in kwargs.items():
@@ -237,6 +241,9 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
     def setup_grids(self):
         """ construct grids for states and shocks """
         
+        if self.solmethod in ['negm','negm_cpp']:
+            self.par.do_marg_u = True
+
         # a. states        
         self.par.grid_p = misc.nonlinspace(self.par.p_min,self.par.p_max,self.par.Np,1.1)
         self.par.grid_n = misc.nonlinspace(0,self.par.n_max,self.par.Nn,1.1)
@@ -263,15 +270,20 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
     def checksum(self):
         """ calculate and print checksum """
 
+        T = 1 # self.par.T
         print('')
-        print(f'checksum, inv_w: {np.mean(self.sol.inv_w[0]):.8f}')
-        print(f'checksum, q: {np.mean(self.sol.q[0]):.8f}')
-        print(f'checksum, c_keep: {np.mean(self.sol.c_keep[0]):.8f}')
-        print(f'checksum, d_adj: {np.mean(self.sol.d_adj[0]):.8f}')
-        print(f'checksum, c_adj: {np.mean(self.sol.c_adj[0]):.8f}')
-        print(f'checksum, inv_v_keep: {np.mean(self.sol.inv_v_keep[0]):.8f}')
-        print(f'checksum, inv_v_adj: {np.mean(self.sol.inv_v_adj[0]):.8f}')
-        print('')
+        for t in range(T):
+            if t < self.par.T-1:
+                print(f'checksum, inv_w: {np.mean(self.sol.inv_w[t]):.8f}')
+                print(f'checksum, q: {np.mean(self.sol.q[t]):.8f}')
+            print(f'checksum, c_keep: {np.mean(self.sol.c_keep[t]):.8f}')
+            print(f'checksum, d_adj: {np.mean(self.sol.d_adj[t]):.8f}')
+            print(f'checksum, c_adj: {np.mean(self.sol.c_adj[t]):.8f}')
+            print(f'checksum, inv_v_keep: {np.mean(self.sol.inv_v_keep[t]):.8f}')
+            print(f'checksum, inv_marg_u_keep: {np.mean(self.sol.inv_marg_u_keep[t]):.8f}')
+            print(f'checksum, inv_v_adj: {np.mean(self.sol.inv_v_adj[t]):.8f}')
+            print(f'checksum, inv_marg_u_adj: {np.mean(self.sol.inv_marg_u_adj[t]):.8f}')
+            print('')
 
     #########
     # solve #
@@ -331,11 +343,13 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         keep_shape = (self.par.T,self.par.Np,self.par.Nn,self.par.Nm)
         self.sol.c_keep = np.zeros(keep_shape)
         self.sol.inv_v_keep = np.zeros(keep_shape)
+        self.sol.inv_marg_u_keep = np.zeros(keep_shape)
 
         adj_shape = (self.par.T,self.par.Np,self.par.Nx)
         self.sol.d_adj = np.zeros(adj_shape)
         self.sol.c_adj = np.zeros(adj_shape)
         self.sol.inv_v_adj = np.zeros(adj_shape)
+        self.sol.inv_marg_u_adj = np.zeros(adj_shape)
         
         post_shape = (self.par.T-1,self.par.Np,self.par.Nn,self.par.Na)
         self.sol.inv_w = np.nan*np.zeros(post_shape)
@@ -381,6 +395,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
 
                 if self.solmethod in ['nvfi']:
                     post_decision.compute_wq(t,self.sol,self.par)
+                    #post_decision.compute_wq.parallel_diagnostics(level=4)
                 elif self.solmethod in ['negm']:
                     post_decision.compute_wq(t,self.sol,self.par,compute_q=True)
                 elif self.solmethod == 'nvfi_cpp':
@@ -403,6 +418,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
 
                 if self.solmethod == 'nvfi':                
                     nvfi.solve_keep(t,self.sol,self.par)
+                    #nvfi.solve_keep.parallel_diagnostics(level=4)
                 elif self.solmethod == 'negm':
                     negm.solve_keep(t,self.sol,self.par)
                 elif self.solmethod == 'vfi_cpp':

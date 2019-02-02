@@ -61,7 +61,7 @@ def euler_errors(models,postfix=''):
     with open(f'tabs_euler_errors{postfix}.tex', 'w') as txtfile:
         txtfile.writelines(lines)
 
-def timings(models,postfix=''):
+def timings(models,speedup=False,postfix=''):
 
     lines = []
 
@@ -88,6 +88,14 @@ def timings(models,postfix=''):
         txt += f' & {np.sum(model.par.time_adj)/60:.2f}'
     txt += '\\\\ \n' 
     lines.append(txt)
+
+    if speedup:
+        basetime = np.sum(models[0].par.time_w+models[0].par.time_keep+models[0].par.time_adj)
+        txt = 'Relative to VFI &'
+        for model in models[1:]:
+            txt += f' & {basetime/np.sum(model.par.time_w+model.par.time_keep+model.par.time_adj):.2f}'
+        txt += '\\\\ \n' 
+        lines.append(txt)
 
     with open(f'tabs_timings{postfix}.tex', 'w') as txtfile:
         txtfile.writelines(lines)
@@ -135,8 +143,8 @@ def simulation(models,postfix=''):
     with open(f'tabs_simulation{postfix}.tex', 'w') as txtfile:
         txtfile.writelines(lines)    
 
-def all(models,postfix=''):
+def all(models,speedup=False,postfix=''):
 
     euler_errors(models,postfix)        
-    timings(models,postfix)        
+    timings(models,speedup=speedup,postfix=postfix)        
     simulation(models,postfix)        

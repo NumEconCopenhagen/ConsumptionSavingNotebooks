@@ -49,6 +49,7 @@ typedef struct par_struct
  bool do_print;
  bool do_print_period;
  int cppthreads;
+ bool do_marg_u;
  bool do_simple_wq;
  bool use_gs_in_vfi;
  double *time_w;

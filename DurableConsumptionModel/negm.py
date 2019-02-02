@@ -16,6 +16,7 @@ def solve_keep(t,sol,par):
 
     # unpack
     inv_v = sol.inv_v_keep[t]
+    inv_marg_u = sol.inv_marg_u_keep[t]
     c = sol.c_keep[t]
     q_c = sol.q_c[t]
     q_m = sol.q_m[t]
@@ -40,3 +41,5 @@ def solve_keep(t,sol,par):
             # negative inverse
             for i_m in range(par.Nm):
                 inv_v[i_p,i_n,i_m] = -1/v_ast_vec[i_m]
+                if par.do_marg_u:
+                    inv_marg_u[i_p,i_n,i_m] = 1/utility.marg_func(c[i_p,i_n,i_m],n,par)

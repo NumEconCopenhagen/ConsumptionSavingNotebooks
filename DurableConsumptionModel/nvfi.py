@@ -12,32 +12,37 @@ import utility
 # keep #
 ########
 
-# a. define objective function
 @njit
-def obj_keep(c,n,m,inv_w,par):
+def obj_keep(c,n,m,inv_w,grid_a,d_ubar,alpha,rho):
     """ evaluate bellman equation """
 
     # a. end-of-period assets
     a = m-c
     
     # b. continuation value
-    w = -1.0/linear_interp.interp_1d(par.grid_a,inv_w,a)
+    w = -1.0/linear_interp.interp_1d(grid_a,inv_w,a)
 
     # c. total value
-    value_of_choice = utility.func(c,n,par) + w
+    value_of_choice = utility.func_nopar(c,n,d_ubar,alpha,rho) + w
 
     return -value_of_choice # we are minimizing
 
-# b. create optimizer
-opt_keep = golden_section_search.create_optimizer(obj_keep)
 
 @njit(parallel=True)
 def solve_keep(t,sol,par):
     """solve bellman equation for keepers using nvfi"""
 
-    # unpack
+    # unpack output
     inv_v = sol.inv_v_keep[t]
+    inv_marg_u = sol.inv_marg_u_keep[t]
     c = sol.c_keep[t]
+
+    # unpack input
+    inv_w = sol.inv_w[t]
+    grid_a = par.grid_a
+    d_ubar = par.d_ubar
+    alpha = par.alpha
+    rho = par.rho
 
     # loop over outer states
     for i_p in prange(par.Np):
@@ -55,19 +60,20 @@ def solve_keep(t,sol,par):
                 # b. optimal choice
                 c_low = np.fmin(m/2,1e-8)
                 c_high = m
-                c[i_p,i_n,i_m] = opt_keep(c_low,c_high,par.tol,n,m,sol.inv_w[t,i_p,i_n],par)
+                c[i_p,i_n,i_m] = golden_section_search.optimizer(c_low,c_high,par.tol,obj_keep,n,m,inv_w[i_p,i_n],grid_a,d_ubar,alpha,rho)
 
                 # c. optimal value
-                v = -obj_keep(c[i_p,i_n,i_m],n,m,sol.inv_w[t,i_p,i_n],par)
+                v = -obj_keep(c[i_p,i_n,i_m],n,m,inv_w[i_p,i_n],grid_a,d_ubar,alpha,rho)
                 inv_v[i_p,i_n,i_m] = -1/v
+                if par.do_marg_u:
+                    inv_marg_u[i_p,i_n,i_m] = 1/utility.marg_func_nopar(c[i_p,i_n,i_m],n,d_ubar,alpha,rho)
 
 #######
 # adj #
 #######
 
-# a. define objective function
 @njit
-def obj_adj(d,x,inv_v_keep,par):
+def obj_adj(d,x,inv_v_keep,grid_n,grid_m):
     """ evaluate bellman equation """
 
     # a. cash-on-hand
@@ -77,19 +83,26 @@ def obj_adj(d,x,inv_v_keep,par):
     n = d
     
     # c. value-of-choice
-    return -linear_interp.interp_2d(par.grid_n,par.grid_m,inv_v_keep,n,m)  # we are minimizing
-
-# b. create optimizer
-opt_adj = golden_section_search.create_optimizer(obj_adj)
+    return -linear_interp.interp_2d(grid_n,grid_m,inv_v_keep,n,m)  # we are minimizing
 
 @njit(parallel=True)
 def solve_adj(t,sol,par):
     """solve bellman equation for adjusters using nvfi"""
 
-    # unpack
+    # unpack output
     inv_v = sol.inv_v_adj[t]
+    inv_marg_u = sol.inv_marg_u_adj[t]
     d = sol.d_adj[t]
     c = sol.c_adj[t]
+
+    # unpack input
+    inv_v_keep = sol.inv_v_keep[t]
+    c_keep = sol.c_keep[t]
+    grid_n = par.grid_n
+    grid_m = par.grid_m
+    d_ubar = par.d_ubar
+    alpha = par.alpha
+    rho = par.rho
 
     # loop over outer states
     for i_p in prange(par.Np):
@@ -103,10 +116,11 @@ def solve_adj(t,sol,par):
             # b. optimal choice
             d_low = np.fmin(x/2,1e-8)
             d_high = np.fmin(x,par.n_max)
-            d[i_p,i_x] = opt_adj(d_low,d_high,par.tol,x,sol.inv_v_keep[t,i_p],par)
+            d[i_p,i_x] = golden_section_search.optimizer(d_low,d_high,par.tol,obj_adj,x,inv_v_keep[i_p],grid_n,grid_m)
 
             # c. optimal value
             m = x - d[i_p,i_x]
-            c[i_p,i_x] = linear_interp.interp_2d(par.grid_n,par.grid_m,sol.c_keep[t,i_p],d[i_p,i_x],m)
-            inv_v[i_p,i_x] = -obj_adj(d[i_p,i_x],x,sol.inv_v_keep[t,i_p],par)
-
+            c[i_p,i_x] = linear_interp.interp_2d(par.grid_n,par.grid_m,c_keep[i_p],d[i_p,i_x],m)
+            inv_v[i_p,i_x] = -obj_adj(d[i_p,i_x],x,inv_v_keep[i_p],grid_n,grid_m)
+            if par.do_marg_u:
+                inv_marg_u[i_p,i_x] = 1/utility.marg_func_nopar(c[i_p,i_x],d[i_p,i_x],d_ubar,alpha,rho)

@@ -24,10 +24,9 @@ def compute_wq(t,sol,par,compute_q=False):
         x_plus = np.zeros(par.Na)
         w = np.zeros(par.Na) 
         inv_v_keep_plus = np.zeros(par.Na)
-        c_keep_plus = np.zeros(par.Na)
+        inv_marg_u_keep_plus = np.zeros(par.Na)
         inv_v_adj_plus = np.zeros(par.Na)
-        d_adj_plus = np.zeros(par.Na)
-        c_adj_plus = np.zeros(par.Na)
+        inv_marg_u_adj_plus = np.zeros(par.Na)
         
         # loop over other outer post-decision states
         for i_n in range(par.Nn):
@@ -71,9 +70,8 @@ def compute_wq(t,sol,par,compute_q=False):
                 linear_interp.interp_3d_only_last_vec_mon(prep_keep,par.grid_p,par.grid_n,par.grid_m,sol.inv_v_keep[t+1],p_plus,n_plus,m_plus,inv_v_keep_plus)
                 linear_interp.interp_2d_only_last_vec_mon(prep_adj,par.grid_p,par.grid_x,sol.inv_v_adj[t+1],p_plus,x_plus,inv_v_adj_plus)
                 if compute_q:
-                    linear_interp.interp_3d_only_last_vec_mon_rep(prep_keep,par.grid_p,par.grid_n,par.grid_m,sol.c_keep[t+1],p_plus,n_plus,m_plus,c_keep_plus)
-                    linear_interp.interp_2d_only_last_vec_mon_rep(prep_adj,par.grid_p,par.grid_x,sol.d_adj[t+1],p_plus,x_plus,d_adj_plus)
-                    linear_interp.interp_2d_only_last_vec_mon_rep(prep_adj,par.grid_p,par.grid_x,sol.c_adj[t+1],p_plus,x_plus,c_adj_plus)
+                    linear_interp.interp_3d_only_last_vec_mon_rep(prep_keep,par.grid_p,par.grid_n,par.grid_m,sol.inv_marg_u_keep[t+1],p_plus,n_plus,m_plus,inv_marg_u_keep_plus)
+                    linear_interp.interp_2d_only_last_vec_mon_rep(prep_adj,par.grid_p,par.grid_x,sol.inv_marg_u_adj[t+1],p_plus,x_plus,inv_marg_u_adj_plus)
  
                     
                 # vii. max and accumulate
@@ -84,17 +82,13 @@ def compute_wq(t,sol,par,compute_q=False):
                         keep = inv_v_keep_plus[i_a] > inv_v_adj_plus[i_a]
                         if keep:
                             v_plus = -1/inv_v_keep_plus[i_a]
-                            d_plus = n_plus
-                            c_plus = c_keep_plus[i_a]
+                            marg_u_plus = 1/inv_marg_u_keep_plus[i_a]
                         else:
                             v_plus = -1/inv_v_adj_plus[i_a]
-                            d_plus = d_adj_plus[i_a]
-                            c_plus = c_adj_plus[i_a]
-
-                        d_plus = np.fmax(d_plus,0)
+                            marg_u_plus = 1/inv_marg_u_adj_plus[i_a]
 
                         w[i_a] += weight*par.beta*v_plus
-                        q[i_p,i_n,i_a] += weight*par.beta*par.R*utility.marg_func(c_plus,d_plus,par) # marg_u_plus
+                        q[i_p,i_n,i_a] += weight*par.beta*par.R*marg_u_plus
 
                 else:
 

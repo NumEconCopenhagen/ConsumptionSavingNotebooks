@@ -24,10 +24,7 @@ def obj_bellman(c,m,interp_w,par):
 
     return -value_of_choice # we are minimizing
 
-# b. create optimizer
-opt_bellman = golden_section_search.create_optimizer(obj_bellman)
-
-# c. solve bellman equation        
+# b. solve bellman equation        
 @njit(parallel=True)
 def solve_bellman(t,sol,par):
     """solve bellman equation using nvfi"""
@@ -51,7 +48,7 @@ def solve_bellman(t,sol,par):
             # ii. optimal choice
             c_low = np.fmin(m/2,1e-8)
             c_high = m
-            c[ip,im] = opt_bellman(c_low,c_high,par.tol,m,sol.w[ip],par)
+            c[ip,im] = golden_section_search.optimizer(c_low,c_high,par.tol,obj_bellman,m,sol.w[ip],par)
 
             # iii. optimal value
             v[ip,im] = -obj_bellman(c[ip,im],m,sol.w[ip],par)

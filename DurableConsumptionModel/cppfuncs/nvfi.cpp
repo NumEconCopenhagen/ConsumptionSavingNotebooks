@@ -39,6 +39,7 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
     int t = par->t;
     int index_keep_t = index::d4(t,0,0,0,par->T,par->Np,par->Nn,par->Nm);
     double *inv_v = &sol->inv_v_keep[index_keep_t];
+    double *inv_marg_u = &sol->inv_marg_u_keep[index_keep_t];
     double *c = &sol->c_keep[index_keep_t];
 
     // loop over outer states
@@ -75,7 +76,10 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
                 // c. optimal value
                 double v = -obj_keep(c[index],solver_data);
                 inv_v[index] = -1.0/v;
-            
+                if(par->do_marg_u){
+                    inv_marg_u[index] = 1.0/utility::marg_func(c[index],n,par);
+                }
+
             } // m
         } // n
     } // p
@@ -117,6 +121,7 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
     int t = par->t;
     int index_adj_t = index::d3(t,0,0,par->T,par->Np,par->Nx);
     double *inv_v = &sol->inv_v_adj[index_adj_t];
+    double *inv_marg_u = &sol->inv_marg_u_adj[index_adj_t];
     double *d = &sol->d_adj[index_adj_t];
     double *c = &sol->c_adj[index_adj_t];
 
@@ -151,6 +156,9 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
             double m = x - d[index_adj];
             c[index_adj] = linear_interp::interp_2d(par->grid_n,par->grid_m,par->Nn,par->Nm,&sol->c_keep[index_keep],d[index_adj],m);
             inv_v[index_adj] = -obj_adj(d[index_adj],solver_data);
+            if(par->do_marg_u){
+                inv_marg_u[index_adj] = 1.0/utility::marg_func(c[index_adj],d[index_adj],par);
+            }
 
         } // x
 

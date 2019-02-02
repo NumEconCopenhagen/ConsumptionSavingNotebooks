@@ -36,7 +36,7 @@ Z = np.zeros(NX)
 funcs = [('fun',[ct.POINTER(ct.c_double),ct.POINTER(ct.c_double),ct.POINTER(ct.c_double),
                  ct.c_long,ct.c_long,ct.c_long])]
 test_numba_vs = cpptools.link('test_numba_vs',funcs,use_openmp_with_vs=True,do_print=False)
-test_numba_intel = cpptools.link('test_numba_intel',funcs,do_print=False)
+#test_numba_intel = cpptools.link('test_numba_intel',funcs,do_print=False)
 
 def wrapper_vs(X,Y,Z,NX,NY,threads):
     p_X = np.ctypeslib.as_ctypes(X)
@@ -44,11 +44,11 @@ def wrapper_vs(X,Y,Z,NX,NY,threads):
     p_Z = np.ctypeslib.as_ctypes(Z)
     test_numba_vs.fun(p_X,p_Y,p_Z,NX,NY,threads)
 
-def wrapper_intel(X,Y,Z,NX,NY,threads):
-    p_X = np.ctypeslib.as_ctypes(X)
-    p_Y = np.ctypeslib.as_ctypes(Y)
-    p_Z = np.ctypeslib.as_ctypes(Z)
-    test_numba_intel.fun(p_X,p_Y,p_Z,NX,NY,threads)
+# def wrapper_intel(X,Y,Z,NX,NY,threads):
+#     p_X = np.ctypeslib.as_ctypes(X)
+#     p_Y = np.ctypeslib.as_ctypes(Y)
+#     p_Z = np.ctypeslib.as_ctypes(Z)
+#     test_numba_intel.fun(p_X,p_Y,p_Z,NX,NY,threads)
 
 # e. test runs
 NYtest = 2
@@ -76,8 +76,8 @@ if nb.config.THREADING_LAYER == 'omp':
     toc = time.time()
     print(f'  test (cpp, vs) {np.sum(Z):.8f} in {toc-tic:.1f} secs')
 
-    Z = np.zeros(NX)
-    tic = time.time()
-    wrapper_intel(X,Y,Z,NX,NY,nb.config.NUMBA_NUM_THREADS)
-    toc = time.time()
-    print(f'  test (cpp, intel) {np.sum(Z):.8f} in {toc-tic:.1f} secs')
+    # Z = np.zeros(NX)
+    # tic = time.time()
+    # wrapper_intel(X,Y,Z,NX,NY,nb.config.NUMBA_NUM_THREADS)
+    # toc = time.time()
+    # print(f'  test (cpp, intel) {np.sum(Z):.8f} in {toc-tic:.1f} secs')
