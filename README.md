@@ -1,6 +1,6 @@
 Contains Jupyter Notebooks showcasing the [ConSav package](https://github.com/NumEconCopenhagen/ConsumptionSaving).
 
-_*The best way to learn the package is to begin with the buffer-stock model.*_
+_*The best way to learn the package is to begin with the buffer-stock model. Simply follow the code called in this [notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/BufferStockModel.ipynb)*_
 
 The main notebooks are:
 
