@@ -5,7 +5,7 @@ Contains Jupyter Notebooks showcasing the [ConSav package](https://github.com/Nu
    * [Optimization](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Tools/Optimization.ipynb): Showcase the **numerical optimizer** modules
    * [Upper envelope](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Tools/Upper%20envelope.ipynb): Showcase the **upperenvelope** module
 1. **BufferStockModel/**
-   * [BufferStockModel](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/tree/master/BufferStockModel): Guide on solving and simulating the model
+   * [BufferStockModel](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/BufferStockModel.ipynb): Guide on solving and simulating the model
    * [Example with run file and C++](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/Examples%20with%20run%20file%20and%20C%2B%2B.ipynb): Advanced examples
 2. **DurableConsumptionModel/**
    * [DurableConsumptioModel](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/DurableConsumptionModel.ipynb): Guide on solving and simulating the model
