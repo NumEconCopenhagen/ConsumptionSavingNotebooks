@@ -2,6 +2,8 @@ Contains Jupyter Notebooks showcasing the [ConSav package](https://github.com/Nu
 
 The best way to learn the package is to begin with the buffer-stock model.
 
+The main notebooks are:
+
 1. **Tools/**
    * [Linear interpolation](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Tools/Linear%20interpolation.ipynb): Showcase the **linear_interp** module
    * [Optimization](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Tools/Optimization.ipynb): Showcase the **numerical optimizer** modules
