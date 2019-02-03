@@ -1,7 +1,12 @@
 Contains Jupyter Notebooks showcasing the [ConSav package](https://github.com/NumEconCopenhagen/ConsumptionSaving).
 
-_*The best way to learn the package is to begin with the buffer-stock model. Simply follow the code called in this [notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/BufferStockModel.ipynb)*_
+# Getting Started
 
+The main tool in the [ConSav package](https://github.com/NumEconCopenhagen/ConsumptionSaving) is the **ConsumptionSavingModel** class with predefined methods for e.g. saving and loading. Each concrete model inherits these methods and then adds methods for e.g. solving and simulating. The simplest example is the canonical buffer-stock consumption model, see [BufferStockModel notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/BufferStockModel.ipynb).
+
+The [DurableConsumptioModel notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/DurableConsumptionModel.ipynb) contains more advanced examples. Specifically, it implements the solution methods proposed in [A Guide to Solve Non-Convex Consumption-Saving Models](http://web.econ.ku.dk/druedahl/papers/2019_NEGM.pdf). See also the [results notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/A%20Guide%20to%20Solve%20Non-Convex%20Consumption-Saving%20Models.ipynb).
+
+# Overview
 The main notebooks are:
 
 1. **Tools/**
