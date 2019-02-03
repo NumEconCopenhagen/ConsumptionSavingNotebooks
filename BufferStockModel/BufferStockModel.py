@@ -5,7 +5,7 @@ Solves the Deaton-Carroll buffer-stock consumption model with either:
 
 A. vfi: standard value function iteration
 B. nvfi: nested value function iteration
-C. egm: endogenous grid point method
+C. egm: endogenous grid point method (egm_cpp is in C++)
 
 """
 
@@ -51,7 +51,7 @@ class BufferStockModelClass(ConsumptionSavingModel):
             name (str,optional): name, used when saving/loading
             load (bool,optinal): load from disc
             solmethod (str,optional): solmethod, used when solving
-            compiler (str,optional): compiler, 'vs' or 'intel' (used for c++)
+            compiler (str,optional): compiler, 'vs' or 'intel' (used for C++)
              **kwargs: change to baseline parameter in .par
             
         Define parlist, sollist and simlist contain information on the
