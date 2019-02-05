@@ -11,14 +11,14 @@ import utility
 def solve_bellman(t,sol,par):
     """solve the bellman equation using the endogenous grid method"""
 
-    # unpack
+    # unpack (helps numba optimize)
     c = sol.c[t]
 
-    for ip in prange(par.Np):
+    for ip in prange(par.Np): # in parallel
         
-        # a. temporary container
-        m_temp = np.zeros(par.Na+1)
-        c_temp = np.zeros(par.Na+1)
+        # a. temporary container (local to each thread)
+        m_temp = np.zeros(par.Na+1) # m_temp[0] = 0
+        c_temp = np.zeros(par.Na+1) # c_temp[0] = 0
 
         # b. invert Euler equation
         for ia in range(par.Na):
@@ -29,6 +29,5 @@ def solve_bellman(t,sol,par):
         if par.do_simple_w: # use an explicit loop
             for im in range(par.Nm):
                 c[ip,im] = linear_interp.interp_1d(m_temp,c_temp,par.grid_m[im])
-        else: # use a vectorized call
+        else: # use a vectorized call (assumming par.grid_m is monotone)
             linear_interp.interp_1d_vec_mon_noprep(m_temp,c_temp,par.grid_m,c[ip,:])
-

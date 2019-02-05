@@ -7,7 +7,7 @@ import utility
 def solve(t,sol,par):
     """ solve the problem in the last period """
 
-    # unpack
+    # unpack (helps numba optimize)
     v = sol.v[t]
     c = sol.c[t]
 
@@ -19,7 +19,7 @@ def solve(t,sol,par):
             _p = par.grid_p[ip]
             m = par.grid_m[im]
 
-            # b. optimal choice
+            # b. optimal choice (consume everything)
             c[ip,im] = m
 
             # c. optimal value

@@ -46,12 +46,12 @@ def obj_bellman(c,p,m,v_plus,par):
 def solve_bellman(t,sol,par):
     """solve bellman equation using vfi"""
 
-    # unpack
+    # unpack (helps numba optimize)
     c = sol.c[t]
     v = sol.v[t]
 
     # loop over outer states
-    for ip in prange(par.Np):
+    for ip in prange(par.Np): # in parallel
 
         # a. permanent income
         p = par.grid_p[ip]
@@ -67,6 +67,8 @@ def solve_bellman(t,sol,par):
             c_high = m
             c[ip,im] = golden_section_search.optimizer(c_low,c_high,par.tol,obj_bellman,p,m,sol.v[t+1],par)
 
+            # note: the above finds the minimum of obj_bellman in range [c_low,c_high] with a tolerance of par.tol
+            # and arguments (except for c) as specified 
+
             # c. optimal value
             v[ip,im] = -obj_bellman(c[ip,im],p,m,sol.v[t+1],par)
-

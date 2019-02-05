@@ -305,6 +305,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         fastpar['Nx'] = 3
         fastpar['Na'] = 3
         fastpar['simN'] = 2
+        fastpar['simT'] = 2
 
         # b. apply
         for key,val in fastpar.items():
@@ -335,7 +336,6 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         Args:
 
             do_assert (bool,optional): make assertions on the solution
-            compiler (str,optional): compiler when solving with a _cpp method
         
         """
 
@@ -395,7 +395,6 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
 
                 if self.solmethod in ['nvfi']:
                     post_decision.compute_wq(t,self.sol,self.par)
-                    #post_decision.compute_wq.parallel_diagnostics(level=4)
                 elif self.solmethod in ['negm']:
                     post_decision.compute_wq(t,self.sol,self.par,compute_q=True)
                 elif self.solmethod == 'nvfi_cpp':
@@ -418,7 +417,6 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
 
                 if self.solmethod == 'nvfi':                
                     nvfi.solve_keep(t,self.sol,self.par)
-                    #nvfi.solve_keep.parallel_diagnostics(level=4)
                 elif self.solmethod == 'negm':
                     negm.solve_keep(t,self.sol,self.par)
                 elif self.solmethod == 'vfi_cpp':
@@ -614,6 +612,3 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         txt += f'         mean d: {np.mean(self.sim.d):.3f}\n'
         txt += f'          var d: {np.var(self.sim.d):.3f}\n'
         print(txt)
-
-if __name__ == "__main__":
-    pass

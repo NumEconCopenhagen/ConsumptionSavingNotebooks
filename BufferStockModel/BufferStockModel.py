@@ -119,6 +119,8 @@ class BufferStockModelClass(ConsumptionSavingModel):
         # b. create subclasses
         self.par,self.sol,self.sim = self.create_subclasses(parlist,sollist,simlist)
 
+        # note: the above returned classes are in a format where they can be used in numba functions
+
         # c. load
         if load:
             self.load()
@@ -126,11 +128,11 @@ class BufferStockModelClass(ConsumptionSavingModel):
             self.setup(**kwargs)
 
     def setup(self,**kwargs):
-        """ define baseline values and update
+        """ define baseline values and update with user choices
 
         Args:
 
-             **kwargs: change to baseline parameter in .par
+             **kwargs: change to baseline parameters in .par
 
         """   
 
@@ -152,7 +154,7 @@ class BufferStockModelClass(ConsumptionSavingModel):
         self.par.pi = 0.1
         self.par.mu = 0.5
         
-        # grids
+        # grids (number of points)
         self.par.Nm = 600
         self.par.Np = 400
         self.par.Na = 800
@@ -178,14 +180,14 @@ class BufferStockModelClass(ConsumptionSavingModel):
     def setup_grids(self):
         """ construct grids for states and shocks """
 
-        # a. states
+        # a. states (unequally spaced vectors of length Nm)
         self.par.grid_m = misc.nonlinspace(1e-6,20,self.par.Nm,1.1)
         self.par.grid_p = misc.nonlinspace(1e-4,10,self.par.Np,1.1)
         
-        # b. post-decision states
+        # b. post-decision states (unequally spaced vector of length Na)
         self.par.grid_a = misc.nonlinspace(1e-6,20,self.par.Na,1.1)
         
-        # c. shocks
+        # c. shocks (qudrature nodes and weights using GaussHermite)
         shocks = misc.create_shocks(
             self.par.sigma_psi,self.par.Npsi,self.par.sigma_xi,self.par.Nxi,
             self.par.pi,self.par.mu)
@@ -370,6 +372,3 @@ class BufferStockModelClass(ConsumptionSavingModel):
 
         # d. reset print status
         self.par.do_print = do_print
-
-if __name__ == "__main__":
-    pass

@@ -91,7 +91,7 @@ def timings(models,speedup=False,postfix=''):
 
     if speedup:
         basetime = np.sum(models[0].par.time_w+models[0].par.time_keep+models[0].par.time_adj)
-        txt = 'Relative to VFI &'
+        txt = 'Speed-up relative to VFI &'
         for model in models[1:]:
             txt += f' & {basetime/np.sum(model.par.time_w+model.par.time_keep+model.par.time_adj):.2f}'
         txt += '\\\\ \n' 
@@ -110,7 +110,7 @@ def simulation(models,postfix=''):
     txt += '\\\\ \n'
     lines.append(txt)
 
-    txt = 'Adjuster share ($d_t \neq n_t$)'
+    txt = 'Adjuster share ($d_t \\neq n_t$)'
     for model in models:
         txt += f' & {np.mean(model.sim.discrete):.3f}'
     txt += '\\\\ \n'
