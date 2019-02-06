@@ -11,12 +11,14 @@ import utility
 def compute_wq(t,sol,par,compute_w=False,compute_q=False):
     """ compute the post-decision functions w and/or q """
 
-    # unpack
+    # this is a variant of Algorithm 5 in Druedahl (2019): A Guide to Solve Non-Convex Consumption-Saving Problems 
+
+    # unpack (helps numba optimize)
     w = sol.w
     q = sol.q
 
     # loop over outermost post-decision state
-    for ip in prange(par.Np):
+    for ip in prange(par.Np): # in parallel
 
         # a. permanent income
         p = par.grid_p[ip]
@@ -73,14 +75,16 @@ def compute_wq(t,sol,par,compute_w=False,compute_q=False):
 def compute_wq_simple(t,sol,par,compute_w=False,compute_q=False):
     """ compute the post-decision functions w and/or q """
 
+    # this is a variant of Algorithm 3 in Druedahl (2019): A Guide to Solve Non-Convex Consumption-Saving Problems
+    
     # note: same result as compute_wq, simpler code, but much slower
  
-    # unpack
+    # unpack (helps numba optimize)
     w = sol.w
     q = sol.q
 
     # loop over outermost post-decision state
-    for ip in prange(par.Np):
+    for ip in prange(par.Np): # in parallel
 
         for ia in range(par.Na):
 

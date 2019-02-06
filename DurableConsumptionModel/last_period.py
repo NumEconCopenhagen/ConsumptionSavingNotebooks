@@ -36,7 +36,6 @@ def solve(t,sol,par):
             for i_m in range(par.Nm):
                             
                 # i. states
-                _p = par.grid_p[i_p]
                 n = par.grid_n[i_n]
                 m = par.grid_m[i_m]
 
@@ -59,7 +58,6 @@ def solve(t,sol,par):
         for i_x in range(par.Nx):
             
             # i. states
-            _p = par.grid_p[i_p]
             x = par.grid_x[i_x]
 
             if x == 0: # forced c = d = 0

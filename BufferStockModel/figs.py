@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
-
 sns.set_style("whitegrid")
 prop_cycle = plt.rcParams["axes.prop_cycle"]
 colors = prop_cycle.by_key()["color"]
@@ -60,7 +59,7 @@ def lifecycle(model):
     age = np.arange(par.T)
     ax = fig.add_subplot(1,1,1)
     
-    for i,(simvar,simvarlatex) in enumerate(simvarlist):
+    for simvar,simvarlatex in simvarlist:
 
         simdata = getattr(sim,simvar)
         ax.plot(age,np.mean(simdata,axis=1),lw=2,label=simvarlatex)

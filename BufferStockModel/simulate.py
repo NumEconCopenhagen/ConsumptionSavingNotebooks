@@ -8,14 +8,14 @@ from consav import linear_interp # for linear interpolation
 def lifecycle(sim,sol,par):
     """ simulate full life-cycle """
 
-    # unpack
+    # unpack (to help numba optimize)
     p = sim.p
     m = sim.m
     c = sim.c
     a = sim.a
     
     for t in range(par.simT):
-        for i in prange(par.simN):
+        for i in prange(par.simN): # in parallel
             
             # a. beginning of period states
             if t == 0:

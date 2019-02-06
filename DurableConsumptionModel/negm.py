@@ -23,7 +23,7 @@ def solve_keep(t,sol,par):
 
     for i_p in prange(par.Np):
         
-        # temporary containers
+        # temporary container
         v_ast_vec = np.zeros(par.Nm)
 
         for i_n in range(par.Nn):
