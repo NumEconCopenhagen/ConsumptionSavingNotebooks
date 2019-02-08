@@ -56,7 +56,13 @@ def solve_keep(t,sol,par):
                 
                 # a. cash-on-hand
                 m = par.grid_m[i_m]
-                
+                if i_m == 0:
+                    c[i_p,i_n,i_m] = 0
+                    inv_v[i_p,i_n,i_m] = 0
+                    if par.do_marg_u:
+                        inv_marg_u[i_p,i_n,i_m] = 0        
+                    continue
+
                 # b. optimal choice
                 c_low = np.fmin(m/2,1e-8)
                 c_high = m
@@ -112,7 +118,14 @@ def solve_adj(t,sol,par):
             
             # a. cash-on-hand
             x = par.grid_x[i_x]
-            
+            if i_x == 0:
+                d[i_p,i_x] = 0
+                c[i_p,i_x] = 0
+                inv_v[i_p,i_x] = 0
+                if par.do_marg_u:
+                    inv_marg_u[i_p,i_x] = 0        
+                continue
+
             # b. optimal choice
             d_low = np.fmin(x/2,1e-8)
             d_high = np.fmin(x,par.n_max)

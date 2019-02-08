@@ -214,7 +214,7 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
             } 
             
             // b. optimal choice
-            if(par->use_gs_in_vfi){
+            if(par->use_gss_in_cpp){
 
                 double c_low = MIN(solver_data->m/2,1e-8);
                 double c_high = solver_data->m;
@@ -243,6 +243,9 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
     
     } } // p and n
 
+        delete solver_data;
+        nlopt_destroy(opt);
+        
     } // parallel
 
 } // solve_keep
@@ -299,7 +302,7 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
                 // b. optimal choice
                 lb[0] = 0;
                 lb[1] = 0;
-                ub[0] = solver_data->x;
+                ub[0] = MIN(solver_data->x,par->n_max);
                 ub[1] = solver_data->x;
                 nlopt_set_lower_bounds(opt, lb);
                 nlopt_set_upper_bounds(opt, ub);
@@ -314,6 +317,9 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
             
             } // x
         } // p
+
+        delete solver_data;
+        nlopt_destroy(opt);
 
     } // parallel
 

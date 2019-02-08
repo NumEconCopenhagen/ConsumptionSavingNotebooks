@@ -118,7 +118,7 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
             ('cppthreads',int32),
             ('do_marg_u',boolean),
             ('do_simple_wq',boolean),
-            ('use_gs_in_vfi',boolean),
+            ('use_gss_in_cpp',boolean),
             ('time_w',double[:]),
             ('time_keep',double[:]),
             ('time_adj',double[:])
@@ -226,8 +226,8 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         self.par.do_print = False
         self.par.do_print_period = False
         self.par.cppthreads = 8
-        self.par.do_simple_wq = False # not using optimized interpolation in c++
-        self.par.use_gs_in_vfi = False # use golden section search for vfi
+        self.par.do_simple_wq = False # not using optimized interpolation in C++
+        self.par.use_gss_in_cpp = True # use golden section search in C++
         self.par.do_marg_u = False # calculate marginal utility for use in egm
 
         # b. update baseline parameters using keywords 
@@ -267,8 +267,13 @@ class DurableConsumptionModelClass(ConsumptionSavingModel):
         self.par.time_keep = np.zeros(self.par.T)
         self.par.time_adj = np.zeros(self.par.T)
 
-    def checksum(self):
+    def checksum(self,simple=False):
         """ calculate and print checksum """
+
+        if simple:
+            print(f'checksum, inv_v_keep: {np.mean(self.sol.inv_v_keep[0]):.8f}')
+            print(f'checksum, inv_v_adj: {np.mean(self.sol.inv_v_adj[0]):.8f}')
+            return
 
         T = 1 # self.par.T
         print('')
