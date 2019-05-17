@@ -13,6 +13,9 @@ C. egm: endogenous grid point method (egm_cpp is in C++)
 # 1. imports #
 ##############
 
+import yaml
+yaml.warnings({'YAMLLoadWarning': False})
+
 import time
 import numpy as np
 from numba import boolean, int32, double
@@ -21,7 +24,7 @@ from numba import boolean, int32, double
 from consav import linear_interp # for linear interpolation
 from consav import golden_section_search # for optimization in 1D
 from consav import misc # various tools
-from consav.ConsumptionSavingModel import ConsumptionSavingModel # baseline model classes
+from consav import ModelClass # baseline model class
 
 # local modules
 import utility
@@ -37,7 +40,7 @@ import figs
 # 2. model #
 ############
 
-class BufferStockModelClass(ConsumptionSavingModel):
+class BufferStockModelClass(ModelClass):
     
     #########
     # setup #

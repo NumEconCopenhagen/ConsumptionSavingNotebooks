@@ -22,7 +22,7 @@ from consav import linear_interp # for linear interpolation
 from consav import golden_section_search # for optimization in 1D
 from consav import misc # various functions
 from consav import upperenvelope # used in negm
-from consav.ConsumptionSavingModel import ConsumptionSavingModel # baseline model classes
+from consav import ModelClass # baseline model classes
 
 # local modules
 import utility
@@ -34,7 +34,7 @@ import negm
 import simulate
 import figs
 
-class DurableConsumptionModelClass(ConsumptionSavingModel):
+class DurableConsumptionModelClass(ModelClass):
     
     #########
     # setup #
