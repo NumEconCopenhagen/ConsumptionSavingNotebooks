@@ -66,7 +66,7 @@ def solve_keep(t,sol,par):
                 # b. optimal choice
                 c_low = np.fmin(m/2,1e-8)
                 c_high = m
-                c[i_p,i_n,i_m] = golden_section_search.optimizer(c_low,c_high,par.tol,obj_keep,n,m,inv_w[i_p,i_n],grid_a,d_ubar,alpha,rho)
+                c[i_p,i_n,i_m] = golden_section_search.optimizer(obj_keep,c_low,c_high,args=(n,m,inv_w[i_p,i_n],grid_a,d_ubar,alpha,rho),tol=par.tol)
 
                 # c. optimal value
                 v = -obj_keep(c[i_p,i_n,i_m],n,m,inv_w[i_p,i_n],grid_a,d_ubar,alpha,rho)
@@ -129,7 +129,7 @@ def solve_adj(t,sol,par):
             # b. optimal choice
             d_low = np.fmin(x/2,1e-8)
             d_high = np.fmin(x,par.n_max)
-            d[i_p,i_x] = golden_section_search.optimizer(d_low,d_high,par.tol,obj_adj,x,inv_v_keep[i_p],grid_n,grid_m)
+            d[i_p,i_x] = golden_section_search.optimizer(obj_adj,d_low,d_high,args=(x,inv_v_keep[i_p],grid_n,grid_m),tol=par.tol)
 
             # c. optimal value
             m = x - d[i_p,i_x]

@@ -118,7 +118,6 @@ class DurableConsumptionModelClass(ModelClass):
             ('cppthreads',int32),
             ('do_marg_u',boolean),
             ('do_simple_wq',boolean),
-            ('use_gss_in_cpp',boolean),
             ('time_w',double[:]),
             ('time_keep',double[:]),
             ('time_adj',double[:])
@@ -227,7 +226,6 @@ class DurableConsumptionModelClass(ModelClass):
         self.par.do_print_period = False
         self.par.cppthreads = 8
         self.par.do_simple_wq = False # not using optimized interpolation in C++
-        self.par.use_gss_in_cpp = True # use golden section search in C++
         self.par.do_marg_u = False # calculate marginal utility for use in egm
 
         # b. update baseline parameters using keywords 

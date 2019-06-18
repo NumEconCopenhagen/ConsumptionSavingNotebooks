@@ -33,36 +33,6 @@ double obj_keep(double c, void *solver_data_in)
 
 }
 
-double obj_keep_nlopt(unsigned n, const double *choices, double *grad, void *solver_data_in)
-{
-
-    // value of choice
-    double c = choices[0];
-    double obj = obj_keep(c,solver_data_in);
-
-    // gradient
-    if(grad){
-        double forward = obj_keep(c+EPS,solver_data_in);
-        grad[0] = (forward - obj)/EPS;
-    }
-
-    return obj;
-
-}
-
-double ineq_con_keep(unsigned n, const double *choices, double *grad, void *solver_data_in)
-{
-
-    solver_struct *solver_data = (solver_struct *) solver_data_in;
-
-    if (grad) {
-        grad[0] = 1.0;
-    }
-
-    return choices[0] - solver_data->m; // positive if violated
-
-}
-
 EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
 {
 
@@ -81,15 +51,6 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
 
     solver_struct* solver_data = new solver_struct;
     solver_data->par = par;
-
-    auto opt = nlopt_create(NLOPT_LD_MMA, 1);
-
-        // settings
-        nlopt_set_min_objective(opt, obj_keep_nlopt, solver_data);
-        nlopt_set_xtol_rel(opt, 1e-6);
-
-        // constraints
-        nlopt_add_inequality_constraint(opt, ineq_con_keep, solver_data, 1e-8);
 
     #pragma omp for
     for(int i_p = 0; i_p < par->Np; i_p++){
@@ -121,29 +82,12 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
                 }
                                 
                 // b. optimal choice
-                double v;
-                if(par->use_gss_in_cpp){
+                double c_low = MIN(m/2,1e-8);
+                double c_high = m;
 
-                    double c_low = MIN(m/2,1e-8);
-                    double c_high = m;
-
-                    c[index] = golden_section_search(c_low,c_high,par->tol,solver_data,obj_keep); 
-                    v = -obj_keep(c[index],solver_data);
+                c[index] = golden_section_search(c_low,c_high,par->tol,solver_data,obj_keep); 
+                double v = -obj_keep(c[index],solver_data);
                 
-                } else {
-
-                    lb[0] = 0;
-                    ub[0] = solver_data->m;
-                    nlopt_set_lower_bounds(opt, lb);
-                    nlopt_set_upper_bounds(opt, ub);
-
-                    double minf;
-                    int flag = nlopt_optimize(opt, choices, &minf);
-                    c[index] = choices[0];
-                    v = -minf;                    
-                    
-                }
-
                 // c. optimal value
                 inv_v[index] = -1.0/v;
                 if(par->do_marg_u){
@@ -155,7 +99,6 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
     } // p
 
         delete solver_data;
-        nlopt_destroy(opt);
 
     } // parallel
 
@@ -186,36 +129,6 @@ double obj_adj(double d, void *solver_data_in)
 
 }
 
-double obj_adj_nlopt(unsigned n, const double *choices, double *grad, void *solver_data_in)
-{
-
-    // value of choice
-    double d = choices[0];
-    double obj = obj_adj(d,solver_data_in);
-
-    // gradient
-    if(grad){
-        double forward = obj_adj(d+EPS,solver_data_in);
-        grad[0] = (forward - obj)/EPS;
-    }
-
-    return obj;
-
-}
-
-double ineq_con_adj(unsigned n, const double *choices, double *grad, void *solver_data_in)
-{
-
-    solver_struct *solver_data = (solver_struct *) solver_data_in;
-
-    if (grad) {
-        grad[0] = 1.0;
-    }
-
-    return choices[0] - solver_data->x; // positive if violated
-
-}
-
 EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
 {
 
@@ -235,15 +148,6 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
 
     solver_struct* solver_data = new solver_struct;
     solver_data->par = par;
-
-    auto opt = nlopt_create(NLOPT_LD_MMA, 1);
-
-        // settings
-        nlopt_set_min_objective(opt, obj_adj_nlopt, solver_data);
-        nlopt_set_xtol_rel(opt, 1e-6);
-
-        // constraints
-        nlopt_add_inequality_constraint(opt, ineq_con_adj, solver_data, 1e-8);
 
     #pragma omp for
     for(int i_p = 0; i_p < par->Np; i_p++){
@@ -275,24 +179,8 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
             double d_low = MIN(x/2,1e-8);
             double d_high = MIN(x,par->n_max);
 
-            if(par->use_gss_in_cpp){
-
-                d[index_adj] =  golden_section_search(d_low,d_high,par->tol,solver_data,obj_adj); 
-                inv_v[index_adj] = -obj_adj(d[index_adj],solver_data);
-
-            } else {
-
-                lb[0] = 0;
-                ub[0] = d_high;
-                nlopt_set_lower_bounds(opt, lb);
-                nlopt_set_upper_bounds(opt, ub);
-
-                double minf;
-                int flag = nlopt_optimize(opt, choices, &minf);
-                d[index_adj] = choices[0];
-                inv_v[index_adj] = -minf;                    
-                
-            }
+            d[index_adj] =  golden_section_search(d_low,d_high,par->tol,solver_data,obj_adj); 
+            inv_v[index_adj] = -obj_adj(d[index_adj],solver_data);
 
             // c. optimal value
             double m = x - d[index_adj];
@@ -306,7 +194,6 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
     } // p
 
         delete solver_data;
-        nlopt_destroy(opt);
         
     } // parallel
 

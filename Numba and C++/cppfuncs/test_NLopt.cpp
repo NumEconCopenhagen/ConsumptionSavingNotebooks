@@ -2,7 +2,7 @@
 #include <cmath>
 #include <windows.h>
 
-#include "cppfuncs/nlopt-2.4.2-dll64\nlopt.h"
+#include "nlopt-2.4.2-dll64\nlopt.h"
 #include "HighResTimer_class.hpp"
 #include "logs.cpp"
 

@@ -51,7 +51,6 @@ typedef struct par_struct
  int cppthreads;
  bool do_marg_u;
  bool do_simple_wq;
- bool use_gss_in_cpp;
  double *time_w;
  double *time_keep;
  double *time_adj;

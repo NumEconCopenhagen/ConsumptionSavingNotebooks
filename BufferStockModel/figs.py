@@ -3,8 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sns
-sns.set_style("whitegrid")
+plt.style.use("seaborn-whitegrid")
 prop_cycle = plt.rcParams["axes.prop_cycle"]
 colors = prop_cycle.by_key()["color"]
 import ipywidgets as widgets
@@ -64,6 +63,6 @@ def lifecycle(model):
         simdata = getattr(sim,simvar)
         ax.plot(age,np.mean(simdata,axis=1),lw=2,label=simvarlatex)
     
-    ax.legend()
+    ax.legend(frameon=True)
     ax.grid(True)
     ax.set_xlabel('age')

@@ -70,7 +70,7 @@ def solve(t,sol,par):
             # ii. optimal choices
             d_low = np.fmin(x/2,1e-8)
             d_high = np.fmin(x,par.n_max)            
-            d_adj[i_p,i_x] = golden_section_search.optimizer(d_low,d_high,par.tol,obj_last_period,x,par)
+            d_adj[i_p,i_x] = golden_section_search.optimizer(obj_last_period,d_low,d_high,args=(x,par),tol=par.tol)
             c_adj[i_p,i_x] = x-d_adj[i_p,i_x]
 
             # iii. optimal value

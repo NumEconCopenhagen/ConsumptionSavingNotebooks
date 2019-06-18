@@ -109,9 +109,7 @@ def euler_errors(sim,sol,par):
 
             else:
 
-                LHS = utility.marg_func(sim.c[t,i],sim.d[t,i],par)
                 RHS = 0.0
-
                 for ishock in range(par.Nshocks):
                         
                     # i. shocks
@@ -135,7 +133,7 @@ def euler_errors(sim,sol,par):
                     # v. next-period marginal utility
                     RHS += weight*par.beta*par.R*utility.marg_func(c_plus[0],d_plus[0],par)
             
-                euler_error[t,i] = LHS-RHS
+                euler_error[t,i] = sim.c[t,i] - utility.inv_marg_func(RHS,sim.d[t,i],par)
                 euler_error_c[t,i] = sim.c[t,i]
 
 @njit(parallel=True)

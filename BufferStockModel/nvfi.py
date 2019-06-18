@@ -45,7 +45,7 @@ def solve_bellman(t,sol,par):
             # b. optimal choice
             c_low = np.fmin(m/2,1e-8)
             c_high = m
-            c[ip,im] = golden_section_search.optimizer(c_low,c_high,par.tol,obj_bellman,m,sol.w[ip],par)
+            c[ip,im] = golden_section_search.optimizer(obj_bellman,c_low,c_high,args=(m,sol.w[ip],par),tol=par.tol)
 
             # note: the above finds the minimum of obj_bellman in range [c_low,c_high] with a tolerance of par.tol
             # and arguments (except for c) as specified 
