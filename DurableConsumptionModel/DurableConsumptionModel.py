@@ -29,6 +29,7 @@ import utility
 import trans
 import last_period
 import post_decision
+import vfi
 import nvfi
 import negm
 import simulate
@@ -118,6 +119,7 @@ class DurableConsumptionModelClass(ModelClass):
             ('cppthreads',int32),
             ('do_marg_u',boolean),
             ('do_simple_wq',boolean),
+            ('use_gs_in_vfi',boolean),            
             ('time_w',double[:]),
             ('time_keep',double[:]),
             ('time_adj',double[:])
@@ -191,23 +193,23 @@ class DurableConsumptionModelClass(ModelClass):
         self.par.tau = 0.10
         self.par.delta = 0.15
         self.par.sigma_psi = 0.1
-        self.par.Npsi = 8
+        self.par.Npsi = 5
         self.par.sigma_xi = 0.1
-        self.par.Nxi = 8
+        self.par.Nxi = 5
         self.par.pi = 0.0
         self.par.mu = 0.5
         
         # grids
-        self.par.Np = 100
+        self.par.Np = 50
         self.par.p_min = 1e-4
         self.par.p_max = 3
-        self.par.Nn = 100
+        self.par.Nn = 50
         self.par.n_max = 3
-        self.par.Nm = 200
+        self.par.Nm = 100
         self.par.m_max = 10        
-        self.par.Nx = 200
+        self.par.Nx = 100
         self.par.x_max = self.par.m_max + self.par.n_max
-        self.par.Na = 200
+        self.par.Na = 100
         self.par.a_max = self.par.m_max+1
 
         # simulation
@@ -417,8 +419,10 @@ class DurableConsumptionModelClass(ModelClass):
 
                 # oo. solve keeper problem
                 tic_keep = time.time()
-
-                if self.solmethod == 'nvfi':                
+                
+                if self.solmethod == 'vfi':
+                    vfi.solve_keep(t,self.sol,self.par)
+                elif self.solmethod == 'nvfi':                
                     nvfi.solve_keep(t,self.sol,self.par)
                 elif self.solmethod == 'negm':
                     negm.solve_keep(t,self.sol,self.par)
@@ -440,8 +444,10 @@ class DurableConsumptionModelClass(ModelClass):
 
                 # ooo. solve adjuster problem
                 tic_adj = time.time()
-
-                if self.solmethod in ['nvfi','negm']:
+                
+                if self.solmethod == 'vfi':
+                    vfi.solve_adj(t,self.sol,self.par)
+                elif self.solmethod in ['nvfi','negm']:
                     nvfi.solve_adj(t,self.sol,self.par)                  
                 elif self.solmethod == 'vfi_cpp':
                     self.call_cpp('vfi','solve_adj')  

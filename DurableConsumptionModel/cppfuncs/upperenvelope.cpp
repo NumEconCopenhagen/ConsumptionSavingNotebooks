@@ -67,7 +67,7 @@ void upperenvelope(double *grid_a, int Na, double *m_vec, double *c_vec, double 
 
             // ii. interpolate?
             bool interp = (m >= m_low) && (m <= m_high);     
-            bool extrap_above = ia == Na-1 && m > m_vec[Na-1];
+            bool extrap_above = ia == Na-2 && m > m_vec[Na-1];
 
             // iii. interpolation (or extrapolation)
             if(interp | extrap_above){

@@ -104,8 +104,8 @@ venv.bak/
 .mypy_cache/
 
 # data
-.p
-.npz
+*.p
+*.npz
 
 # custom
 .vscode/
