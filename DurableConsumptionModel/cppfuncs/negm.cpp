@@ -5,7 +5,8 @@ EXPORT void compute_wq(par_struct *par, sol_struct *sol, sim_struct *sim){
     post_decision::compute_wq(par->t,sol,par,true);
 }
 
-EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim){
+EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
+{
 
     // unpack
     int t = par->t;
@@ -30,7 +31,7 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim){
     #pragma omp for
     for(int i_p = 0; i_p < par->Np; i_p++){
 
-        for(int i_n = 0; i_n < par->Np; i_n++){
+        for(int i_n = 0; i_n < par->Nn; i_n++){
             
             // use euler equation
             double n = par->grid_n[i_n];

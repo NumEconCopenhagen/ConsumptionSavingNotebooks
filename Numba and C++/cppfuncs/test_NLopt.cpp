@@ -107,7 +107,8 @@ EXPORT void optimize()
         // settings
         nlopt_set_min_objective(opt, objfunc, solver_data);
         nlopt_set_xtol_rel(opt, 1e-4);
-
+        nlopt_set_maxeval(opt, 500);
+        
         // bounds
         lb[0] = 0;
         lb[1] = 0;

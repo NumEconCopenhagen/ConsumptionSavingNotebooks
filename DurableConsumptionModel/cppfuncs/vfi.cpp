@@ -64,7 +64,8 @@ double value_of_choice(int t, double c, double d, double p, double x, sol_struct
 // keep //
 //////////
 
-double obj_keep_gs(double c, void *solver_data_in){
+double obj_keep_gs(double c, void *solver_data_in)
+{
 
     solver_struct *solver_data = (solver_struct *) solver_data_in;
 
@@ -186,6 +187,7 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
         // settings
         nlopt_set_min_objective(opt, obj_keep, solver_data);
         nlopt_set_xtol_rel(opt, 1e-6);
+        nlopt_set_maxeval(opt, 200);
 
         // constraints
         nlopt_add_inequality_constraint(opt, ineq_con_keep, solver_data, 1e-8);
@@ -258,7 +260,7 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
     double* d = &sol->d_adj[par->t*par->Np*par->Nx];
     double* c = &sol->c_adj[par->t*par->Np*par->Nx];
 
-    // keep: loop over outer states
+    // loop over outer states
     #pragma omp parallel num_threads(par->cppthreads)
     {
 
@@ -271,7 +273,8 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
         // settings
         nlopt_set_min_objective(opt, obj_adj, solver_data);
         nlopt_set_xtol_rel(opt, 1e-6);
-
+        nlopt_set_maxeval(opt, 200);
+        
         // constraints
         nlopt_add_inequality_constraint(opt, ineq_con_adj, solver_data, 1e-8);
 
@@ -313,7 +316,7 @@ EXPORT void solve_adj(par_struct *par, sol_struct *sol, sim_struct *sim)
             // c. optimal value
             d[index] = choices[0];
             c[index] = choices[1];
-            inv_v[index] = 1/minf;
+            inv_v[index] = 1.0/minf;
         
         } // x
 

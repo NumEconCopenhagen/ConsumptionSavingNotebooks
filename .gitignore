@@ -124,6 +124,12 @@ DurableConsumptionModel/*.txt
 DurableConsumptionModel/*.tex
 DurableConsumptionModel/.numba_config.yaml
 
+G2EGM/data
+G2EGM/*.dll
+G2EGM/*.txt
+G2EGM/*.tex
+G2EGM/.numba_config.yaml
+
 Numba and C++/cppfuncs/nlopt-2.4.2-dll64/
 Numba and C++/*.dll
 Numba and C++/*.txt

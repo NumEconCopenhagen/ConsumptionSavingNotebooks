@@ -50,6 +50,8 @@ typedef struct {
     double *inv_w, *inv_v_keep;
     par_struct *par;
     sol_struct *sol;
+    double n1, n2;
+    int i_p, i_n, i_x;
 
 } solver_struct;
 

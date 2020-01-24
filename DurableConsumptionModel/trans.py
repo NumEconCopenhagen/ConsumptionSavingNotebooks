@@ -15,6 +15,18 @@ def n_plus_func(d,par):
     return n_plus
 
 @njit(fastmath=True)
+def n1_plus_func(d1,par):
+    n1_plus = (1-par.delta1)*d1
+    n1_plus = np.fmin(n1_plus,par.n_max) # upper bound
+    return n1_plus
+
+@njit(fastmath=True)
+def n2_plus_func(d2,par):
+    n2_plus = (1-par.delta2)*d2
+    n2_plus = np.fmin(n2_plus,par.n_max) # upper bound
+    return n2_plus
+
+@njit(fastmath=True)
 def m_plus_func(a,p_plus,xi_plus,par):
     y_plus = p_plus*xi_plus
     m_plus = par.R*a+ y_plus

@@ -1,14 +1,22 @@
 typedef struct par_struct
 {
+ bool do_2d;
  int T;
  int t;
  double beta;
  double rho;
  double alpha;
  double d_ubar;
+ double d1_ubar;
+ double d2_ubar;
  double R;
  double tau;
+ double tau1;
+ double tau2;
  double delta;
+ double delta1;
+ double delta2;
+ double gamma;
  double sigma_psi;
  int Npsi;
  double sigma_xi;
@@ -55,5 +63,8 @@ typedef struct par_struct
  double *time_w;
  double *time_keep;
  double *time_adj;
+ double *time_adj_full;
+ double *time_adj_d1;
+ double *time_adj_d2;
 } par_struct;
 
