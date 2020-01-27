@@ -4,7 +4,7 @@ Contains Jupyter Notebooks showcasing the [ConSav package](https://github.com/Nu
 
 The main tool in the [ConSav package](https://github.com/NumEconCopenhagen/ConsumptionSaving) is the **ModelClass** class with predefined methods for e.g. saving and loading. Each concrete model inherits these methods and then adds methods for e.g. solving and simulating. The simplest example is the canonical buffer-stock consumption model, see the [BufferStockModel notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/BufferStockModel.ipynb).
 
-The [DurableConsumptioModel notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/DurableConsumptionModel.ipynb) contains more advanced examples. Specifically, it implements the solution methods proposed in [A Guide On Solving Non-Convex Consumption-Saving Models](https://www.dropbox.com/s/cygw65nyq42fvhf/WP_NEGM_2020.pdf?dl=0). See also the [results notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/A%20Guide%20On%20Solving%20Non-Convex%20Consumption-Saving%20Models.ipynb) for this paper.
+The [DurableConsumptioModel notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/DurableConsumptionModel.ipynb) contains more advanced examples. Specifically, it implements the solution methods proposed in [A Guide On Solving Non-Convex Consumption-Saving Models](https://www.dropbox.com/s/dzgoo5ywmlrecbk/WP_NEGM_2020.pdf?dl=0). See also the [results notebook](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/A%20Guide%20On%20Solving%20Non-Convex%20Consumption-Saving%20Models.ipynb) for this paper.
 
 To get started:
 
@@ -28,7 +28,7 @@ The main notebooks are:
    * [Example with run file and C++](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/BufferStockModel/Examples%20with%20run%20file%20and%20C%2B%2B.ipynb): Advanced examples
 1. **DurableConsumptionModel/**
    * [DurableConsumptioModel](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/DurableConsumptionModel.ipynb): Guide on solving and simulating the model
-   * Results for [A Guide to Solve Non-Convex Consumption-Saving Models](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/A%20Guide%20On%20Solving%20Non-Convex%20Consumption-Saving%20Models.ipynb) ([paper](https://www.dropbox.com/s/cygw65nyq42fvhf/WP_NEGM_2020.pdf?dl=0))
+   * Results for [A Guide to Solve Non-Convex Consumption-Saving Models](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/DurableConsumptionModel/A%20Guide%20On%20Solving%20Non-Convex%20Consumption-Saving%20Models.ipynb) ([paper](https://www.dropbox.com/s/dzgoo5ywmlrecbk/WP_NEGM_2020.pdf?dl=0))
 1. **G2EGM/**
    * Python version of the G2EGM algorithm from [A General Endogenous Grid Method for Multi-Dimensional Models with Non-Convexities and Constraints](https://linkinghub.elsevier.com/retrieve/pii/S0165188916301920), [Druedahl](http://web.econ.ku.dk/druedahl) and [Jørgensen](http://www.tjeconomics.com/), 2017, *Journal of Economic Dynamics and Control*, 74 ([MATLAB version](https://github.com/JeppeDruedahl/G2EGM))
 1. **Numba and C++/**
