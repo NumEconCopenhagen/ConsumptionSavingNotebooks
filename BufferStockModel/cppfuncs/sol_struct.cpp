@@ -1,7 +1,7 @@
 typedef struct sol_struct
 {
- double *v;
  double *c;
+ double *v;
  double *w;
  double *q;
 } sol_struct;

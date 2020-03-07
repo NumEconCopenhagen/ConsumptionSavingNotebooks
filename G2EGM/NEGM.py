@@ -55,7 +55,7 @@ def obj_outer(d,n,m,t,sol,par):
     # c. value-of-choice
     return -linear_interp.interp_2d(par.grid_b_pd,par.grid_l,sol.inv_v_pure_c[t],n_pure_c,m_pure_c)  # we are minimizing
 
-@njit(parallel=True)
+@njit
 def solve_outer(t,sol,par):
 
     # unpack output

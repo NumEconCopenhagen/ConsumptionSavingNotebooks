@@ -25,7 +25,7 @@ def lifecycle(sim,sol,par):
     a = sim.a
     discrete = sim.discrete
     
-    for t in range(par.simT):
+    for t in range(par.T):
         for i in prange(par.simN):
             
             # a. beginning of period states
@@ -245,7 +245,7 @@ def euler_errors(sim,sol,par):
         c_plus = np.zeros(1)
         a_plus = np.zeros(1)
 
-        for t in range(par.simT-1):
+        for t in range(par.T-1):
 
             constrained = sim.a[t,i] < par.euler_cutoff
             
@@ -304,7 +304,7 @@ def calc_utility(sim,sol,par):
     # unpack
     u = sim.utility
     
-    for t in range(par.simT):
+    for t in range(par.T):
         for i in prange(par.simN):
             
             if par.do_2d:

@@ -4,7 +4,7 @@ typedef struct sim_struct
  double *m;
  double *c;
  double *a;
- double *xi;
  double *psi;
+ double *xi;
 } sim_struct;
 

@@ -339,30 +339,17 @@ EXPORT void solve_keep(par_struct *par, sol_struct *sol, sim_struct *sim)
             } 
             
             // b. optimal choice
-            if(par->use_gs_in_vfi){
+            lb[0] = 0;
+            ub[0] = solver_data->m;
+            nlopt_set_lower_bounds(opt, lb);
+            nlopt_set_upper_bounds(opt, ub);
 
-                double c_low = MIN(solver_data->m/2,1e-8);
-                double c_high = solver_data->m;
+            double minf;
+            int flag = nlopt_optimize(opt, choices, &minf);
 
-                c[index] = golden_section_search(c_low,c_high,1e-6,solver_data,obj_keep_gs); 
-                double v = -obj_keep_gs(c[index],solver_data);
-                inv_v[index] = -1.0/v;
-
-            } else {
-
-                lb[0] = 0;
-                ub[0] = solver_data->m;
-                nlopt_set_lower_bounds(opt, lb);
-                nlopt_set_upper_bounds(opt, ub);
-
-                double minf;
-                int flag = nlopt_optimize(opt, choices, &minf);
-
-                // c. optimal value
-                c[index] = choices[0];
-                inv_v[index] = 1.0/minf;
-                
-            }
+            // c. optimal value
+            c[index] = choices[0];
+            inv_v[index] = 1.0/minf;            
 
         } // m
     

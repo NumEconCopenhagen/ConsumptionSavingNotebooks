@@ -9,11 +9,10 @@
 
 import time
 import numpy as np
-from numba import boolean, int64, double
 
 # consav package
-from consav import misc # various functions
 from consav import ModelClass # baseline model classes
+from consav.misc import nonlinspace, normal_gauss_hermite # various functions
 
 # local modules
 import pens
@@ -31,299 +30,148 @@ class G2EGMModelClass(ModelClass):
     # setup #
     #########
 
-    def __init__(self,name='baseline',load=False,solmethod='G2EGM',compiler='vs',**kwargs):
-        """ basic setup
+    def setup(self):
+        """ set baseline parameters """
 
-        Args:
+        par = self.par
 
-        name (str,optional): name, used when saving/loading
-        load (bool,optinal): load from disc
-        solmethod (str,optional): solmethod, used when solving
-        compiler (str,optional): compiler, 'vs' or 'intel' (used for c++)
-        **kwargs: change to baseline parameter in .par
-
-        Define parlist, sollist and simlist contain information on the
-        model parameters and the variables when solving and simulating.
-
-        Call .setup(**kwargs).
-
-        """       
-
-        self.name = name 
-        self.solmethod = solmethod
-        self.compiler = compiler
-        self.vs_path = 'C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/'
-        self.intel_path = 'C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/bin/'
-        self.intel_vs_version = 'vs2017'
-        
-        # a. define subclasses
-        parlist = [
-
-            ('T',int64),
-
-            ('beta',double),
-            ('rho',double),
-            ('alpha',double),
-            
-            ('yret',double),
-            ('var_eta',double),
-            ('Ra',double),
-            ('Rb',double),
-            ('chi',double),
-
-            ('phi_m',double),
-            ('phi_n',double),
-
-            ('Nm_ret',int64),
-            ('m_max_ret',double),
-            ('grid_m_ret',double[:]),
-            ('Na_ret',int64),
-            ('a_max_ret',double),
-            ('grid_a_ret',double[:]),
-            ('Nmcon_ret',int64),
-
-            ('Nm',int64),
-            ('m_max',int64),
-            ('grid_m',double[:]),
-            ('grid_m_nd',double[:,:]),
-
-            ('n_add',double),
-            ('Nn',int64),
-            ('n_max',int64),
-            ('grid_n',double[:]),
-            ('grid_n_nd',double[:,:]),
-
-            ('pd_fac',double),
-            ('a_add',double),
-            ('b_add',double),
-            ('Na_pd',int64),
-            ('a_max',double),
-            ('grid_a_pd',double[:]),
-            ('grid_a_pd_nd',double[:,:]),
-            ('Nb_pd',int64),
-            ('b_max',double),
-            ('grid_b_pd',double[:]),            
-            ('grid_b_pd_nd',double[:,:]),            
-
-            ('d_dcon',double[:,:]),
-            ('acon_fac',double),
-            ('Nc_acon',int64),
-            ('Nb_acon',int64),
-            ('grid_b_acon',double[:]),
-            ('b_acon',double[:]),
-            ('a_acon',double[:]),
-            ('con_fac',double),
-            ('Nc_con',int64),
-            ('Nb_con',int64),
-            ('grid_c_con',double[:]),
-            ('grid_b_con',double[:]),
-            ('c_con',double[:,:]),
-            ('b_con',double[:,:]),
-            ('a_con',double[:,:]),
-            ('d_con',double[:,:]),
-            
-            ('Neta',int64),
-            ('eta',double[:]),
-            ('w_eta',double[:]),
-
-            ('eulerK',int64),
-
-            ('egm_extrap_add',int64),
-            ('egm_extrap_w',double),
-            ('delta_con',double),
-            ('eps',double),
-            ('do_print',boolean),
-
-            ('grid_l',double[:]),
-
-            ('time_work',double[:]),
-            ('time_w',double[:]),
-            ('time_egm',double[:]),
-            ('time_vfi',double[:]),
-
-        ]
-
-        sollist = [
-            ('m_ret',double[:,:]),
-            ('c_ret',double[:,:]),
-            ('a_ret',double[:,:]),
-            ('v_ret',double[:,:]),
-            ('inv_v_ret',double[:,:]),
-            ('inv_vm_ret',double[:,:]),
-            ('inv_vn_ret',double[:,:]),
-            ('c',double[:,:,:]),
-            ('d',double[:,:,:]),
-            ('inv_v',double[:,:,:]),
-            ('inv_vm',double[:,:,:]),
-            ('inv_vn',double[:,:,:]),
-            ('w',double[:,:,:]),
-            ('wa',double[:,:,:]),
-            ('wb',double[:,:,:]),
-            ('z',double[:,:,:]),
-            ('ucon_c',double[:,:,:]),
-            ('ucon_d',double[:,:,:]),
-            ('ucon_v',double[:,:,:]),
-            ('dcon_c',double[:,:,:]),
-            ('dcon_d',double[:,:,:]),
-            ('dcon_v',double[:,:,:]),            
-            ('acon_c',double[:,:,:]),
-            ('acon_d',double[:,:,:]),
-            ('acon_v',double[:,:,:]),            
-            ('con_c',double[:,:,:]),
-            ('con_d',double[:,:,:]),
-            ('con_v',double[:,:,:]),
-            ('c_pure_c',double[:,:,:]),
-            ('inv_v_pure_c',double[:,:,:])
-        ]
-
-        simlist = [
-            ('euler',double[:,:,:]),
-        ]
-
-        # b. create subclasses
-        self.par,self.sol,self.sim = self.create_subclasses(parlist,sollist,simlist)
-
-        # c. load
-        if load:
-            self.load()
-        else:
-            self.setup(**kwargs)
-
-    def setup(self,**kwargs):
-        """ define baseline values and update
-
-        Args:
-
-             **kwargs: change to baseline parameter in .par
-
-        """   
+        self.not_float_list = [ 'T','Nm_ret','Na_ret','Nmcon_ret','Nm','m_max','Nn','n_max',
+                                'Na_pd','Nb_pd','Nc_acon','Nb_acon','Nc_con','Nb_con','Neta',
+                                'eulerK','egm_extrap_add','do_print']
 
         # a. baseline parameters
         
         # horizon
-        self.par.T = 20
+        par.T = 20
         
         # preferences
-        self.par.beta = 0.98
-        self.par.rho = 2
-        self.par.alpha = 0.25
+        par.beta = 0.98
+        par.rho = 2.0
+        par.alpha = 0.25
 
         # returns and income
-        self.par.yret = 0.5
-        self.par.var_eta = 0
-        self.par.Ra = 1.02
-        self.par.Rb = 1.04
-        self.par.chi = 0.10
-        self.par.Neta = 1
+        par.yret = 0.5
+        par.var_eta = 0.0
+        par.Ra = 1.02
+        par.Rb = 1.04
+        par.chi = 0.10
+        par.Neta = 1
 
         # grids
-        self.par.Nm_ret = 500
-        self.par.m_max_ret = 50.0
-        self.par.Na_ret = 400
-        self.par.a_max_ret = 25.0
-        self.par.Nm = 600
-        self.par.m_max = 10.0    
-        self.par.phi_m = 1.1  
-        self.par.n_add = 2.00
-        self.par.phi_n = 1.25  
-        self.par.acon_fac = 0.25
-        self.par.con_fac = 0.50
-        self.par.pd_fac = 2.00
-        self.par.a_add = -2.00
-        self.par.b_add = 2.00
+        par.Nm_ret = 500
+        par.m_max_ret = 50.0
+        par.Na_ret = 400
+        par.a_max_ret = 25.0
+        par.Nm = 600
+        par.m_max = 10.0    
+        par.phi_m = 1.1  
+        par.n_add = 2.00
+        par.phi_n = 1.25  
+        par.acon_fac = 0.25
+        par.con_fac = 0.50
+        par.pd_fac = 2.00
+        par.a_add = -2.00
+        par.b_add = 2.00
 
         # euler
-        self.par.eulerK = 100
+        par.eulerK = 100
 
         # misc
-        self.par.egm_extrap_add = 2
-        self.par.egm_extrap_w = -0.25
-        self.par.delta_con = 0.001
-        self.par.eps = 1e-6
-        self.par.do_print = False
-
-        # b. update baseline parameters using keywords 
-        for key,val in kwargs.items():
-            setattr(self.par,key,val) # like par.key = val
-
-        # c. setup grids
-        self.setup_grids()
+        par.egm_extrap_add = 2
+        par.egm_extrap_w = -0.25
+        par.delta_con = 0.001
+        par.eps = 1e-6
+        par.do_print = False
         
-    def setup_grids(self):
+    def allocate(self):
+        """ allocate model, i.e. create grids and allocate solution and simluation arrays """
+
+        # a. grid
+        self.create_grids()
+
+        # b. solution
+        self.solve_prep()
+
+        # c. simulation
+        self.sim.euler = np.full((self.par.T-1,self.par.eulerK,self.par.eulerK),np.nan)
+
+    def create_grids(self):
         """ construct grids for states and shocks """
         
+        par = self.par
+
         # a. retirement
     
         # pre-decision states
-        self.par.grid_m_ret = misc.nonlinspace(self.par.eps,self.par.m_max_ret,self.par.Nm_ret,self.par.phi_m)
-        self.par.Nmcon_ret = self.par.Nm_ret - self.par.Na_ret
+        par.grid_m_ret = nonlinspace(par.eps,par.m_max_ret,par.Nm_ret,par.phi_m)
+        par.Nmcon_ret = par.Nm_ret - par.Na_ret
         
         # post-decision states
-        self.par.grid_a_ret = misc.nonlinspace(0,self.par.a_max_ret,self.par.Na_ret,self.par.phi_m)
+        par.grid_a_ret = nonlinspace(0,par.a_max_ret,par.Na_ret,par.phi_m)
         
         # b. working: state space (m,n,k)    
-        self.par.grid_m = misc.nonlinspace(self.par.eps,self.par.m_max,self.par.Nm,self.par.phi_m)
+        par.grid_m = nonlinspace(par.eps,par.m_max,par.Nm,par.phi_m)
 
-        self.par.Nn = self.par.Nm
-        self.par.n_max = self.par.m_max + self.par.n_add
-        self.par.grid_n = misc.nonlinspace(0,self.par.n_max,self.par.Nn,self.par.phi_n)
+        par.Nn = par.Nm
+        par.n_max = par.m_max + par.n_add
+        par.grid_n = nonlinspace(0,par.n_max,par.Nn,par.phi_n)
 
-        self.par.grid_n_nd, self.par.grid_m_nd = np.meshgrid(self.par.grid_n,self.par.grid_m,indexing='ij')
+        par.grid_n_nd, par.grid_m_nd = np.meshgrid(par.grid_n,par.grid_m,indexing='ij')
 
         # c. working: w interpolant (and wa and wb and wq)
-        self.par.Na_pd = np.int64(np.floor(self.par.pd_fac*self.par.Nm))
-        self.par.a_max = self.par.m_max + self.par.a_add
-        self.par.grid_a_pd = misc.nonlinspace(0,self.par.a_max,self.par.Na_pd,self.par.phi_m)
+        par.Na_pd = np.int64(np.floor(par.pd_fac*par.Nm))
+        par.a_max = par.m_max + par.a_add
+        par.grid_a_pd = nonlinspace(0,par.a_max,par.Na_pd,par.phi_m)
     
-        self.par.Nb_pd = np.int64(np.floor(self.par.pd_fac*self.par.Nn))
-        self.par.b_max = self.par.n_max + self.par.b_add
-        self.par.grid_b_pd = misc.nonlinspace(0,self.par.b_max,self.par.Nb_pd,self.par.phi_n)
+        par.Nb_pd = np.int64(np.floor(par.pd_fac*par.Nn))
+        par.b_max = par.n_max + par.b_add
+        par.grid_b_pd = nonlinspace(0,par.b_max,par.Nb_pd,par.phi_n)
     
-        self.par.grid_b_pd_nd, self.par.grid_a_pd_nd = np.meshgrid(self.par.grid_b_pd,self.par.grid_a_pd,indexing='ij')
+        par.grid_b_pd_nd, par.grid_a_pd_nd = np.meshgrid(par.grid_b_pd,par.grid_a_pd,indexing='ij')
         
         # d. working: egm (seperate grids for each segment)
         
         if self.solmethod == 'G2EGM':
 
             # i. dcon
-            self.par.d_dcon = np.zeros((self.par.Na_pd,self.par.Nb_pd),dtype=np.float_,order='C')
+            par.d_dcon = np.zeros((par.Na_pd,par.Nb_pd),dtype=np.float_,order='C')
                 
             # ii. acon
-            self.par.Nc_acon = np.int64(np.floor(self.par.Na_pd*self.par.acon_fac))
-            self.par.Nb_acon = np.int64(np.floor(self.par.Nb_pd*self.par.acon_fac))
-            self.par.grid_b_acon = misc.nonlinspace(0,self.par.b_max,self.par.Nb_acon,self.par.phi_n)
-            self.par.a_acon = np.zeros(self.par.grid_b_acon.shape)
-            self.par.b_acon = self.par.grid_b_acon
+            par.Nc_acon = np.int64(np.floor(par.Na_pd*par.acon_fac))
+            par.Nb_acon = np.int64(np.floor(par.Nb_pd*par.acon_fac))
+            par.grid_b_acon = nonlinspace(0,par.b_max,par.Nb_acon,par.phi_n)
+            par.a_acon = np.zeros(par.grid_b_acon.shape)
+            par.b_acon = par.grid_b_acon
 
             # iii. con
-            self.par.Nc_con = np.int64(np.floor(self.par.Na_pd*self.par.con_fac))
-            self.par.Nb_con = np.int64(np.floor(self.par.Nb_pd*self.par.con_fac))
+            par.Nc_con = np.int64(np.floor(par.Na_pd*par.con_fac))
+            par.Nb_con = np.int64(np.floor(par.Nb_pd*par.con_fac))
             
-            self.par.grid_c_con = misc.nonlinspace(self.par.eps,self.par.m_max,self.par.Nc_con,self.par.phi_m)
-            self.par.grid_b_con = misc.nonlinspace(0,self.par.b_max,self.par.Nb_con,self.par.phi_n)
+            par.grid_c_con = nonlinspace(par.eps,par.m_max,par.Nc_con,par.phi_m)
+            par.grid_b_con = nonlinspace(0,par.b_max,par.Nb_con,par.phi_n)
 
-            self.par.b_con,self.par.c_con = np.meshgrid(self.par.grid_b_con,self.par.grid_c_con,indexing='ij')
-            self.par.a_con = np.zeros(self.par.c_con.shape)
-            self.par.d_con = np.zeros(self.par.c_con.shape)
+            par.b_con,par.c_con = np.meshgrid(par.grid_b_con,par.grid_c_con,indexing='ij')
+            par.a_con = np.zeros(par.c_con.shape)
+            par.d_con = np.zeros(par.c_con.shape)
         
         elif self.solmethod == 'NEGM':
 
-            self.par.grid_l = self.par.grid_m
+            par.grid_l = par.grid_m
 
         # e. shocks
-        assert (self.par.Neta == 1 and self.par.var_eta == 0) or (self.par.Neta > 1 and self.par.var_eta > 0)
+        assert (par.Neta == 1 and par.var_eta == 0) or (par.Neta > 1 and par.var_eta > 0)
 
-        if self.par.Neta > 1:
-            self.par.eta,self.par.w_eta = misc.normal_gauss_hermite(np.sqrt(self.par.var_eta), self.par.Neta)
+        if par.Neta > 1:
+            par.eta,par.w_eta = normal_gauss_hermite(np.sqrt(par.var_eta), par.Neta)
         else:
-            self.par.eta = np.ones(1)
-            self.par.w_eta = np.ones(1)
+            par.eta = np.ones(1)
+            par.w_eta = np.ones(1)
 
         # f. timings
-        self.par.time_work = np.zeros(self.par.T)
-        self.par.time_w = np.zeros(self.par.T)
-        self.par.time_egm = np.zeros(self.par.T)
-        self.par.time_vfi = np.zeros(self.par.T)
+        par.time_work = np.zeros(par.T)
+        par.time_w = np.zeros(par.T)
+        par.time_egm = np.zeros(par.T)
+        par.time_vfi = np.zeros(par.T)
 
     def solve(self):
 
@@ -348,7 +196,7 @@ class G2EGMModelClass(ModelClass):
         self.par.Na_ret = 10
         self.par.Nm = 5
         self.par.do_print = False
-        self.setup_grids()
+        self.allocate()
 
         # c. solve
         self.solve()
@@ -356,52 +204,76 @@ class G2EGMModelClass(ModelClass):
         # d. reset
         for varname in varnames:
             setattr(self.par,varname,prev[varname]) 
-        self.setup_grids()
+
+        self.allocate()
 
         if self.par.do_print:
             print(f'pre-compiled numba in {time.time()-t0:.2f} secs')
 
+    def solve_prep(self):
+
+        par = self.par
+        sol = self.sol
+
+        # a. retirement
+        sol.m_ret = np.zeros((par.T,par.Nm_ret))
+        sol.c_ret = np.zeros((par.T,par.Nm_ret))
+        sol.a_ret = np.zeros((par.T,par.Nm_ret))
+        sol.inv_v_ret = np.zeros((par.T,par.Nm_ret))
+        sol.inv_vm_ret = np.zeros((par.T,par.Nm_ret))
+        sol.inv_vn_ret = np.zeros((par.T,par.Nm_ret))
+
+        # b. working
+        if self.solmethod == 'G2EGM':
+
+            sol.c = np.zeros((par.T,par.Nn,par.Nm))
+            sol.d = np.zeros((par.T,par.Nn,par.Nm))
+            sol.inv_v = np.zeros((par.T,par.Nn,par.Nm))
+            sol.inv_vm = np.zeros((par.T,par.Nn,par.Nm))
+            sol.inv_vn = np.zeros((par.T,par.Nn,par.Nm))
+
+            sol.ucon_c = np.zeros((par.T,par.Nn,par.Nm))
+            sol.ucon_d = np.zeros((par.T,par.Nn,par.Nm))
+            sol.ucon_v = np.zeros((par.T,par.Nn,par.Nm))
+
+            sol.dcon_c = np.zeros((par.T,par.Nn,par.Nm))
+            sol.dcon_d = np.zeros((par.T,par.Nn,par.Nm))
+            sol.dcon_v = np.zeros((par.T,par.Nn,par.Nm))
+
+            sol.acon_c = np.zeros((par.T,par.Nn,par.Nm))
+            sol.acon_d = np.zeros((par.T,par.Nn,par.Nm))
+            sol.acon_v = np.zeros((par.T,par.Nn,par.Nm))
+            sol.con_c = np.zeros((par.T,par.Nn,par.Nm))
+            sol.con_d = np.zeros((par.T,par.Nn,par.Nm))
+            sol.con_v = np.zeros((par.T,par.Nn,par.Nm))
+
+            sol.z = np.zeros((par.T,par.Nn,par.Nm))
+
+            sol.w = np.zeros((par.T-1,par.Nb_pd,par.Na_pd))
+            sol.wa = np.zeros((par.T-1,par.Nb_pd,par.Na_pd))
+            sol.wb = np.zeros((par.T-1,par.Nb_pd,par.Na_pd))
+            
+        elif self.solmethod == 'NEGM':
+
+            sol.c = np.zeros((par.T,par.Nn,par.Nm))
+            sol.d = np.zeros((par.T,par.Nn,par.Nm))
+            sol.inv_v = np.zeros((par.T,par.Nn,par.Nm))
+            sol.inv_vn = np.zeros((0,0,0))
+            sol.inv_vm = np.zeros((par.T,par.Nn,par.Nm))
+
+            sol.w = np.zeros((par.T-1,par.Nb_pd,par.Na_pd))
+            sol.wa = np.zeros((par.T-1,par.Nb_pd,par.Na_pd))
+            sol.wb = np.zeros((0,0,0))
+            
+            sol.c_pure_c = np.zeros((par.T,par.Nb_pd,par.Nm))
+            sol.inv_v_pure_c = np.zeros((par.T,par.Nb_pd,par.Nm))
+            
     def solve_G2EGM(self):
         
         if self.par.do_print:
             print('Solving with G2EGM:')
 
-        # a. allocate
-        self.sol.m_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.c_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.a_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.inv_v_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.inv_vm_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.inv_vn_ret = np.zeros((self.par.T,self.par.Nm_ret))
-
-        self.sol.c = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.d = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.inv_v = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.inv_vm = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.inv_vn = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-
-        self.sol.ucon_c = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.ucon_d = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.ucon_v = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-
-        self.sol.dcon_c = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.dcon_d = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.dcon_v = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-
-        self.sol.acon_c = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.acon_d = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.acon_v = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.con_c = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.con_d = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.con_v = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-
-        self.sol.z = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-
-        self.sol.w = np.zeros((self.par.T-1,self.par.Nb_pd,self.par.Na_pd))
-        self.sol.wa = np.zeros((self.par.T-1,self.par.Nb_pd,self.par.Na_pd))
-        self.sol.wb = np.zeros((self.par.T-1,self.par.Nb_pd,self.par.Na_pd))
-
-        # b. solve retirement
+        # a. solve retirement
         t0 = time.time()
 
         retirement.solve(self.sol,self.par)
@@ -409,7 +281,7 @@ class G2EGMModelClass(ModelClass):
         if self.par.do_print:
             print(f'solved retirement problem in {time.time()-t0:.2f} secs')
 
-        # c. solve last period working
+        # b. solve last period working
         t0 = time.time()
 
         last_period.solve(self.sol,self.par)
@@ -417,7 +289,7 @@ class G2EGMModelClass(ModelClass):
         if self.par.do_print:
             print(f'solved last period working in {time.time()-t0:.2f} secs')
 
-        # d. solve working
+        # c. solve working
         for t in reversed(range(self.par.T-1)):
             
             t0 = time.time()
@@ -453,26 +325,7 @@ class G2EGMModelClass(ModelClass):
         if self.par.do_print:
             print('Solving with NEGM:')
 
-        # a. allocate
-        self.sol.m_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.c_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.a_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.inv_v_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.inv_vm_ret = np.zeros((self.par.T,self.par.Nm_ret))
-        self.sol.inv_vn_ret = np.zeros((self.par.T,self.par.Nm_ret))
-
-        self.sol.c = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.d = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.inv_v = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-        self.sol.inv_vm = np.zeros((self.par.T,self.par.Nn,self.par.Nm))
-
-        self.sol.w = np.zeros((self.par.T-1,self.par.Nb_pd,self.par.Na_pd))
-        self.sol.wa = np.zeros((self.par.T-1,self.par.Nb_pd,self.par.Na_pd))
-        
-        self.sol.c_pure_c = np.zeros((self.par.T,self.par.Nb_pd,self.par.Nm))
-        self.sol.inv_v_pure_c = np.zeros((self.par.T,self.par.Nb_pd,self.par.Nm))
-
-        # b. solve retirement
+        # a. solve retirement
         t0 = time.time()
 
         retirement.solve(self.sol,self.par,G2EGM=False)
@@ -480,7 +333,7 @@ class G2EGMModelClass(ModelClass):
         if self.par.do_print:
             print(f'solved retirement problem in {time.time()-t0:.2f} secs')
 
-        # c. solve last period working
+        # b. solve last period working
         t0 = time.time()
 
         last_period.solve(self.sol,self.par,G2EGM=False)
@@ -488,7 +341,7 @@ class G2EGMModelClass(ModelClass):
         if self.par.do_print:
             print(f'solved last period working in {time.time()-t0:.2f} secs')
 
-        # d. solve working  
+        # c. solve working  
         for t in reversed(range(self.par.T-1)):
             
             t0 = time.time()   
@@ -564,6 +417,5 @@ class G2EGMModelClass(ModelClass):
                     print(f't = {t}, wb: {np.sum(self.sol.wb[t,:,:]):.8f}')    
     
     def calculate_euler(self):
-
-        self.sim.euler = np.full((self.par.T-1,self.par.eulerK,self.par.eulerK),np.nan)
+        
         simulate.euler(self.sim,self.sol,self.par)

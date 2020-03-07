@@ -13,17 +13,12 @@ C. egm: endogenous grid point method (egm_cpp is in C++)
 # 1. imports #
 ##############
 
-import yaml
-yaml.warnings({'YAMLLoadWarning': False})
-
 import time
 import numpy as np
 from numba import boolean, int32, double
 
 # consav package
-from consav import linear_interp # for linear interpolation
-from consav import golden_section_search # for optimization in 1D
-from consav import misc # various tools
+from consav.misc import elapsed, nonlinspace, create_shocks
 from consav import ModelClass # baseline model class
 
 # local modules
@@ -46,155 +41,70 @@ class BufferStockModelClass(ModelClass):
     # setup #
     #########
     
-    def __init__(self,name='baseline',load=False,solmethod='vfi',compiler='vs',**kwargs):
-        """ basic setup
+    def setup(self):
+        """ set baseline parameters """   
 
-        Args:
+        par = self.par
 
-            name (str,optional): name, used when saving/loading
-            load (bool,optinal): load from disc
-            solmethod (str,optional): solmethod, used when solving
-            compiler (str,optional): compiler, 'vs' or 'intel' (used for C++)
-             **kwargs: change to baseline parameter in .par
-            
-        Define parlist, sollist and simlist contain information on the
-        model parameters and the variables when solving and simulating.
-
-        Call .setup(**kwargs).
-
-        """        
-
-        self.name = name 
-        self.solmethod = solmethod
-        self.compiler = compiler
-        self.vs_path = 'C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/'
-        self.intel_path = 'C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/bin/'
-        self.intel_vs_version = 'vs2017'
+        # a. define list of non-float scalars (required!) 
+        self.not_float_list = ['T','Npsi','Nxi','Nm','Np','Na','do_print','do_simple_w','simT','simN','sim_seed','cppthreads','Nshocks']
         
-        # a. define subclasses
-        parlist = [ # (name,numba type), parameters, grids etc.
-            ('T',int32), # integer 32bit
-            ('beta',double), # double
-            ('rho',double),
-            ('R',double),
-            ('sigma_psi',double),
-            ('Npsi',int32),
-            ('sigma_xi',double),
-            ('Nxi',int32),
-            ('pi',double),
-            ('mu',double),
-            ('Nm',int32),
-            ('grid_m',double[:]), # 1d array of doubles
-            ('Np',int32),
-            ('grid_p',double[:]),    
-            ('Na',int32),
-            ('grid_a',double[:]),        
-            ('Nshocks',int32),        
-            ('psi',double[:]),        
-            ('psi_w',double[:]),        
-            ('xi',double[:]),        
-            ('xi_w',double[:]),        
-            ('tol',double),
-            ('simT',int32), 
-            ('simN',int32), 
-            ('sim_seed',int32),
-            ('do_print',boolean), # boolean
-            ('do_simple_w',boolean),
-            ('cppthreads',int32) 
-        ]
+        # b. horizon
+        par.T = 5
         
-        sollist = [ # (name, numba type), solution data
-            ('v',double[:,:,:]), # 3d array of doubles
-            ('c',double[:,:,:]),
-            ('w',double[:,:]), # 2d array of doubles
-            ('q',double[:,:]),
-        ]        
+        # c. preferences
+        par.beta = 0.96
+        par.rho = 2.0 # if par.rho = 2 the type is incorrectly inferred as int (error rasied)
 
-        simlist = [ # (name, numba type), simulation data
-            ('p',double[:,:]),
-            ('m',double[:,:]),
-            ('c',double[:,:]),
-            ('a',double[:,:]),
-            ('xi',double[:,:]),
-            ('psi',double[:,:])
-        ]      
-
-        # b. create subclasses
-        self.par,self.sol,self.sim = self.create_subclasses(parlist,sollist,simlist)
-
-        # note: the above returned classes are in a format where they can be used in numba functions
-
-        # c. load
-        if load:
-            self.load()
-        else:
-            self.setup(**kwargs)
-
-    def setup(self,**kwargs):
-        """ define baseline values and update with user choices
-
-        Args:
-
-             **kwargs: change to baseline parameters in .par
-
-        """   
-
-        # a. baseline parameters
+        # d. returns and income
+        par.R = 1.03
+        par.sigma_psi = 0.1
+        par.Npsi = 6
+        par.sigma_xi = 0.1
+        par.Nxi = 6
+        par.pi = 0.1
+        par.mu = 0.5
         
-        # horizon
-        self.par.T = 5
-        
-        # preferences
-        self.par.beta = 0.96
-        self.par.rho = 2
+        # e. grids (number of points)
+        par.Nm = 600
+        par.Np = 400
+        par.Na = 800
 
-        # returns and income
-        self.par.R = 1.03
-        self.par.sigma_psi = 0.1
-        self.par.Npsi = 6
-        self.par.sigma_xi = 0.1
-        self.par.Nxi = 6
-        self.par.pi = 0.1
-        self.par.mu = 0.5
-        
-        # grids (number of points)
-        self.par.Nm = 600
-        self.par.Np = 400
-        self.par.Na = 800
+        # f. misc
+        par.tol = 1e-8
+        par.do_print = True
+        par.do_simple_w = False
+        par.cppthreads = 1
 
-        # misc
-        self.par.tol = 1e-8
-        self.par.do_print = True
-        self.par.do_simple_w = False
-        self.par.cppthreads = 1
-
-        # simulation
-        self.par.simT = self.par.T
-        self.par.simN = 1000
-        self.par.sim_seed = 1998
-
-        # b. update baseline parameters using keywords 
-        for key,val in kwargs.items():
-            setattr(self.par,key,val) # like par.key = val
+        # g. simulation
+        par.simT = par.T
+        par.simN = 1000
+        par.sim_seed = 1998
         
-        # c. setup_grids
-        self.setup_grids()
-        
-    def setup_grids(self):
+    def allocate(self):
+        """ allocate model, i.e. create grids and allocate solution and simluation arrays """
+
+        self.create_grids()
+        self.solve_prep()
+        self.simulate_prep()
+
+    def create_grids(self):
         """ construct grids for states and shocks """
 
+        par = self.par
+
         # a. states (unequally spaced vectors of length Nm)
-        self.par.grid_m = misc.nonlinspace(1e-6,20,self.par.Nm,1.1)
-        self.par.grid_p = misc.nonlinspace(1e-4,10,self.par.Np,1.1)
+        par.grid_m = nonlinspace(1e-6,20,par.Nm,1.1)
+        par.grid_p = nonlinspace(1e-4,10,par.Np,1.1)
         
         # b. post-decision states (unequally spaced vector of length Na)
-        self.par.grid_a = misc.nonlinspace(1e-6,20,self.par.Na,1.1)
+        par.grid_a = nonlinspace(1e-6,20,par.Na,1.1)
         
         # c. shocks (qudrature nodes and weights using GaussHermite)
-        shocks = misc.create_shocks(
-            self.par.sigma_psi,self.par.Npsi,self.par.sigma_xi,self.par.Nxi,
-            self.par.pi,self.par.mu)
-        self.par.psi,self.par.psi_w,self.par.xi,self.par.xi_w,self.par.Nshocks = shocks
+        shocks = create_shocks(
+            par.sigma_psi,par.Npsi,par.sigma_xi,par.Nxi,
+            par.pi,par.mu)
+        par.psi,par.psi_w,par.xi,par.xi_w,par.Nshocks = shocks
 
         # d. set seed
         np.random.seed(self.par.sim_seed)
@@ -208,35 +118,38 @@ class BufferStockModelClass(ModelClass):
     # solve #
     #########
 
-    def _solve_prep(self):
+    def solve_prep(self):
         """ allocate memory for solution """
 
-        self.sol.c = np.nan*np.ones((self.par.T,self.par.Np,self.par.Nm))        
-        self.sol.v = np.nan*np.zeros((self.par.T,self.par.Np,self.par.Nm))
-        self.sol.w = np.nan*np.zeros((self.par.Np,self.par.Na))
-        self.sol.q = np.nan*np.zeros((self.par.Np,self.par.Na))
+        par = self.par
+        sol = self.sol
+
+        sol.c = np.nan*np.ones((par.T,par.Np,par.Nm))        
+        sol.v = np.nan*np.zeros((par.T,par.Np,par.Nm))
+        sol.w = np.nan*np.zeros((par.Np,par.Na))
+        sol.q = np.nan*np.zeros((par.Np,par.Na))
 
     def solve(self):
         """ solve the model using solmethod """
 
-        # a. allocate solution
-        self._solve_prep()
-        
-        # b. backwards induction
-        for t in reversed(range(self.par.T)):
-            
-            tic = time.time()
-            
-            # i. last period
-            if t == self.par.T-1:
-                
-                last_period.solve(t,self.sol,self.par)
+        par = self.par
+        sol = self.sol
 
-            # ii. all other periods
+        # backwards induction
+        for t in reversed(range(par.T)):
+            
+            t0 = time.time()
+            
+            # a. last period
+            if t == par.T-1:
+                
+                last_period.solve(t,sol,par)
+
+            # b. all other periods
             else:
                 
-                # o. compute post-decision functions
-                tic_w = time.time()
+                # i. compute post-decision functions
+                t0_w = time.time()
 
                 compute_w,compute_q = False,False
                 if self.solmethod in ['nvfi']:
@@ -245,99 +158,102 @@ class BufferStockModelClass(ModelClass):
                     compute_q=True
                 if compute_w or compute_q:
                     if self.par.do_simple_w:
-                        post_decision.compute_wq_simple(t,self.sol,self.par,compute_w=compute_w,compute_q=compute_q)
+                        post_decision.compute_wq_simple(t,sol,par,compute_w=compute_w,compute_q=compute_q)
                     else:
-                        post_decision.compute_wq(t,self.sol,self.par,compute_w=compute_w,compute_q=compute_q)
+                        post_decision.compute_wq(t,sol,par,compute_w=compute_w,compute_q=compute_q)
 
-                toc_w = time.time()
+                t1_w = time.time()
 
-                # oo. solve bellman equation
+                # ii. solve bellman equation
                 if self.solmethod == 'vfi':
-                    vfi.solve_bellman(t,self.sol,self.par)                    
+                    vfi.solve_bellman(t,sol,par)                    
                 elif self.solmethod == 'nvfi':
-                    nvfi.solve_bellman(t,self.sol,self.par)
+                    nvfi.solve_bellman(t,sol,par)
                 elif self.solmethod == 'egm':
-                    egm.solve_bellman(t,self.sol,self.par)                    
+                    egm.solve_bellman(t,sol,par)                    
                 else:
                     raise ValueError(f'unknown solution method, {self.solmethod}')
 
-            # iii. print
-            toc = time.time()
+            # c. print
             if self.par.do_print:
-                msg = f' t = {t} solved in {toc-tic:.1f} secs'
+                msg = f' t = {t} solved in {elapsed(t0)}'
                 if t < self.par.T-1:
-                    msg += f' (w: {toc_w-tic_w:.1f} secs)'                
+                    msg += f' (w: {elapsed(t0_w,t1_w)})'                
                 print(msg)
 
     def solve_cpp(self,compiler='vs'):
         """ solve the model using egm written in C++
         
         Args:
+
             compiler (str,optional): compiler choice (vs or intel)
 
         """
 
         EGM = 'EGM'
         
-        # a. allocate solution
-        self._solve_prep()
-
-        # b. compile
+        # a. compile
         funcnames = ['solve','simulate']
         self.setup_cpp()
         self.link_cpp(EGM,funcnames)
 
-        # c. solve by EGM
-        tic = time.time()
+        # b. solve by EGM
+        t0 = time.time()
        
         if self.solmethod in ['egm']:
             self.call_cpp(EGM,'solve')
         else:
             raise ValueError(f'unknown cpp solution method, {self.solmethod}')            
         
-        toc = time.time()
+        t1 = time.time()
 
-        # d. delink
+        # c. delink
         self.delink_cpp(EGM)
 
-        return tic,toc
+        return t0,t1
 
     ############
     # simulate #
     ############
 
-    def _simulate_prep(self):
-        """ allocate memory for simulation and draw random numbers """
+    def simulate_prep(self):
+        """ allocate memory for simulation """
+
+        par = self.par
+        sim = self.sim
 
         # a. allocate
-        self.sim.p = np.nan*np.zeros((self.par.simT,self.par.simN))
-        self.sim.m = np.nan*np.zeros((self.par.simT,self.par.simN))
-        self.sim.c = np.nan*np.zeros((self.par.simT,self.par.simN))
-        self.sim.a = np.nan*np.zeros((self.par.simT,self.par.simN))
+        sim.p = np.nan*np.zeros((par.simT,par.simN))
+        sim.m = np.nan*np.zeros((par.simT,par.simN))
+        sim.c = np.nan*np.zeros((par.simT,par.simN))
+        sim.a = np.nan*np.zeros((par.simT,par.simN))
 
         # b. draw random shocks
-        I = np.random.choice(self.par.Nshocks,
-            size=(self.par.T,self.par.simN), 
-            p=self.par.psi_w*self.par.xi_w)
-        self.sim.psi = self.par.psi[I]
-        self.sim.xi = self.par.xi[I]
+        sim.psi = np.ones((par.simT,par.simN))
+        sim.xi = np.ones((par.simT,par.simN))
 
     def simulate(self):
         """ simulate model """
 
-        tic = time.time()
+        par = self.par
+        sol = self.sol
+        sim = self.sim
+
+        t0 = time.time()
 
         # a. allocate memory and draw random numbers
-        self._simulate_prep()
+        I = np.random.choice(par.Nshocks,
+            size=(par.T,par.simN), 
+            p=par.psi_w*par.xi_w)
+        sim.psi[:] = par.psi[I]
+        sim.xi[:] = par.xi[I]
 
         # b. simulate
-        self.par.simT = self.par.T
-        simulate.lifecycle(self.sim,self.sol,self.par)
+        par.simT = par.T
+        simulate.lifecycle(sim,sol,par)
 
-        toc = time.time()
-
-        if self.par.do_print:
-            print(f'model simulated in {toc-tic:.1f} secs')
+        if par.do_print:
+            print(f'model simulated in {elapsed(t0)}')
 
     ########
     # figs #
@@ -367,10 +283,9 @@ class BufferStockModelClass(ModelClass):
         self.solve()
 
         # c. timed run
-        tic = time.time()
+        t0 = time.time()
         self.solve()
-        toc = time.time()
-        print(f'solution time: {toc-tic:.1f} secs')
+        print(f'solution time: {elapsed(t0)}')
         self.checksum()
 
         # d. reset print status

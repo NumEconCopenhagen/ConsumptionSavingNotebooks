@@ -1,7 +1,7 @@
 from BufferStockModel import BufferStockModelClass
 updpar = dict()
-updpar["Np"] = 1500
-updpar["Nm"] = 1500
-updpar["Na"] = 1500
-model = BufferStockModelClass(name="baseline",solmethod="egm",**updpar)
+updpar["Np"] = 2000
+updpar["Nm"] = 2000
+updpar["Na"] = 2000
+model = BufferStockModelClass(name="",solmethod="egm",**updpar)
 model.test()

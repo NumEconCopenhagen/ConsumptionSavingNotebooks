@@ -29,9 +29,9 @@ EXPORT void fun(double *X, double *Y, double *Z, int NX, int NY, int threads){
 
     #pragma omp for   
     for(int i = 0; i < NX; i++){
-        
+        Z[i] = 0;
         for(int j = 0; j < NY; j++){
-            Z[i] += exp(log(X[i]*Y[j]))/(X[i]*Y[j])-1;
+            Z[i] += exp(log(X[i]*Y[j]+0.001))/(X[i]*Y[j])-1;
         }
             
     }
