@@ -16,9 +16,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 
 plt.style.use('seaborn-whitegrid')
-colors = [x['color'] for x in plt.style.library['seaborn']['axes.prop_cycle']]
-# colors = [x['color'] for x in plt.style.library['seaborn-colorblind']['axes.prop_cycle']]
-# colors = [colors[0],'seagreen','orangered','coral','m']
+prop_cycle = plt.rcParams['axes.prop_cycle']
+colors = prop_cycle.by_key()['color']
 
 markers = ['.','s','P','D','v','^','*']
 style = ['-','--','-.',':','-','--','-.']
@@ -34,56 +33,59 @@ class SimulatedMinimumDistanceClass():
     #########      
 
     def __init__(self,est_par,mom_func,datamoms=None,options=None):
+        """ initialize """
 
-        # the parameters that should be estimated
+        # a. the parameters that should be estimated
         self.est_par = est_par
 
-        # the function that calculates moments 
+        # b. the function that calculates moments 
         self.mom_func = mom_func
 
-        # the moments in the data to be matched
+        # c. the moments in the data to be matched
         self.datamoms = datamoms
 
-        # estimation options
+        # d. estimation options
         self.options = options
 
     def bootstrap_mom_var(self,data,num_obs,num_boot,num_moms,seed=9210):
+        """ bootstrap moment covariance matrix """
         
-        # set seed
+        # a. set seed
         np.random.seed(seed)
 
-        # allocate memory
+        # b. allocate memory
         boot = np.empty((num_moms,num_boot))
 
-        # draw random samples
+        # c. draw random samples
         for b in range(num_boot):
             ids = np.random.randint(low=0,high=num_obs,size=num_obs)
             boot[:,b] = self.mom_func(data,ids)
         
-        # calculate covariance
+        # d. calculate covariance
         Omega = np.cov(boot)
 
-        # return Omega (scaled due to averages in moments)
+        # e. return Omega (scaled due to averages in moments)
         return Omega*num_obs
 
+    def estimate(self,model,W,do_print_initial=True):
+        """ estimate """
 
-    def estimate(self,model,W):
-        # initial guesses
+        # a. initial guesses
         est_par = self.est_par
         theta0 = np.array([val['guess'] for key,val in est_par.items()])
         names = [key for key,val in est_par.items()]
 
-        # bounds
+        # b. bounds
         lower = np.array([val['lower'] for key,val in est_par.items()])
         upper = np.array([val['upper'] for key,val in est_par.items()])
 
-        # evaluate the objective function
-        print(f'Objective function at starting values: {self.obj_func(theta0,model,W,names,lower,upper)}')
+        # c. evaluate the objective function
+        if do_print_initial: print(f'objective function at starting values: {self.obj_func(theta0,model,W,names,lower,upper)}')
 
-        # call numerical solver
+        # d. call numerical solver
         method = 'nelder-mead' 
         res = optimize.minimize(self.obj_func,theta0,args=(model,W,names,lower,upper),
-                                    method=method)
+                                method=method)
 
         est = {'theta':res.x , 'obj_val':res.fun}
         for i,val in enumerate(res.x):
@@ -93,8 +95,9 @@ class SimulatedMinimumDistanceClass():
         return est
 
     def obj_func(self,theta,model,W,names,lower,upper):
+        """ calculate objective function """
 
-        # impose bounds and calculate penalty
+        # a. impose bounds and calculate penalty
         penalty = 0.0
         theta_clipped = theta.copy()
         for i in range(theta.size):
@@ -106,15 +109,16 @@ class SimulatedMinimumDistanceClass():
             # ii. penalty
             penalty += 10_000.0*(theta[i]-theta_clipped[i])**2
         
-        # calcualte the vector of differences between moments in data and in simulated data
+        # b. calcualte the vector of differences between moments in data and in simulated data
         diff = self.diff_vec_func(theta_clipped,model,names)
         
-        # return the objective function
+        # c. return the objective function
         objval = diff.T @ W @ diff 
         return objval + penalty
 
     def diff_vec_func(self,theta,model,names):
-        
+        """ difference between data and simulated model moments """
+
         # a. update parameters in par
         for i in range(theta.size):
             setattr(model.par,names[i],theta[i])
@@ -131,44 +135,47 @@ class SimulatedMinimumDistanceClass():
         # return the vector of differences
         return self.datamoms - moms_sim
 
-    ################################################
-    ### Standard Errors and Sensitivity Measures ###
-    ################################################
-    def num_grad(self,theta,model,names,step=1.0e-5,num_moms=None):
+    ###################
+    # standard errors #
+    ###################
 
-        # determine number of moments and parameters
+    def num_grad(self,theta,model,names,step=1.0e-5,num_moms=None):
+        """ calulcate numerical gradient vector """
+
+        # a. determine number of moments and parameters
         num_par = theta.size
         if num_moms is None:
             num_moms = self.diff_vec_func(theta,model,names).size
 
-        # allocate memory
+        # b. allocate memory
         grad = np.empty((num_moms,num_par))
 
-        # loop through parameters
+        # c. loop through parameters
         for par in range(num_par):
 
-            # construct step as a function of scale of theta
+            # i. construct step as a function of scale of theta
             step_now = np.zeros(num_par)
             step_now[par] = np.fmax(np.abs(theta[par]*step),step)
 
-            # update theta's
-            theta_plus = theta.copy()  + step_now
-            theta_minus = theta.copy()  - step_now
+            # ii. update theta's
+            theta_plus = theta.copy() + step_now
+            theta_minus = theta.copy() - step_now
 
-            # calcualte moments at these parameters
+            # iii. calcualte moments at these parameters
             mom_plus = self.diff_vec_func(theta_plus,model,names)
             mom_minus = self.diff_vec_func(theta_minus,model,names)
 
-            # store the gradient
+            # iv. store the gradient
             grad[:,par] = (mom_plus - mom_minus)/(2*step_now[par])
 
-        # re-set all parameters
+        # d. re-set all parameters
         for par in range(num_par):
             setattr(model.par,names[par],theta[par])
 
         return grad
 
     def calc_gamma(self,theta,model,W):
+        """ calculate Gamma """
 
         # gradient wrt. theta parameters
         names = [key for key,val in self.est_par.items()]
@@ -176,55 +183,28 @@ class SimulatedMinimumDistanceClass():
 
         # return Gamma
         return - np.linalg.inv(G.T @ W @ G) @ G.T @ W , G
-
-    def sens_cali_brute_force(self,model,theta,W,cali_par_names,step=1.0e-5,do_print=True):
-
-        sens_brute = np.empty((theta.size,len(cali_par_names)))
-
-        # estimate model for slightly changes calibrated paramaters
-        for i,cali in enumerate(cali_par_names):
-
-            # update calibrated parameters
-            cali_val = getattr(model.par,cali) 
-            setattr(model.par,cali,cali_val + step)
-
-            # print progress
-            if do_print:
-                print(f'now re-estimating with {cali} = {cali_val + step:2.6f} (original {cali_val:2.6f})')
-
-            # estimate model with these calibrated values
-            est_now = self.estimate(model,W)
-            theta_now = est_now['theta']
-
-            # calculate derivative
-            sens_brute[:,i] = (theta_now - theta) / step
-
-            # re-set calibrated parameters
-            setattr(model.par,cali,cali_val)
-
-        # re-set all parameters in theta
-        for i,(key,_) in enumerate(self.est_par.items()):
-            setattr(model.par,key,theta[i])
-
-        return sens_brute
-
+    
+    ########################
+    # sensitivity measures #
+    ########################
 
     def informativeness_moments(self,grad,Omega,W):
+        """ calculate informativeness of moments """
     
         info = dict()
         
-        # calculate objects re-used below
-        GW       = grad.T @ W
-        GWG      = GW @ grad
-        GWG_inv  = np.linalg.inv(GWG)
+        # a. calculate objects re-used below
+        GW = grad.T @ W
+        GWG = GW @ grad
+        GWG_inv = np.linalg.inv(GWG)
         
-        GSi  = grad.T @ np.linalg.inv(Omega)
+        GSi = grad.T @ np.linalg.inv(Omega)
         GSiG = GSi @ grad
         
-        Avar    = GWG_inv @ (GW @ Omega @ GW.T) @ GWG_inv
+        Avar = GWG_inv @ (GW @ Omega @ GW.T) @ GWG_inv
         AvarOpt = np.linalg.inv(GSiG)
         
-        # Informativenss measures
+        # b. informativenss measures
         info['M1'] = - GWG_inv @ GW
         
         num_mom = len(Omega)
@@ -243,33 +223,34 @@ class SimulatedMinimumDistanceClass():
         info['M6e'] = np.nan + np.zeros(shape)
         
         for k in range(num_mom):
+
             # pick out the kk'th element: Okk
-            O      = np.zeros((num_mom,num_mom))
+            O = np.zeros((num_mom,num_mom))
             O[k,k] = 1
             
-            M2kk     = (np.linalg.inv(GSiG) @ (GSi @ O @ GSi.T)) @ np.linalg.inv(GSiG)         # num_par-by-num_par
-            M3kk     = GWG_inv @ (GW @ O @ GW.T) @ GWG_inv
-            M6kk     =  - GWG_inv @ (grad.T@ O @ grad) @ Avar \
-                        + GWG_inv @ (grad.T @ O @ Omega @ W @ grad) @ GWG_inv \
-                        + GWG_inv @ (grad.T @ W @ Omega @ O @ grad) @ GWG_inv \
-                        - Avar @ (grad.T @ O @ grad) @ GWG_inv   # NumPar-by-NumPar
+            M2kk = (np.linalg.inv(GSiG) @ (GSi @ O @ GSi.T)) @ np.linalg.inv(GSiG) # num_par-by-num_par
+            M3kk = GWG_inv @ (GW @ O @ GW.T) @ GWG_inv
+            M6kk =  - GWG_inv @ (grad.T@ O @ grad) @ Avar \
+                    + GWG_inv @ (grad.T @ O @ Omega @ W @ grad) @ GWG_inv \
+                    + GWG_inv @ (grad.T @ W @ Omega @ O @ grad) @ GWG_inv \
+                    - Avar @ (grad.T @ O @ grad) @ GWG_inv # num_par-by-num_par
             
             info['M2'][:,k]  = np.diag(M2kk) # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
             info['M3'][:,k]  = np.diag(M3kk) # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
             info['M6'][:,k]  = np.diag(M6kk) # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
             
             info['M2e'][:,k]  = info['M2'][:,k]/np.diag(AvarOpt) * Omega[k,k] # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
-            info['M3e'][:,k]  = info['M3'][:,k]/np.diag(Avar) * Omega[k,k]    # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
-            info['M6e'][:,k]  = info['M6'][:,k]/np.diag(Avar) * W[k,k]    #  store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
+            info['M3e'][:,k]  = info['M3'][:,k]/np.diag(Avar) * Omega[k,k] # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
+            info['M6e'][:,k]  = info['M6'][:,k]/np.diag(Avar) * W[k,k] # store only the diagonal: the effect on the variance of a given parameter from a slight change in the variance of the kth moment
             
             # remove the kth moment from the weight matrix and
             # calculate the asymptotic variance without this moment
-            W_now      = W.copy()
+            W_now = W.copy()
             W_now[k,:] = 0
             W_now[:,k] = 0
             
-            GW_now   = grad.T@W_now
-            GWG_now  = GW_now@grad
+            GW_now = grad.T@W_now
+            GWG_now = GW_now@grad
             Avar_now = (np.linalg.inv(GWG_now) @ (GW_now@ Omega @GW_now.T)) @ np.linalg.inv(GWG_now)
             
             info['M4'][:,k]  = np.diag(Avar_now) - np.diag(Avar)
@@ -285,19 +266,44 @@ class SimulatedMinimumDistanceClass():
         
         return info
 
-    def plot_heat(self,sens,est_par_names,cali_par_names,annot=True):
-        fs = 13
-        cmap = sns.diverging_palette(220, 10, sep=10, n=100)
+    def sens_cali_brute_force(self,model,theta,W,cali_par_names,step=1.0e-5,do_print=True):
+        """ brute force calculation of sensitivity to calibrated parameters """
 
-        fig = plt.figure()
-        ax = fig.add_subplot(1,1,1)
-        ax = sns.heatmap(sens,annot=annot,fmt="2.2f",annot_kws={"size": fs},xticklabels=cali_par_names,yticklabels=est_par_names,center=0,linewidth=.5,cmap=cmap)
-        
-        plt.yticks(rotation=0) 
-        ax.tick_params(axis='both', which='major', labelsize=fs)
-        #plt.savefig('sense_Oswald' + name + '.pdf',bbox_inches="tight")
+        sens_brute = np.empty((theta.size,len(cali_par_names)))
+
+        # a. estimate model for slightly changes calibrated paramaters
+        for i,cali in enumerate(cali_par_names):
+
+            # i. update calibrated parameters
+            cali_val = getattr(model.par,cali) 
+            setattr(model.par,cali,cali_val + step)
+
+            # ii. print progress
+            if do_print:
+                print(f'now re-estimating with {cali} = {cali_val + step:2.6f} (original {cali_val:2.6f})')
+
+            # iii. estimate model with these calibrated values
+            est_now = self.estimate(model,W)
+            theta_now = est_now['theta']
+
+            # iv. calculate derivative
+            sens_brute[:,i] = (theta_now - theta) / step
+
+            # iv. re-set calibrated parameters
+            setattr(model.par,cali,cali_val)
+
+        # b. re-set all parameters in theta
+        for i,(key,_) in enumerate(self.est_par.items()):
+            setattr(model.par,key,theta[i])
+
+        return sens_brute
+
+    #########
+    # plots #
+    #########
 
     def plot(self,x_dict,y_dict,xlabel='',ylabel='',use_markers=False,hide_legend=False,save_path=None,fit=False):
+        """ plot moments """
 
         # size settings
         fontsize = 17
@@ -306,51 +312,65 @@ class SimulatedMinimumDistanceClass():
         fig = plt.figure()
         ax = fig.add_subplot(1,1,1)
 
-        xmin=np.inf
-        xmax=-np.inf
+        xmin = np.inf
+        xmax = -np.inf
         n = 0
         ci = 0
         for name,_ in y_dict.items():
+
             if use_markers:
                 marker = markers[n]
             else:
                 marker = ''
 
-            if fit & (name.find('CI')>=0):
+            if fit and name.find('CI') >= 0:
+
                 label_ci = '95% CI'
-                if ci>0:
-                    label_ci = ''
+                if ci > 0: label_ci = ''
                 ax.plot(x_dict[name],y_dict[name],marker='',linestyle=':',color='gray',label=label_ci,linewidth=linewidth)
                 ci += 1 
             
             else:
+
                 ax.plot(x_dict[name],y_dict[name],marker=marker,linestyle=style[n],color=colors[n],label=name,linewidth=linewidth)
             
-            if min(x_dict[name])<xmin:
-                xmin=min(x_dict[name])
-            if max(x_dict[name])>xmax:
-                xmax=max(x_dict[name])
+            if min(x_dict[name]) < xmin: xmin = min(x_dict[name])
+            if max(x_dict[name]) > xmax: xmax = max(x_dict[name])
             n += 1
-            if n>5:
-                n = 0
+            if n > 5: n = 0
         
         # set axis options
-        plt.setp(ax.get_xticklabels(), fontsize=fontsize)
-        plt.setp(ax.get_yticklabels(), fontsize=fontsize)
+        plt.setp(ax.get_xticklabels(),fontsize=fontsize)
+        plt.setp(ax.get_yticklabels(),fontsize=fontsize)
 
         ax.set_xlabel(xlabel,fontsize=fontsize)
         ax.set_ylabel(ylabel,fontsize=fontsize)
 
         ax.set_xlim([xmin,xmax])
-        if not hide_legend:
-            ax.legend(frameon=True,fontsize=fontsize)
+        if not hide_legend: ax.legend(frameon=True,fontsize=fontsize)
         plt.tight_layout()
 
-        if save_path is not None:
-            fig.savefig(f'{save_path}.pdf')
+        if save_path is not None: fig.savefig(f'{save_path}.pdf')
         plt.show()
 
+    def plot_heat(self,sens,est_par_names,cali_par_names,annot=True):
+        """ plot heatmap """
 
+        fs = 13
+        cmap = sns.diverging_palette(220, 10, sep=10, n=100)
+
+        fig = plt.figure()
+        ax = fig.add_subplot(1,1,1)
+        ax = sns.heatmap(sens,annot=annot,fmt="2.2f",
+                              annot_kws={"size": fs},
+                              xticklabels=cali_par_names,
+                              yticklabels=est_par_names,
+                              center=0,
+                              linewidth=.5,
+                              cmap=cmap)
+        
+        plt.yticks(rotation=0) 
+        ax.tick_params(axis='both', which='major', labelsize=fs)
 
 
         

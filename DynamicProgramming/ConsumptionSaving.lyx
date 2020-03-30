@@ -122,7 +122,7 @@
 \defskip smallskip
 \is_math_indent 0
 \math_numbering_side default
-\quotes_style english
+\quotes_style danish
 \dynamic_quotes 0
 \papercolumns 1
 \papersides 1
@@ -144,7 +144,7 @@ status open
 
 
 \backslash
-title{Consumption-Saving
+title{Consumption-Saving Models
 \backslash
 vspace{-2mm}}
 \end_layout
@@ -153,7 +153,7 @@ vspace{-2mm}}
 
 
 \backslash
-subtitle{NumEcon} 
+subtitle{An Introduction to Dynamic Programming} 
 \end_layout
 
 \begin_layout Plain Layout
@@ -409,6 +409,8 @@ Important topic in itself
 \end_layout
 
 \begin_layout Enumerate
+
+\series bold
 Central aspect of many other decisions
 \end_layout
 
@@ -424,7 +426,7 @@ status open
 
 \end_inset
 
-Labor supply and retirement choices
+Labor supply, retirement, family and choices
 \end_layout
 
 \begin_layout Enumerate
@@ -438,7 +440,7 @@ status open
 
 \end_inset
 
-Portfolio choices
+Portfolio choices and asset pricing
 \end_layout
 
 \begin_layout Enumerate
@@ -456,6 +458,12 @@ Housing and location choices
 \end_layout
 
 \end_deeper
+\begin_layout Enumerate
+Households are the 
+\series bold
+cornerstone of general equilibrium models
+\end_layout
+
 \end_deeper
 \begin_layout Itemize
 
@@ -483,22 +491,314 @@ Internal and external optimization frictions
 \end_layout
 
 \end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Introduction
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-2mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
 \begin_layout Itemize
 
 \series bold
-Main paper: 
+Part of mini-course on dynamic programming:
+\begin_inset Newline newline
+\end_inset
+
+
 \series default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "ConsumptionSavingNotebooks/DynamicProgramming"
+target "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/tree/master/DynamicProgramming"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+before:
+\series default
+ general introduction to dynamic programming
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+after:
+\series default
+ esimation + general equilibrium
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{3mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Focus in most of these slides: 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
 Carroll (2020, QE), 
 \emph on
 Theoretical foundations of buffer stock saving
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+(partial equilibrium, PE)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+General references
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-2mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
 \begin_layout Itemize
 
 \series bold
-Additional references:
+Dynamic programming and computational methods in general: 
 \series default
- See end of slides
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "stokey_recursive_1989"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "judd_numerical_1998"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "adda_dynamic_2003"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ljungqvist_recursive_2004"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "puterman_markov_2009"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "powell_approximate_2011"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bertsekas_dynamic_2012"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "schmedders_handbook_2013"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Surveys of consumption-saving litteratures: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "browning_household_1996"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "browning_life-cycle_2001"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "heathcote_quantitative_2009"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "krusell_quantitative_2006"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "krueger_chapter_2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "pistaferri_economics_2017"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kaplan_microeconomic_2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+End-of-slides:
+\series default
+ Many more references
 \end_layout
 
 \end_deeper
@@ -609,7 +909,7 @@ A_{T} & \geq & 0
 \begin_layout Itemize
 
 \series bold
-Well-defined analytical solution for 
+Well-defined analytical solution, also for 
 \begin_inset Formula $T\rightarrow\infty$
 \end_inset
 
@@ -872,15 +1172,13 @@ vspace{-5mm}
 \end_inset
 
 
-\series bold
- 
 \end_layout
 
 \begin_deeper
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\sum_{t=0}^{T}R^{-t}(\beta R)^{t/\rho}C_{0} & = & B_{0}+H_{0}\Leftrightarrow\\
+\sum_{t=0}^{T}R_{t}^{-t}\Pi_{k=0}^{t}(\beta R_{k})^{1/\rho}C_{0} & = & B_{0}+H_{0}\Leftrightarrow\\
 C_{0}\sum_{t=0}^{T}((\beta R)^{1/\rho}/R)^{t} & = & B_{0}+H_{0}
 \end{eqnarray*}
 
@@ -1077,19 +1375,59 @@ Households seems to have a high MPC in the range 0.20-0.40
 
 \begin_deeper
 \begin_layout Itemize
-Survey studies
+
+\size scriptsize
+Survey studies 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "kreiner_liquidity_2019"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-Tax rebates studies
+
+\size scriptsize
+Tax rebates studies 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "johnson_household_2006,parker_consumer_2013"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-Lottery studies
+
+\size scriptsize
+Lottery studies 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "fagereng_mpc_2019"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-ARM payments studies
+
+\size scriptsize
+ARM payments studies 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "druedahl_intertemporal_2019,di_maggio_interest_2017"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -1288,7 +1626,7 @@ status open
 
 
 \backslash
-vspace{-8mm}
+vspace{-10mm}
 \end_layout
 
 \end_inset
@@ -1685,6 +2023,19 @@ m_{t+1} & = & \frac{1}{G\psi_{t+1}}Ra_{t}+\xi_{t+1}\\
 a_{t} & \geq & -\lambda\\
 a_{T} & \geq & 0
 \end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-6mm}
+\end_layout
 
 \end_inset
 
@@ -3411,6 +3762,18 @@ Euler-equation
 
 \begin_deeper
 \begin_layout Itemize
+Reference: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "carroll_method_2006"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
 Assume for simplicity 
 \series bold
 no borrowing
@@ -3564,13 +3927,13 @@ Perspectives:
 \begin_layout Itemize
 
 \series bold
-The borrowing constraint 
+Borrowing constraint: 
 \series default
-is binding below the lowest 
+Binding below lowest generated 
 \begin_inset Formula $M_{t}$
 \end_inset
 
- points we can generate
+
 \end_layout
 
 \end_deeper
@@ -3602,19 +3965,6 @@ status open
 Prerequisites
 \series default
 :
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vspace{2mm}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_deeper
@@ -3699,25 +4049,8 @@ c_{i}=\mathbb{E}_{t}\left[\beta R\left(G\psi_{t+1}c_{t+1}^{\star}\left(\frac{R}{
 \end_layout
 
 \begin_layout Enumerate
-Find endogenous state
-\begin_inset Formula 
-\[
-a_{i}=m_{i}-c_{i}\Leftrightarrow m_{i}=a_{i}+c_{i}
-\]
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vspace{-5mm}
-\end_layout
-
+Find endogenous state: 
+\begin_inset Formula $a_{i}=m_{i}-c_{i}\Leftrightarrow m_{i}=a_{i}+c_{i}$
 \end_inset
 
 
@@ -3886,7 +4219,15 @@ Three generations of models
 \emph on
 Permanent income hypothesis
 \emph default
- (Friedman, 1957)
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "friedman_theory_1957"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -3895,14 +4236,33 @@ or
 \emph on
 life-cycle model
 \emph default
- (Modigliani and Brumberg, 1954)
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "modigliani_utility_1954"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
 
 \series bold
-\color red
 2nd: 
 \series default
 \emph on
@@ -3912,11 +4272,22 @@ Buffer-stock consumption model
 \begin_inset Newline newline
 \end_inset
 
-(Deaton, 1991, 1992; Carroll 1992, 1997, 2012)
+
 \begin_inset CommandInset citation
-LatexCommand cite
-key "carroll_buffer-stock_1992,carroll_buffer-stock_1997"
+LatexCommand citep
+key "deaton_saving_1991,deaton_understanding_1992,carroll_buffer-stock_1992,carroll_buffer-stock_1997,carroll_theoretical_2020"
 literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
 
 \end_inset
 
@@ -3937,7 +4308,15 @@ Multiple-asset buffer-stock consumption models
 \end_inset
 
 (e.g.
- Kaplan and Violante, 2014)
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kaplan_model_2014"
+literal "false"
+
+\end_inset
+
+)
 \end_layout
 
 \end_deeper
@@ -3981,7 +4360,15 @@ Denmark: Life-cycle profiles fit
 \series bold
 Source:
 \series default
- Jørgensen (2017)
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "jorgensen_lifecycle_2017"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4024,7 +4411,15 @@ Denmark: Consumption function fit
 \series bold
 Source:
 \series default
- Jørgensen (2017)
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "jorgensen_lifecycle_2017"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4082,16 +4477,21 @@ Exogenous
 \begin_inset Newline newline
 \end_inset
 
-(Campbell and Mankiw, 1990)
+
+\begin_inset CommandInset citation
+LatexCommand citep
+key "campbell_permanent_1990"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Preference heterogeneity 
-\series default
-(Carroll et al.
- 2017)
+Preference heterogeneity
 \end_layout
 
 \begin_layout Enumerate
@@ -4099,7 +4499,15 @@ Preference heterogeneity
 \series bold
 Wealthy hands-to-mouth 
 \series default
-(Kaplan and Violante, 2014)
+
+\begin_inset CommandInset citation
+LatexCommand citep
+key "kaplan_model_2014"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -4286,8 +4694,16 @@ salient
 \begin_layout Itemize
 
 \series bold
-My own research (with Alessandro Martinello): 
+My own research:
 \series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_long-run_2018"
+literal "false"
+
+\end_inset
+
 
 \begin_inset Newline newline
 \end_inset
@@ -4378,7 +4794,7 @@ Good fit only if risk-aversion (
 status open
 
 \begin_layout Plain Layout
-Frontier topics
+Frontier topics - curated papers
 \end_layout
 
 \end_inset
@@ -4388,24 +4804,119 @@ Frontier topics
 
 \begin_deeper
 \begin_layout Itemize
-The dynamics of 
+
 \series bold
-durable consumption
+Durable consumption
 \series default
- (very volatile over the business cycle, involve non-convexities due to
- adjustment costs)
+: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "berger_consumption_2015"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "harmenberg_consumption_2017"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-The effects of 
+
 \series bold
-non-Gaussian
+Labor supply
+\series default
+, 
+\series bold
+retirement
 \series default
  and 
 \series bold
-high frequency income uncertainty
+family formation
 \series default
- (monthly Danish income since 2008 very interesting)
+: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "low_wage_2010"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "french_effects_2011"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "keane_labour_2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "adda_career_2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "blundell_consumption_2016"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Non-Gaussian
+\series default
+ 
+\series bold
+income uncertainty
+\series default
+: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "de_nardi_nonlinear_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "guvenen_what_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_higher-order_2019"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -4413,40 +4924,2444 @@ high frequency income uncertainty
 \series bold
 Housing
 \series default
- and a more detailed specification of the households' 
-\series bold
-balance sheets 
-\series default
-(did expectations or credit availability drive the boom and bust in house
- prices?)
+: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "landvoigt_housing_2017"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kaplan_housing_2019"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-Relevant 
+
 \series bold
-deviations from rationality
+Imperfect information and bounded rationality
 \series default
- (learning, myopia, hyperbolic discounting, reference dependence, mental
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+(learning, myopia, hyperbolic discounting, reference dependence, mental
  accounting)
 \end_layout
 
-\begin_layout Itemize
-Fitting the 
-\series bold
-level and dynamics of inequality
-\series default
- – circumstances or behavior?
+\end_inset
+
+: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "pagel_expectations-based_2017"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "carroll_sticky_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "moran_temptation_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_can_2020"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-All of this in 
+
 \series bold
-general equilibrium
+Level and dynamics of inequality
 \series default
- with heterogeneous households
+ – circumstances or behavior? 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "de_nardi_saving_2017"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "hubmer_sources_2019"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Frontier solution methods - curated papers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+EGM in non-convex multi-dimensional models: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_general_2017"
+literal "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_guide_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sparse grids: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "judd_smolyak_2014"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "brumm_using_2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Machine learning:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "azinovic_deep_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "maliar_will_2019"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Estimation
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Reduced form estimation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Critic of structural estimation: 
+\series bold
+Requires many assumptions
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+But: 
+\series default
+To turn reduced form parameter estimates into policy advice 
+\emph on
+a lot of assumptions are often implicitely required
+\emph default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{3mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Quote
+
+\size footnotesize
+\begin_inset Quotes ald
+\end_inset
+
+All econometric work relies heavily on a priori assumptions.
+ The main difference between structural and experimental (or ``atheoretic'')
+ approaches is not in the number of assumptions but the extent to which
+ they are made explicit.
+\begin_inset Quotes ard
+\end_inset
+
+ (Keane, 2012)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+The beauty of models:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Ensure 
+\emph on
+consistent
+\emph default
+ world view
+\end_layout
+
+\begin_layout Enumerate
+Allow us to combine 
+\emph on
+heterogenous facts
+\emph default
+ and extrapolate from a myriad of past experiences
+\end_layout
+
+\begin_layout Enumerate
+Better models are clearly defined – even if we never find 
+\emph on
+the 
+\emph default
+true model we can make 
+\emph on
+progress
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Frontier: 
+\series default
+Combine the two and use exogenous variation to estimate structural model
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "nakamura_identification_2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The Lucas critique
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+The Lucas critique:
+\series default
+ 
+\emph on
+Behavioral rules change with policy
+\emph default
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ policy advice can not rely on estimated behavioral rules 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ we need to estimate 
+\emph on
+structural parameters
+\begin_inset Newline newline
+\end_inset
+
+
+\emph default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{3mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Quote
+
+\size footnotesize
+\begin_inset Quotes ald
+\end_inset
+
+Invariance of parameters in an economic model is not, of course, a property
+ which can be assured in advance, but it seems reasonable to hope that neither
+ tastes nor technology vary systematically with variations in counter-cyclical
+ policies.
+\begin_inset Quotes ard
+\end_inset
+
+ (Lucas, 1977)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Other stuff might be approximately invariant 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Rigourous microfoundations:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Mathematically:
+\series default
+ Based on (boundedly) rational behavior derived as a solution to a formal
+ optimization problem
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Economically:
+\series default
+ The assumptions are realistic
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Estimation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Focus: 
+\series default
+Closely related estimators 
+\series bold
+\emph on
+indirectly
+\series default
+\emph default
+ using 
+\series bold
+micro-data
+\begin_inset Newline newline
+\end_inset
+
+
+\series default
+\size small
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{2mm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Simulated Method of Moments (
+\series bold
+SMM
+\series default
+) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "mcfadden_method_1989"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\size small
+\begin_inset space ~
+\end_inset
+
+Simulated Minimium Distance (
+\series bold
+SMD
+\series default
+) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "duffie_simulated_1990"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset space ~
+\end_inset
+
+Indirect Inference (
+\series bold
+II
+\series default
+) 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "gourieroux_simulation-based_1997"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{2mm}
+\end_layout
+
+\end_inset
+
+
+\series bold
+\size default
+Main alternative: 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+Simulated Maximum Likelihood (
+\series bold
+SML
+\series default
+) 
+\series bold
+\emph on
+directly
+\series default
+\emph default
+ using 
+\series bold
+micro-data
+\series default
+ 
+\begin_inset Newline newline
+\end_inset
+
+(see e.g.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "adda_dynamic_2003"
+literal "false"
+
+\end_inset
+
+ or 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_estimating_2018"
+literal "false"
+
+\end_inset
+
+)
+\size small
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Examples:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "gourinchas_consumption_2002"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "cagetti_wealth_2003"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "guvenen_inferring_2014"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_can_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Extended toolbox: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "jorgensen_sensitivity_2020"
+literal "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "honore_informativeness_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+General Equilibrium
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Heterogenous Agent (HA) models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Stationary equilibrium:
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\emph on
+Deterministic steady state and transition path
+\emph default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Foundational papers:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bewley_stationary_1986"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "imrohoroglu_cost_1989"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "huggett_risk-free_1993"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "aiyagari_uninsured_1994"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+A few policy examples: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "aiyagari_optimum_1998"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "conesa_taxing_2009"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "heathcote_consumption_2014"
+literal "false"
+
+\end_inset
+
+,
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Dynamic/recursive/sequential equilibrium: 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\emph on
+Aggregate shocks and stochastic dynamics
+\emph default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Foundational papers:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "krusell_incoem_1997,krusell_income_1998"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "carroll_requiem_2000"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "carroll_buffer-stock_2015"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Reviews: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "heathcote_quantitative_2009"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "krusell_quantitative_2006"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "krueger_chapter_2016"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Heterogenous Agent New Keynesian (HANK) models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Frontier: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kaplan_monetary_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bayer_precautionary_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "luetticke_transmission_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "alves_further_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "hagedorn_fiscal_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "auclert_micro_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bayer_shocks_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "fernandez-villaverde_financial_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Analytical:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bilbiie_limited_2008,bilbiie_monetary_2019,bilbiie_new_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "werning_incomplete_2015"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "challe_precautionary_2017"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "acharya_understanding_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bilbiie_capital_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "debortoli_monetary_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "auclert_intertemporal_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "broer_new_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ravn_macroeconomic_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "auclert_inequality_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Others: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "oh_targeted_2012"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "gornemann_doves_2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "mckay_role_2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "mckay_power_2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "guerrieri_credit_2017"
+literal "false"
+
+\end_inset
+
+,
+\begin_inset CommandInset citation
+LatexCommand citet
+key "den_haan_unemployment_2017"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ravn_job_2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Empirical: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "cloyne_monetary_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "slacalek_household_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "holm_transmission_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "wolf_missing_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Reviews:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kaplan_microeconomic_2018"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Computational methods
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Early reviews: 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "den_haan_computational_2010"
+literal "false"
+
+\end_inset
+
+,
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "schmedders_handbook_2013"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Continous time:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "achdou_income_2020"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://benjaminmoll.com/codes/"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+),
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ahn_when_2018"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://github.com/gregkaplan/phact"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Local aggregate solution:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+State space: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "bayer_solving_2019"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "MATLAB"
+target "https://www.dropbox.com/sh/92ine0oj00ot9og/AAA6FKAkIASGSYsYY4vLjNvWa?dl=0"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "Python"
+target "https://github.com/econ-ark/HARK/tree/master/examples/BayerLuetticke"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Enumerate
+Sequence space: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "boppart_exploiting_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "auclert_micro_2020"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://github.com/shade-econ/sequence-jacobian/#sequence-space-jacobian"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Global aggregate solution:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kubler_self-justied_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "azinovic_deep_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "scheidegger_machine_2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "prohl_approximating_2019"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://github.com/zschorli/Proehl_SolvingHeterogAgentModels"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+), 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "maliar_will_2019"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://notes.quantecon.org/submission/5ddb3c926bad3800109084bf"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "video"
+target "https://econ.columbia.edu/event/per-mini-course-serguei-maliar-associate-professor-in-economics-stanford-university/"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+), 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "fernandez-villaverde_financial_2020"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://github.com/jesusfv/financial-frictions"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Krussell-Smith model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Population:
+\series default
+ Continuum of measure 
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Owns stocks, 
+\begin_inset Formula $a_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Supplies labor, 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ (exogenous and stochastic, mean one)
+\end_layout
+
+\begin_layout Enumerate
+Consumes, 
+\begin_inset Formula $c_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Capital:
+\series default
+ Depreciation rate 
+\begin_inset Formula $\delta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Firms: 
+\series default
+Rent capital and hire labor to produce
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Prices
+\series default
+ are taken as given by households and firms
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $r_{t}^{k}$
+\end_inset
+
+, rental rate
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $r_{t}=r_{t}^{k}-\delta$
+\end_inset
+
+,
+\series bold
+ 
+\series default
+interest rate
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, wage rate
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Households
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Perfect foresight: 
+\series default
+Price sequence known, 
+\begin_inset Formula $\{r_{t},w_{t}\}_{t\geq0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Households solve:
+\series default
+
+\begin_inset Formula 
+\begin{eqnarray*}
+v_{t}(e{}_{t},a_{t-1}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v_{t+1}(e_{t+1},a_{t-1})\right]\\
+ & \text{s.t.}\\
+a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
+a_{t} & \geq & 0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Optimal saving:
+\series default
+ 
+\begin_inset Formula $c^{\star}(e_{t},a_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Firms
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Production function:
+\series default
+ 
+\begin_inset Formula $Y_{t}=Z_{t}K_{t}^{\alpha}L_{t}^{1-\alpha}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Maximize profits
+\begin_inset Formula 
+\[
+\max_{K_{t},L_{t}}Z_{t}K_{t}^{\alpha}L_{t}^{1-\alpha}-r_{t}^{k}K_{t}-w_{t}L_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+First order conditions:
+\begin_inset Formula 
+\begin{align*}
+r_{t}^{k} & =\alpha Z_{t}k_{t}^{\alpha-1}\\
+w_{t} & =(1-\alpha)Z_{t}k_{t}^{\alpha}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Implications:
+\begin_inset Formula 
+\begin{align*}
+k_{t} & =\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{1}{\alpha-1}}\equiv\tilde{k}(r_{t},Z_{t})\\
+r_{t} & =\alpha Z_{t}k_{t}^{\alpha-1}\equiv\tilde{r}(k_{t},Z_{t})\\
+w_{t} & =(1-\alpha)Z_{t}\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{\alpha}{\alpha-1}}\equiv\tilde{w}(r_{t},Z_{t})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Stationary equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+A 
+\series bold
+stationary equilibrium
+\series default
+ for a given 
+\begin_inset Formula $Z^{\ast}$
+\end_inset
+
+ is a
+\end_layout
+
+\begin_layout Enumerate
+A set of quantities 
+\begin_inset Formula $K^{\ast}$
+\end_inset
+
+ and 
+\begin_inset Formula $L^{\ast}$
+\end_inset
+
+ and prices 
+\begin_inset Formula $r^{\text{\ensuremath{\ast}}}$
+\end_inset
+
+ and 
+\begin_inset Formula $w^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A distribution 
+\begin_inset Formula $\kappa^{\ast}$
+\end_inset
+
+ over 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+A saving function 
+\begin_inset Formula $a^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+such that
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+ solves the household problem given 
+\begin_inset Formula $\{r^{\ast},w^{\ast}\}_{t\geq0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\kappa^{\ast}$
+\end_inset
+
+ is the invariant cdf implied by the solution to the household problem given
+ 
+\begin_inset Formula $\{r^{\ast},w^{\ast}\}_{t\geq0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Firm profit maximise 
+\begin_inset Formula $r^{\ast}=\tilde{r}(K^{\ast}/L^{\ast},Z^{\ast})$
+\end_inset
+
+ and 
+\begin_inset Formula $w^{\ast}=\tilde{w}(r^{\ast},Z^{\ast})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L^{\ast}=\int e_{t}d\kappa^{\ast}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K^{\ast}=\int a_{t-1}d\kappa^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The goods market clears, i.e.
+ 
+\begin_inset Formula $Y^{\ast}-\delta K^{\ast}=\int c_{t}d\kappa^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Find stationary equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Guess on 
+\begin_inset Formula $r^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $w^{\ast}=\tilde{w}(r^{\ast},Z^{\ast})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the infinite horizon household problem
+\end_layout
+
+\begin_layout Enumerate
+Simulate until convergence
+\end_layout
+
+\begin_layout Enumerate
+Calculate supply 
+\begin_inset Formula $k^{s}=\int a_{\infty}d\kappa^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate demand 
+\begin_inset Formula $k^{d}=\tilde{k}(r^{\ast})L^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If for some tolerance 
+\begin_inset Formula $\iota$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left|k^{s}-k^{d}\right|<\iota
+\]
+
+\end_inset
+
+then stop, otherwise update 
+\begin_inset Formula $r^{\ast}$
+\end_inset
+
+ appropriately and return to step 2
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\series bold
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ 
+\series default
+this is just a 
+\series bold
+root-finding problem
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Transition path
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+A 
+\series bold
+transition path
+\series default
+ for 
+\begin_inset Formula $t\in\{0,1,2,\dots\}$
+\end_inset
+
+ given an initial cdf 
+\begin_inset Formula $\kappa_{0}$
+\end_inset
+
+ and path of 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+, is paths of quantities 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+, cdfs 
+\begin_inset Formula $\kappa_{t}$
+\end_inset
+
+, saving function 
+\begin_inset Formula $a_{t}(\bullet)$
+\end_inset
+
+, and prices 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+ such that for all 
+\begin_inset Formula $t$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a_{t}(\bullet)$
+\end_inset
+
+ solve the household problem given paths for 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\kappa_{t}$
+\end_inset
+
+ are the cdfs implied by the solutions to the household problem given paths
+ for 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\kappa_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Firm profit maximise 
+\begin_inset Formula $r_{t}=\tilde{r}(K_{t}/L_{t},Z_{t})$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}=\tilde{w}(r_{t},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L_{t}=\int e_{t}d\kappa_{t}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K_{t}=\int a_{t-1}d\kappa_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The goods market clears, i.e.
+ 
+\begin_inset Formula $Y_{t}-\delta K_{t}=\int c_{t}d\kappa_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Find transition path
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Chose truncation horizon 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Guess on 
+\begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{r^{\ast}\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{\tilde{w}(r_{t},Z_{t})\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the household problem backwards along the transition path
+\end_layout
+
+\begin_layout Enumerate
+Simulate households forward along the transition path
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{k_{t}\}_{t=0}^{\mathcal{T}}=\{\int a_{t-1}d\kappa_{t}\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}=\{\tilde{r}(k_{t},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If for some tolerance 
+\begin_inset Formula $\iota$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\max_{t\in\{0,1,2,\dots,\mathcal{T}\}}\left|r_{t}-r_{t}^{\prime}\right|<\iota
+\]
+
+\end_inset
+
+then stop, otherwise return to step 2 with 
+\begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{\nu r_{t}+(1-\nu)r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\series bold
+Note: 
+\series default
+Typically the relaxation parameter is 
+\begin_inset Formula $\nu=0.90$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "kirkby_transition_2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -4520,7 +7435,7 @@ new discoveries
 \series bold
 EGM is a powerful solution method
 \series default
- (can be generalized, DCEGM, G2EGM, NEGM)
+ (and can be generalized)
 \end_layout
 
 \begin_layout Itemize
