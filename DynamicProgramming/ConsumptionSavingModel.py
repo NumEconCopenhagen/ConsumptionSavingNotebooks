@@ -342,7 +342,7 @@ class ConsumptionSavingModelClass(ModelClass):
     # simulate #
     ############
     
-    def simulate(self,seed=2017):
+    def simulate(self,do_print=True,seed=2017):
         """ simulate the model """
 
         par = self.par
@@ -373,7 +373,8 @@ class ConsumptionSavingModelClass(ModelClass):
         sim.C[:,:] = sim.c*sim.P
         sim.A[:,:] = sim.a*sim.P
 
-        print(f'model simulated in {elapsed(t0)}')
+        if do_print:
+            print(f'model simulated in {elapsed(t0)}')
     
     #########
     # plots #
