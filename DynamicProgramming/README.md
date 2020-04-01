@@ -8,7 +8,7 @@
 
 1. **Policy recommendations** are central for all social science
 2. Need models for **counter-factual analysis**
-3. Realistic models $\rightarrow$ **no analytical solution**
+3. Realistic models typically have **no analytical solution**
   1. dynamic
   2. multi-dimensional
   3. uncertainty
