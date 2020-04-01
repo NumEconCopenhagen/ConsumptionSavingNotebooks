@@ -1,4 +1,4 @@
-## Mini-course in dynamic programming
+## Mini-course in Dynamic Programming
 
 **Requirements:** You are assumed to know basic Python programming. Else see [Introduction to Programming and Numerical Analysis](https://numeconcopenhagen.netlify.com/).
 
