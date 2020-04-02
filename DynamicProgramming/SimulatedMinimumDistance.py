@@ -174,8 +174,8 @@ class SimulatedMinimumDistanceClass():
 
         return grad
 
-    def calc_gamma(self,theta,model,W):
-        """ calculate Gamma """
+    def calc_influence_function(self,theta,model,W):
+        """ calculate influence function (Gamma) """
 
         # gradient wrt. theta parameters
         names = [key for key,val in self.est_par.items()]
