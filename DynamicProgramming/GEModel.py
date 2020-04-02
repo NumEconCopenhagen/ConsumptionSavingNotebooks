@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""ConsumptionSavingModelGE
+"""GEModelClass
 
 Solves and simulates a buffer-stock consumption-saving problem for use in a general equilibrium model
 
@@ -22,7 +22,7 @@ from consav.misc import elapsed, equilogspace, markov_rouwenhorst
 # 2. model #
 ############
 
-class KSModelClass(ModelClass):
+class GEModelClass(ModelClass):
     
     #########
     # setup #
@@ -36,27 +36,27 @@ class KSModelClass(ModelClass):
         # a. define list of non-float scalars
         self.not_float_list = ['Ne','Na','max_iter_solve','max_iter_simulate','tp_T']
         
-        # b. prices
+        # b. steady state values
         par.r_ss = np.nan
         par.w_ss = np.nan
-        par.kd_ss = np.nan
         par.Y_ss = np.nan
-        par.ks_ss = np.nan
         par.C_ss = np.nan
+        par.kd_ss = np.nan
+        par.ks_ss = np.nan
 
         # c. preferences
         par.sigma = 1.0 # CRRA coefficient
         par.beta = 0.982 # discount factor
 
         # d. production
-        par.Z = 1.0
+        par.Z = 1.0 # technology level
         par.alpha = 0.11 # Cobb-Douglas coefficient
         par.delta = 0.025 # depreciation rate
 
         # e. income parameters
         par.rho = 0.966 # AR(1) parameter
         par.sigma_e = 0.50 # std. of persistent shock
-        par.Ne = 7
+        par.Ne = 7 # number of states
 
         # f. grids         
         par.a_max = 200.0 # maximum point in grid for a
@@ -64,10 +64,10 @@ class KSModelClass(ModelClass):
 
         # g. misc.
         par.tp_T = 500 # length of transition path
-        par.max_iter_solve = 5000
-        par.max_iter_simulate = 5000
-        par.solve_tol = 1e-10
-        par.simulate_tol = 1e-10
+        par.max_iter_solve = 5000 # maximum number of iterations when solving
+        par.max_iter_simulate = 5000 # maximum number of iterations when simulating
+        par.solve_tol = 1e-10 # tolerance when solving
+        par.simulate_tol = 1e-10 # tolerance when simulating
 
     def allocate(self):
         """ allocate model, i.e. create grids and allocate solution and simluation arrays """
@@ -86,15 +86,12 @@ class KSModelClass(ModelClass):
         sol.c = np.zeros(sol_shape)
         sol.Va = np.zeros(sol_shape)
 
-        par.tp_r = np.zeros(par.tp_T)
-        par.tp_w = np.zeros(par.tp_T)
-
+        # transition path
         tp_sol_shape = (par.tp_T,par.Ne,par.Na)
         sol.tp_a = np.zeros(tp_sol_shape)
         sol.tp_m = np.zeros(tp_sol_shape)
         sol.tp_c = np.zeros(tp_sol_shape)
         sol.tp_Va = np.zeros(tp_sol_shape)
-
 
         # b. simulation
         sim_shape = sol_shape
@@ -120,45 +117,55 @@ class KSModelClass(ModelClass):
     #########
     
     def implied_r(self,k,Z=None):
+        """ implied r given k = K/L and optimal firm behavior """
+
         par = self.par
         if Z is None: Z = par.Z
         r = Z*par.alpha*k**(par.alpha-1)-par.delta
         return r
 
     def implied_w(self,r,Z=None):
+        """ implied w given r and optimal firm behavior """
+
         par = self.par
         if Z is None: Z = par.Z
         w = Z*(1.0-par.alpha)*((r+par.delta)/(Z*par.alpha))**(par.alpha/(par.alpha-1))
         return w
 
     def firm_demand(self,r,Z=None):
+        """ firm demand for k = K/L given r and optimal firm behavior """
+
         par = self.par
         if Z is None: Z = par.Z
         k = ((r+par.delta)/(Z*par.alpha))**(1/(par.alpha-1))
         return k
 
     def firm_production(self,k,Z=None):
+        """ firm production """
+
         par = self.par
         if Z is None: Z = par.Z
         return Z*k**par.alpha
 
-    def steady_state(self,r_ss,do_print=True):
+    def steady_state(self,r_ss=None,do_print=True):
+        """ computate steady state statistics """
 
         par = self.par
         sol = self.sol
         sim = self.sim
 
-        par.r_ss = r_ss
+        if not r_ss is None: par.r_ss = r_ss
 
         # a. firm
-        par.w_ss = self.implied_w(r_ss)
-        par.kd_ss = self.firm_demand(r_ss)
+        par.w_ss = self.implied_w(par.r_ss)
+        par.kd_ss = self.firm_demand(par.r_ss)
         par.Y_ss = self.firm_production(par.kd_ss)
 
         # b. solve household problem
-        self.solve_household_ss(r_ss,do_print=do_print)
+        self.solve_household_ss(par.r_ss,do_print=do_print)
         self.simulate_household_ss(do_print=do_print)
 
+        # implied supply of capital and consumption
         par.ks_ss = np.sum(sim.D*sol.a)
         par.C_ss = np.sum(sim.D*sol.c)
 
@@ -173,8 +180,8 @@ class KSModelClass(ModelClass):
             print(f'capital market clearing: {par.ks_ss-par.kd_ss:12.8f}')
             print(f'goods market clearing: {par.Y_ss-par.C_ss-par.delta*par.ks_ss:12.8f}')
 
-    def solve_household_ss(self,r,do_print=False):
-        """ gateway for solving the model """
+    def solve_household_ss(self,r,Va=None,do_print=False):
+        """ gateway for solving the model in steady state """
 
         par = self.par
         sol = self.sol
@@ -188,7 +195,7 @@ class KSModelClass(ModelClass):
 
         # c. solve
         sol.m = (1+r)*par.a_grid[np.newaxis,:] + w*par.e_grid[:,np.newaxis]
-        sol.Va = (1+r)*(0.1*sol.m)**(-par.sigma)
+        sol.Va = (1+r)*(0.1*sol.m)**(-par.sigma) if Va is None else Va
 
         it = 0
         while True:
@@ -204,13 +211,13 @@ class KSModelClass(ModelClass):
             
             # iv. increment
             it += 1
-            if it > par.max_iter_solve: raise Exception()
+            if it > par.max_iter_solve: raise Exception('too many iterations when solving for steady state')
 
         if do_print:
             print(f'household problem solved in {elapsed(t0)} [{it} iterations]')
 
     def solve_household_tp(self,tp_r,do_print=False):
-        """ gateway for solving the model """
+        """ gateway for solving the model along the transition path """
 
         par = self.par
         sol = self.sol
@@ -241,21 +248,25 @@ class KSModelClass(ModelClass):
         if do_print:
             print(f'household problem solved in {elapsed(t0)}')
 
-    def simulate_household_ss(self,do_print=False):
-        """ gateway for simulating the model """
+    def simulate_household_ss(self,D=None,do_print=False):
+        """ gateway for simulating the model towards the steady state"""
         
         par = self.par
         sol = self.sol
         sim = self.sim        
         t0 = time.time()
 
-        it = simulate_ss(par,sol,sim)
+        # a. intial guess
+        D = (np.repeat(par.e_ergodic,par.Na)/par.Na).reshape(par.Ne,par.Na) if D is None else D
+
+        # b. simulate
+        it = simulate_ss(par,sol,sim,D)
 
         if do_print:
             print(f'household problem simulated in {elapsed(t0)} [{it} iterations]')
 
     def simulate_household_tp(self,do_print=False):
-        """ gateway for simulating the model """
+        """ gateway for simulating the model along the transition path"""
         
         par = self.par
         sol = self.sol
@@ -271,7 +282,6 @@ class KSModelClass(ModelClass):
 # fast jit functions #
 ######################
 
-
 @njit(parallel=True)        
 def time_iteration(par,r,w,Va_p,Va,a,c,m):
     """ perform time iteration step with Va_p from previous iteration """
@@ -283,20 +293,23 @@ def time_iteration(par,r,w,Va_p,Va,a,c,m):
     for i_e in prange(par.Ne):
         
         # i. egm
-        c_plus = marg_u_plus[i_e]**(-1/par.sigma)
-        m_plus = c_plus + par.a_grid
+        c_endo = marg_u_plus[i_e]**(-1/par.sigma)
+        m_endo = c_endo + par.a_grid
 
         # ii. interpolation
-        linear_interp.interp_1d_vec(m_plus,par.a_grid,m[i_e],a[i_e])
+        linear_interp.interp_1d_vec(m_endo,par.a_grid,m[i_e],a[i_e])
         a[i_e,0] = np.fmax(a[i_e,0],0)
         c[i_e] = m[i_e]-a[i_e]
 
-        # ii. envelope condition
+        # iii. envelope condition
         Va[i_e] = (1+r)*c[i_e]**(-par.sigma)
     
 @njit
-def binary_search(imin,Nx,x,xi):
-        
+def binary_search(imin,x,xi):
+    """ binary search algorithm """
+
+    Nx = x.size
+
     # a. checks
     if xi <= x[0]:
         return 0
@@ -316,6 +329,7 @@ def binary_search(imin,Nx,x,xi):
 
 @njit(parallel=True) 
 def find_i_and_w(par,sim,a):
+    """ find indices and weights for simulation """
 
     i = sim.i
     w = sim.w
@@ -323,32 +337,46 @@ def find_i_and_w(par,sim,a):
     for i_e in prange(par.Ne):
         for i_a in prange(par.Na):
             
+            # a. policy
             a_ = a[i_e,i_a]
-            i_ = i[i_e,i_a] = binary_search(0,par.Na,par.a_grid,a_)
+
+            # b. find i_ such par.a_grid[i_] <= a_ < par.a_grid[i_+1]
+            i_ = i[i_e,i_a] = binary_search(0,par.a_grid,a_) 
+
+            # b. weight
             w[i_e,i_a] = (par.a_grid[i_+1] - a_) / (par.a_grid[i_+1] - par.a_grid[i_])
 
 @njit(parallel=True)   
 def simulate(par,sim,e_trans_T,D):
+    """ simulate given weight indices are weight """
 
+    # a. assuming e is constant
     Dnew = np.zeros(D.shape)
     for i_e in prange(par.Ne):
         for i_a in range(par.Na):
-            i = sim.i[i_e,i_a]
-            Dnew[i_e,i] += D[i_e,i_a]*sim.w[i_e,i_a]
-            Dnew[i_e,i+1] += D[i_e,i_a]*(1.0-sim.w[i_e,i_a])
+            
+            # a. from
+            D_ = D[i_e,i_a]
+            w = sim.w[i_e,i_a]
+
+            # b. to
+            i = sim.i[i_e,i_a]            
+            Dnew[i_e,i] += D_*w
+            Dnew[i_e,i+1] += D_*(1.0-w)
     
-    return e_trans_T@Dnew
+    # b. account for transition probability of e
+    Dnew_ = e_trans_T@Dnew
+
+    return Dnew_
 
 @njit(parallel=True)        
-def simulate_ss(par,sol,sim):
+def simulate_ss(par,sol,sim,D):
+    """ simulate forwards to steady state """
 
     # a. indices and weights
     find_i_and_w(par,sim,sol.a)
 
-    # b. initial guess
-    D = (np.repeat(par.e_ergodic,par.Na)/par.Na).reshape(par.Ne,par.Na)
-
-    # c. iterate
+    # b. iterate
     e_trans_T = par.e_trans.T.copy()
     it = 0
     while True:
@@ -360,7 +388,7 @@ def simulate_ss(par,sol,sim):
         if np.max(np.abs(Dnew-D)) < par.simulate_tol: break
         D = Dnew
 
-        # iv. increment
+        # iii. increment
         it += 1
         if it > par.max_iter_simulate: raise Exception()
 
@@ -369,6 +397,7 @@ def simulate_ss(par,sol,sim):
     return it
     
 def simulate_path(par,sol,sim):
+    """ simulate along transition path """
 
     e_trans_T = par.e_trans.T.copy()
     for t in range(par.tp_T):

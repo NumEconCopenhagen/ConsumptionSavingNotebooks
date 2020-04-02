@@ -1178,7 +1178,7 @@ vspace{-5mm}
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\sum_{t=0}^{T}R_{t}^{-t}\Pi_{k=0}^{t}(\beta R_{k})^{1/\rho}C_{0} & = & B_{0}+H_{0}\Leftrightarrow\\
+\sum_{t=0}^{T}R^{-t}(\beta R)^{t/\rho}C_{0} & = & B_{0}+H_{0}\Leftrightarrow\\
 C_{0}\sum_{t=0}^{T}((\beta R)^{1/\rho}/R)^{t} & = & B_{0}+H_{0}
 \end{eqnarray*}
 
@@ -6607,7 +6607,7 @@ status open
 status open
 
 \begin_layout Plain Layout
-Krussell-Smith model
+Simpel general equilibrium model
 \end_layout
 
 \end_inset
@@ -6751,7 +6751,7 @@ Households solve:
 
 \begin_inset Formula 
 \begin{eqnarray*}
-v_{t}(e{}_{t},a_{t-1}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v_{t+1}(e_{t+1},a_{t-1})\right]\\
+v_{t}(e{}_{t},a_{t-1}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v_{t+1}(e_{t+1},a_{t})\right]\\
  & \text{s.t.}\\
 a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
 a_{t} & \geq & 0
@@ -6768,7 +6768,7 @@ a_{t} & \geq & 0
 Optimal saving:
 \series default
  
-\begin_inset Formula $c^{\star}(e_{t},a_{t-1})$
+\begin_inset Formula $a^{\star}(e_{t},a_{t-1})$
 \end_inset
 
 
@@ -6838,9 +6838,9 @@ w_{t} & =(1-\alpha)Z_{t}k_{t}^{\alpha}
 \end_layout
 
 \begin_layout Itemize
-
+Useful 
 \series bold
-Implications:
+implications:
 \begin_inset Formula 
 \begin{align*}
 k_{t} & =\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{1}{\alpha-1}}\equiv\tilde{k}(r_{t},Z_{t})\\
@@ -7095,6 +7095,196 @@ this is just a
 root-finding problem
 \end_layout
 
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Solve household problem
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Grids:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $e_{t}\in\{e^{1},e^{2},\dots,e^{\#_{e}}\}$
+\end_inset
+
+ from discretization with the method from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "tauchen_quadrature-based_1991"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a_{t}\in\{a^{1},a^{2},\dots,a^{\#_{a}}\}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Guess:
+\series default
+ 
+\begin_inset Formula $v_{a,t+1}(e^{i},a^{j}),\,\forall i,j$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Time iteration:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calcualte: 
+\begin_inset Formula $q_{t}(e^{i},a^{j})=\sum_{k=1}^{\#_{e}}\text{Pr}[e^{k}|e^{i}]v_{a,t+1}(e^{i},a^{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\tilde{c}^{ij}=q_{t}(e^{i},a^{j})^{-\sigma}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{m}^{ij}=\tilde{c}^{ij}+a^{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Interpolate 
+\begin_inset Formula $\{\tilde{m}^{ij},a^{j}\}_{j=1}^{\#_{a}}$
+\end_inset
+
+ at 
+\begin_inset Formula $m^{j}=(1+r_{t})a^{j}+w_{t}e^{i}$
+\end_inset
+
+ to find 
+\begin_inset Formula $a^{\star}(e^{i},a^{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $c^{\star}(e^{i},a^{j})=m_{t}-a^{\star}(e^{i},a^{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $v_{a,t+1}(e^{i},a^{j})=(1+r)c^{\star}(e^{i},a^{j})^{-\sigma}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+(use of the envelope theorem)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Simulate household behavior
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Initial distribution:
+\series default
+ 
+\begin_inset Formula $D_{0}(e^{i},a^{j})=\frac{\text{Pr}[e^{i}]}{\#_{a}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Update:
+\series default
+
+\begin_inset Formula 
+\begin{align*}
+D_{t+1}(e^{k},a^{l})= & \sum_{i=1}^{\#_{e}}\text{Pr}[e^{i}|e^{l}]\sum_{j=1}^{\#_{a}}D_{t}(e^{i},a^{j})\omega(a^{j},a^{\max\{l-1,0\}},a^{l},a^{\min\{l+1,l\}})\\
+ & +\sum_{i=1}^{\#_{e}}\text{Pr}[e^{i}|e^{l}]\sum_{j=1}^{\#_{a}}D_{t}(e^{i},a^{j})\omega(a^{j},a^{l},a^{l+1})
+\end{align*}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\begin{align*}
+\omega(a,\underline{a},\cancel{a},\overline{a}) & =1\{a\in[\underline{a},\overline{a}]\}\begin{cases}
+\frac{\overline{a}-a}{\overline{a}-\cancel{a}} & \text{if }a\geq\cancel{a}\\
+\frac{a-\underline{a}}{\overline{\cancel{a}}-\underline{a}} & \text{if }a<\cancel{a}
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
