@@ -37,7 +37,7 @@ class ConsumptionSavingModelClass(ModelClass):
         par = self.par
         
         # a. define list of non-float scalars
-        self.not_float_list = ['T','TR','age_min','Nxi','Npsi','Nm','Na','simT','simN','simlifecycle','Nshocks']
+        self.not_float_list = ['T','TR','age_min','Nxi','Npsi','Nm','Na','simT','simN','simlifecycle','Nshocks','do_cev']
 
         # this ensures that e.g. rho = 2 raises an error instead of rho being inferred as an integer
         
@@ -70,7 +70,11 @@ class ConsumptionSavingModelClass(ModelClass):
         par.R = 1.04 # return factor
         par.borrowingfac = 0.0 # scales borrowing constraints
 
-        # f. numerical integration and grids         
+        # f. Certainty equivalence (CEV): (1+cev) is multiplied inot consumption in utility function
+        par.cev = 0.0
+        par.do_cev = 0 
+
+        # g. numerical integration and grids         
         par.a_max = 20.0 # maximum point i grid for a
         par.a_phi = 1.1 # curvature parameters
         par.m_max = 20.0 # maximum point i grid for m
@@ -82,7 +86,7 @@ class ConsumptionSavingModelClass(ModelClass):
         par.Na = 500 # number of points in grid for a
         par.Nm = 100 # number of points in grid for m
 
-        # g. simulation
+        # h. simulation
         par.sim_mini = 2.5 # initial m in simulation
         par.simN = 100_000 # number of persons in simulation
         par.simT = 100 # number of periods in simulation
@@ -398,15 +402,30 @@ class ConsumptionSavingModelClass(ModelClass):
 
 @njit
 def utility(c,par):
-    return c**(1-par.rho)/(1-par.rho)
+    if par.do_cev:
+        c_cev = c*(1.0 + par.cev)
+        return c_cev**(1-par.rho)/(1-par.rho)
+
+    else:
+        return c**(1-par.rho)/(1-par.rho)    
 
 @njit
 def marg_utility(c,par):
-    return c**(-par.rho)            
+    if par.do_cev:
+        fac_cev = (1.0 + par.cev)**(1-par.rho)/(1-par.rho)
+        return c**(-par.rho) * fac_cev    
+
+    else:
+        return c**(-par.rho)      
 
 @njit
 def inv_marg_utility(u,par):
-    return u**(-1/par.rho)   
+    if par.do_cev:
+        fac_cev = (1.0 + par.cev)**(1-par.rho)/(1-par.rho)
+        return (u/fac_cev)**(-1/par.rho)   
+
+    else:
+        return u**(-1/par.rho)   
 
 ##########
 # 4. egm #
