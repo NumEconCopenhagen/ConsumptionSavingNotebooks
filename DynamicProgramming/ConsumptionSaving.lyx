@@ -552,7 +552,7 @@ color{DarkRed}
 \begin_inset CommandInset href
 LatexCommand href
 name "ConsumptionSavingNotebooks/DynamicProgramming"
-target "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/tree/master/DynamicProgramming"
+target "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/tree/master/DynamicProgramming#mini-course-in-dynamic-programming"
 literal "false"
 
 \end_inset
@@ -585,7 +585,7 @@ before:
 \series bold
 after:
 \series default
- esimation + general equilibrium
+ estimation + general equilibrium
 \begin_inset ERT
 status open
 
@@ -1537,7 +1537,7 @@ Source:
 \end_layout
 
 \begin_layout Section
-Buffer-stock model
+Buffer-stock
 \end_layout
 
 \begin_layout Frame
@@ -2617,7 +2617,7 @@ Szeidl (2006)
 \end_layout
 
 \begin_layout Section
-Some details
+Details
 \end_layout
 
 \begin_layout Frame
@@ -5140,6 +5140,23 @@ Reduced form estimation
 
 \begin_deeper
 \begin_layout Itemize
+
+\series bold
+Code: 
+\series default
+
+\begin_inset Quotes ald
+\end_inset
+
+04.
+ Structural estimation
+\begin_inset Quotes ard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
 Critic of structural estimation: 
 \series bold
 Requires many assumptions
@@ -5630,7 +5647,7 @@ literal "false"
 \end_layout
 
 \begin_layout Section
-General Equilibrium
+GE
 \end_layout
 
 \begin_layout Frame
@@ -6607,7 +6624,7 @@ status open
 status open
 
 \begin_layout Plain Layout
-Simpel general equilibrium model
+Simple general equilibrium model
 \end_layout
 
 \end_inset
@@ -6616,6 +6633,23 @@ Simpel general equilibrium model
 \end_layout
 
 \begin_deeper
+\begin_layout Itemize
+
+\series bold
+Code: 
+\series default
+
+\begin_inset Quotes ald
+\end_inset
+
+05.
+ General Equilibrium.ipynb
+\begin_inset Quotes ard
+\end_inset
+
+
+\end_layout
+
 \begin_layout Itemize
 
 \series bold
@@ -6631,18 +6665,22 @@ Population:
 \begin_deeper
 \begin_layout Enumerate
 Owns stocks, 
-\begin_inset Formula $a_{t}$
+\begin_inset Formula $a_{t-1}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-Supplies labor, 
+Supplies labor with productivity 
 \begin_inset Formula $e_{t}$
 \end_inset
 
- (exogenous and stochastic, mean one)
+ 
+\begin_inset Newline newline
+\end_inset
+
+(exogenous and stochastic, mean one)
 \end_layout
 
 \begin_layout Enumerate
@@ -6774,6 +6812,38 @@ Optimal saving:
 
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Optimal consumption: 
+\series default
+
+\begin_inset Formula $c^{\star}(e_{t},a_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Distribution: 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ 
+\series default
+over 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+
+\end_layout
+
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -6802,7 +6872,7 @@ Firms
 Production function:
 \series default
  
-\begin_inset Formula $Y_{t}=Z_{t}K_{t}^{\alpha}L_{t}^{1-\alpha}$
+\begin_inset Formula $Y_{t}=Z_{t}K_{t-1}^{\alpha}L_{t}^{1-\alpha}$
 \end_inset
 
 
@@ -6811,25 +6881,23 @@ Production function:
 \begin_layout Itemize
 
 \series bold
-Maximize profits
-\begin_inset Formula 
-\[
-\max_{K_{t},L_{t}}Z_{t}K_{t}^{\alpha}L_{t}^{1-\alpha}-r_{t}^{k}K_{t}-w_{t}L_{t}
-\]
-
+Define
+\series default
+ 
+\begin_inset Formula $k_{t-1}\equiv K_{t-1}/L_{t}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-
+Standard 
 \series bold
-First order conditions:
+pricing equations:
 \begin_inset Formula 
 \begin{align*}
-r_{t}^{k} & =\alpha Z_{t}k_{t}^{\alpha-1}\\
-w_{t} & =(1-\alpha)Z_{t}k_{t}^{\alpha}
+r_{t}^{k} & =\alpha Z_{t}k_{t-1}^{\alpha-1}\\
+w_{t} & =(1-\alpha)Z_{t}k_{t-1}^{\alpha}
 \end{align*}
 
 \end_inset
@@ -6843,9 +6911,9 @@ Useful
 implications:
 \begin_inset Formula 
 \begin{align*}
-k_{t} & =\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{1}{\alpha-1}}\equiv\tilde{k}(r_{t},Z_{t})\\
-r_{t} & =\alpha Z_{t}k_{t}^{\alpha-1}\equiv\tilde{r}(k_{t},Z_{t})\\
-w_{t} & =(1-\alpha)Z_{t}\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{\alpha}{\alpha-1}}\equiv\tilde{w}(r_{t},Z_{t})
+k_{t-1} & =\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{1}{\alpha-1}}\equiv k(r_{t},Z_{t})\\
+r_{t} & =\alpha Z_{t}k_{t-1}^{\alpha-1}\equiv r(k_{t-1},Z_{t})\\
+w_{t} & =(1-\alpha)Z_{t}\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{\alpha}{\alpha-1}}\equiv w(r_{t},Z_{t})
 \end{align*}
 
 \end_inset
@@ -6881,7 +6949,7 @@ A
 stationary equilibrium
 \series default
  for a given 
-\begin_inset Formula $Z^{\ast}$
+\begin_inset Formula $Z_{ss}$
 \end_inset
 
  is a
@@ -6889,19 +6957,19 @@ stationary equilibrium
 
 \begin_layout Enumerate
 A set of quantities 
-\begin_inset Formula $K^{\ast}$
+\begin_inset Formula $K_{ss}$
 \end_inset
 
  and 
-\begin_inset Formula $L^{\ast}$
+\begin_inset Formula $L_{ss}$
 \end_inset
 
  and prices 
-\begin_inset Formula $r^{\text{\ensuremath{\ast}}}$
+\begin_inset Formula $r_{ss}$
 \end_inset
 
  and 
-\begin_inset Formula $w^{\ast}$
+\begin_inset Formula $w_{ss}$
 \end_inset
 
 
@@ -6909,7 +6977,7 @@ A set of quantities
 
 \begin_layout Enumerate
 A distribution 
-\begin_inset Formula $\kappa^{\ast}$
+\begin_inset Formula $D_{ss}$
 \end_inset
 
  over 
@@ -6924,8 +6992,12 @@ A distribution
 \end_layout
 
 \begin_layout Enumerate
-A saving function 
-\begin_inset Formula $a^{\ast}(e_{t},a_{t-1})$
+A policy functions 
+\begin_inset Formula $a_{ss}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{ss}^{\ast}(e_{t},a_{t-1})$
 \end_inset
 
 
@@ -6938,35 +7010,30 @@ such that
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $a^{\ast}(e_{t},a_{t-1})$
-\end_inset
-
- solves the household problem given 
-\begin_inset Formula $\{r^{\ast},w^{\ast}\}_{t\geq0}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset Formula $\kappa^{\ast}$
-\end_inset
-
- is the invariant cdf implied by the solution to the household problem given
- 
-\begin_inset Formula $\{r^{\ast},w^{\ast}\}_{t\geq0}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Firm profit maximise 
-\begin_inset Formula $r^{\ast}=\tilde{r}(K^{\ast}/L^{\ast},Z^{\ast})$
+\begin_inset Formula $a_{ss}^{\ast}(\bullet)$
 \end_inset
 
  and 
-\begin_inset Formula $w^{\ast}=\tilde{w}(r^{\ast},Z^{\ast})$
+\begin_inset Formula $c_{ss}^{\ast}(\bullet)$
+\end_inset
+
+ solves the household problem
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{ss}$
+\end_inset
+
+ is the invariant distribution implied by the household problem
+\end_layout
+
+\begin_layout Enumerate
+Firms maximizes profit, 
+\begin_inset Formula $r_{ss}=r(K_{ss}/L_{ss},Z_{ss})$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{ss}=w(r_{ss},Z_{ss})$
 \end_inset
 
 
@@ -6975,7 +7042,7 @@ Firm profit maximise
 \begin_layout Enumerate
 The labor market clears, i.e.
  
-\begin_inset Formula $L^{\ast}=\int e_{t}d\kappa^{\ast}=1$
+\begin_inset Formula $L_{ss}=\int e_{t}dD_{ss}=1$
 \end_inset
 
 
@@ -6984,7 +7051,7 @@ The labor market clears, i.e.
 \begin_layout Enumerate
 The capital market clears, i.e.
  
-\begin_inset Formula $K^{\ast}=\int a_{t-1}d\kappa^{\ast}$
+\begin_inset Formula $K_{ss}=\int a_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
 \end_inset
 
 
@@ -6993,7 +7060,7 @@ The capital market clears, i.e.
 \begin_layout Enumerate
 The goods market clears, i.e.
  
-\begin_inset Formula $Y^{\ast}-\delta K^{\ast}=\int c_{t}d\kappa^{\ast}$
+\begin_inset Formula $Y_{ss}-\delta K_{ss}=\int c_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
 \end_inset
 
 
@@ -7023,7 +7090,7 @@ Find stationary equilibrium
 \begin_deeper
 \begin_layout Enumerate
 Guess on 
-\begin_inset Formula $r^{\ast}$
+\begin_inset Formula $r_{ss}$
 \end_inset
 
 
@@ -7031,7 +7098,7 @@ Guess on
 
 \begin_layout Enumerate
 Calculate 
-\begin_inset Formula $w^{\ast}=\tilde{w}(r^{\ast},Z^{\ast})$
+\begin_inset Formula $w_{ss}=w(r_{ss},Z_{ss})$
 \end_inset
 
 
@@ -7042,12 +7109,16 @@ Solve the infinite horizon household problem
 \end_layout
 
 \begin_layout Enumerate
-Simulate until convergence
+Simulate until convergence of 
+\begin_inset Formula $D_{ss}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
 Calculate supply 
-\begin_inset Formula $k^{s}=\int a_{\infty}d\kappa^{\ast}$
+\begin_inset Formula $k_{ss}^{s}=\int a_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
 \end_inset
 
 
@@ -7055,7 +7126,7 @@ Calculate supply
 
 \begin_layout Enumerate
 Calculate demand 
-\begin_inset Formula $k^{d}=\tilde{k}(r^{\ast})L^{\ast}$
+\begin_inset Formula $k_{ss}^{d}=k(r_{ss})L_{ss}$
 \end_inset
 
 
@@ -7063,19 +7134,19 @@ Calculate demand
 
 \begin_layout Enumerate
 If for some tolerance 
-\begin_inset Formula $\iota$
+\begin_inset Formula $\epsilon$
 \end_inset
 
 
 \begin_inset Formula 
 \[
-\left|k^{s}-k^{d}\right|<\iota
+\left|k_{ss}^{s}-k_{ss}^{d}\right|<\epsilon
 \]
 
 \end_inset
 
 then stop, otherwise update 
-\begin_inset Formula $r^{\ast}$
+\begin_inset Formula $r_{ss}$
 \end_inset
 
  appropriately and return to step 2
@@ -7107,7 +7178,7 @@ root-finding problem
 status open
 
 \begin_layout Plain Layout
-Solve household problem
+Solve household problem with EGM
 \end_layout
 
 \end_inset
@@ -7127,7 +7198,7 @@ Grids:
 \begin_inset Formula $e_{t}\in\{e^{1},e^{2},\dots,e^{\#_{e}}\}$
 \end_inset
 
- from discretization with the method from 
+(using 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "tauchen_quadrature-based_1991"
@@ -7135,7 +7206,7 @@ literal "false"
 
 \end_inset
 
-
+)
 \end_layout
 
 \begin_layout Enumerate
@@ -7235,7 +7306,7 @@ Calculate
 status open
 
 \begin_layout Plain Layout
-Simulate household behavior
+Simulate household behavior on grid
 \end_layout
 
 \end_inset
@@ -7253,7 +7324,23 @@ Initial distribution:
 \begin_inset Formula $D_{0}(e^{i},a^{j})=\frac{\text{Pr}[e^{i}]}{\#_{a}}$
 \end_inset
 
+ (
+\emph on
+ergodic
+\emph default
+ in 
+\begin_inset Formula $e$
+\end_inset
 
+, 
+\emph on
+uniform
+\emph default
+ in 
+\begin_inset Formula $a$
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Itemize
@@ -7315,11 +7402,11 @@ transition path
 \begin_inset Formula $t\in\{0,1,2,\dots\}$
 \end_inset
 
- given an initial cdf 
-\begin_inset Formula $\kappa_{0}$
+ given an initial distribution 
+\begin_inset Formula $D_{0}$
 \end_inset
 
- and path of 
+ and a path of 
 \begin_inset Formula $Z_{t}$
 \end_inset
 
@@ -7331,15 +7418,7 @@ transition path
 \begin_inset Formula $L_{t}$
 \end_inset
 
-, cdfs 
-\begin_inset Formula $\kappa_{t}$
-\end_inset
-
-, saving function 
-\begin_inset Formula $a_{t}(\bullet)$
-\end_inset
-
-, and prices 
+, prices 
 \begin_inset Formula $r_{t}$
 \end_inset
 
@@ -7347,7 +7426,19 @@ transition path
 \begin_inset Formula $w_{t}$
 \end_inset
 
- such that for all 
+, policy functions 
+\begin_inset Formula $a_{t}^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}^{\ast}(\bullet)$
+\end_inset
+
+, distributions 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+, such that for all 
 \begin_inset Formula $t$
 \end_inset
 
@@ -7368,47 +7459,34 @@ vspace{1mm}
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $a_{t}(\bullet)$
-\end_inset
-
- solve the household problem given paths for 
-\begin_inset Formula $r_{t}$
+\begin_inset Formula $a_{t}^{\ast}(\bullet)$
 \end_inset
 
  and 
-\begin_inset Formula $w_{t}$
+\begin_inset Formula $c_{t}^{\ast}(\bullet)$
+\end_inset
+
+ solve the household problem given price paths
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ are implied by the household problem given price paths and 
+\begin_inset Formula $D_{0}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\kappa_{t}$
-\end_inset
-
- are the cdfs implied by the solutions to the household problem given paths
- for 
-\begin_inset Formula $r_{t}$
+Firms maximizes profit, 
+\begin_inset Formula $r_{t}=r(K_{t-1}/L_{t},Z_{t})$
 \end_inset
 
  and 
-\begin_inset Formula $w_{t}$
-\end_inset
-
- and 
-\begin_inset Formula $\kappa_{0}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Firm profit maximise 
-\begin_inset Formula $r_{t}=\tilde{r}(K_{t}/L_{t},Z_{t})$
-\end_inset
-
- and 
-\begin_inset Formula $w_{t}=\tilde{w}(r_{t},Z_{t})$
+\begin_inset Formula $w_{t}=w(r_{t},Z_{t})$
 \end_inset
 
 
@@ -7426,7 +7504,7 @@ The labor market clears, i.e.
 \begin_layout Enumerate
 The capital market clears, i.e.
  
-\begin_inset Formula $K_{t}=\int a_{t-1}d\kappa_{t}$
+\begin_inset Formula $K_{t}=\int a_{t}^{\ast}(\bullet)dD_{t}$
 \end_inset
 
 
@@ -7435,7 +7513,7 @@ The capital market clears, i.e.
 \begin_layout Enumerate
 The goods market clears, i.e.
  
-\begin_inset Formula $Y_{t}-\delta K_{t}=\int c_{t}d\kappa_{t}$
+\begin_inset Formula $Y_{t}=\int c_{t}^{\ast}(\bullet)dD_{t}+\delta K_{t-1}$
 \end_inset
 
 
@@ -7473,15 +7551,15 @@ Chose truncation horizon
 
 \begin_layout Enumerate
 Guess on 
-\begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{r^{\ast}\}_{t=0}^{\mathcal{T}}$
+\begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{r_{ss}\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
-
+ (or something else)
 \end_layout
 
 \begin_layout Enumerate
 Calculate 
-\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{\tilde{w}(r_{t},Z_{t})\}_{t=0}^{\mathcal{T}}$
+\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{w(r_{ss},Z_{t})\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
 
@@ -7497,7 +7575,7 @@ Simulate households forward along the transition path
 
 \begin_layout Enumerate
 Calculate 
-\begin_inset Formula $\{k_{t}\}_{t=0}^{\mathcal{T}}=\{\int a_{t-1}d\kappa_{t}\}_{t=0}^{\mathcal{T}}$
+\begin_inset Formula $\{k_{t}\}_{t=0}^{\mathcal{T}}=\{\int a_{t}^{\ast}(\bullet)dD_{t}\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
 
@@ -7505,26 +7583,26 @@ Calculate
 
 \begin_layout Enumerate
 Calculate 
-\begin_inset Formula $\{r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}=\{\tilde{r}(k_{t},Z_{t})$
+\begin_inset Formula $\{r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}=\{r(k_{t-1},Z_{t})\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-If for some tolerance 
-\begin_inset Formula $\iota$
+Stop if for some tolerance 
+\begin_inset Formula $\epsilon$
 \end_inset
 
 
 \begin_inset Formula 
 \[
-\max_{t\in\{0,1,2,\dots,\mathcal{T}\}}\left|r_{t}-r_{t}^{\prime}\right|<\iota
+\max_{t\in\{0,1,2,\dots,\mathcal{T}\}}\left|r_{t}-r_{t}^{\prime}\right|<\epsilon
 \]
 
 \end_inset
 
-then stop, otherwise return to step 2 with 
+otherwise return to step 2 with 
 \begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{\nu r_{t}+(1-\nu)r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
@@ -7552,6 +7630,437 @@ literal "false"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Aggregate shocks: Households
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Aggregate shocks: 
+\series default
+Assume 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+ is a stochastic process
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Root problem: 
+\series default
+There is no longer perfect foresight wrt.
+ 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Extended problem:
+\series default
+
+\begin_inset Formula 
+\begin{eqnarray*}
+v(e_{t},a_{t-1},Z_{t},D_{t}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v(e_{t+1},a_{t},Z_{t+1},D_{t+1})\right]\\
+ & \text{s.t.}\\
+a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
+k_{t} & = & \int a^{\ast}(e_{t},a_{t-1})dD_{t}\\
+r_{t} & = & r(k_{t},Z_{t})\\
+w_{t} & = & w(r_{t},Z_{t})\\
+a_{t} & \geq & 0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ultimate problem:
+\series default
+ 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ is not easy to discretize...
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Aggregate shocks: Households
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Krussell-Smith idea: 
+\series default
+Approximate 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ with some selected moments, e.g.
+ just the mean
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Approximate problem:
+\series default
+
+\begin_inset Formula 
+\begin{eqnarray*}
+v(e_{t},a_{t-1},Z_{t},k_{t}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v(e_{t+1},a_{t},Z_{t+1},k_{t+1})\right]\\
+ & \text{s.t.}\\
+a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
+r_{t} & = & r(k_{t},Z_{t})\\
+w_{t} & = & w(r_{t},Z_{t})\\
+k_{t+1} & = & \text{PLM}(k_{t},Z_{t},Z_{t+1})\\
+a_{t} & \geq & 0
+\end{eqnarray*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\text{PLM}(k_{t},Z_{t},Z_{t+1})$
+\end_inset
+
+ is 
+\series bold
+perceived law of motion
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Dynamic equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+An 
+\series bold
+approximate dynamic equilibrium 
+\series default
+is a 
+\begin_inset Formula $\text{PLM}$
+\end_inset
+
+, policy functions 
+\begin_inset Formula $a_{t}^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}^{\ast}(\bullet)$
+\end_inset
+
+, and paths of quantities 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+, prices 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, distributions 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ such that for all 
+\begin_inset Formula $t$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a_{t}^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}^{\ast}(\bullet)$
+\end_inset
+
+ solve the household problem given the 
+\begin_inset Formula $\text{PLM}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ are implied by the household problem
+\end_layout
+
+\begin_layout Enumerate
+Firm profit maximize 
+\begin_inset Formula $r_{t}=r(K_{t-1}/L_{t},Z_{t})$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}=w(r_{t},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L_{t}=\int e_{t}d\kappa_{t}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K_{t}=\int a_{t}^{\ast}(\bullet)dD_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The goods market clears, i.e.
+ 
+\begin_inset Formula $Y_{t}=\int c_{t}^{\ast}(\bullet)dD_{t}+\delta K_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\text{PLM}(k_{t},Z_{t},Z_{t+1})$
+\end_inset
+
+ does not imply systematic expectations errors
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Find dynamic equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Guess on the 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\text{PLM}(k_{t},Z_{t},Z_{t+1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the household problem
+\end_layout
+
+\begin_layout Enumerate
+Simulate a path of 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $k_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Compare simulated behavior with the 
+\begin_inset Formula $\text{PLM}(k_{t},Z_{t},Z_{t+1})$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Stop if 
+\begin_inset Quotes ald
+\end_inset
+
+good enough
+\begin_inset Quotes ard
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+otherwise update 
+\begin_inset Formula $\text{PLM}(k_{t},Z_{t},Z_{t+1})$
+\end_inset
+
+ and return to step
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{5mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\series bold
+Terminology:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The Krussell-Smith method is a 
+\series bold
+global method
+\end_layout
+
+\begin_layout Enumerate
+The newest
+\series bold
+ local
+\series default
+ 
+\series bold
+methods 
+\series default
+rely on linearization of the aggregate dynamics, but solve for the full
+ non-linear stationary equilibrium
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset

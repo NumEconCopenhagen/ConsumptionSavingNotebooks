@@ -34,11 +34,12 @@ class GEModelClass(ModelClass):
         par = self.par
         
         # a. define list of non-float scalars
-        self.not_float_list = ['Ne','Na','max_iter_solve','max_iter_simulate','tp_T']
+        self.not_float_list = ['Ne','Na','max_iter_solve','max_iter_simulate','path_T']
         
         # b. steady state values
         par.r_ss = np.nan
         par.w_ss = np.nan
+        par.K_ss = np.nan
         par.Y_ss = np.nan
         par.C_ss = np.nan
         par.kd_ss = np.nan
@@ -63,7 +64,7 @@ class GEModelClass(ModelClass):
         par.Na = 500 # number of grid points
 
         # g. misc.
-        par.tp_T = 500 # length of transition path
+        par.path_T = 500 # length of path
         par.max_iter_solve = 5000 # maximum number of iterations when solving
         par.max_iter_simulate = 5000 # maximum number of iterations when simulating
         par.solve_tol = 1e-10 # tolerance when solving
@@ -86,12 +87,12 @@ class GEModelClass(ModelClass):
         sol.c = np.zeros(sol_shape)
         sol.Va = np.zeros(sol_shape)
 
-        # transition path
-        tp_sol_shape = (par.tp_T,par.Ne,par.Na)
-        sol.tp_a = np.zeros(tp_sol_shape)
-        sol.tp_m = np.zeros(tp_sol_shape)
-        sol.tp_c = np.zeros(tp_sol_shape)
-        sol.tp_Va = np.zeros(tp_sol_shape)
+        # path
+        path_sol_shape = (par.path_T,par.Ne,par.Na)
+        sol.path_a = np.zeros(path_sol_shape)
+        sol.path_m = np.zeros(path_sol_shape)
+        sol.path_c = np.zeros(path_sol_shape)
+        sol.path_Va = np.zeros(path_sol_shape)
 
         # b. simulation
         sim_shape = sol_shape
@@ -99,11 +100,28 @@ class GEModelClass(ModelClass):
         sim.w = np.zeros(sim_shape)
         sim.D = np.zeros(sim_shape)
 
-        tp_sim_shape = tp_sol_shape
-        sim.tp_i = np.zeros(tp_sim_shape,dtype=np.int64)
-        sim.tp_w = np.zeros(tp_sim_shape)
-        sim.tp_D = np.zeros(tp_sim_shape)
+        # path
+        path_sim_shape = path_sol_shape
+        sim.path_i = np.zeros(path_sim_shape,dtype=np.int64)
+        sim.path_w = np.zeros(path_sim_shape)
+        sim.path_D = np.zeros(path_sim_shape)
+        sim.path_K = np.zeros(par.path_T)
 
+        # jacobians
+        jac_shape = (par.path_T,par.path_T)
+
+        sol.jac_curlyK_r = np.zeros(jac_shape)
+        sol.jac_curlyK_w = np.zeros(jac_shape)
+        
+        sol.jac_r_K = np.zeros(jac_shape)
+        sol.jac_w_K = np.zeros(jac_shape)
+        sol.jac_r_Z = np.zeros(jac_shape)
+        sol.jac_w_Z = np.zeros(jac_shape)
+        
+        sol.H_K = np.zeros(jac_shape)
+        sol.H_Z = np.zeros(jac_shape)
+        sol.G = np.zeros(jac_shape)
+        
     def create_grids(self):
         """ construct grids for states and shocks """
 
@@ -170,15 +188,16 @@ class GEModelClass(ModelClass):
         par.C_ss = np.sum(sim.D*sol.c)
 
         # c. equilibrium conditions
+        par.K_ss = par.kd_ss
         if do_print:
             print('')
             print(f'r: {par.r_ss:.4f}')
             print(f'w: {par.w_ss:.4f}')
             print(f'Y: {par.Y_ss:.4f}')
-            print(f'K/Y: {par.kd_ss/par.Y_ss:.4f}')
+            print(f'K/Y: {par.K_ss/par.Y_ss:.4f}')
             print('')
             print(f'capital market clearing: {par.ks_ss-par.kd_ss:12.8f}')
-            print(f'goods market clearing: {par.Y_ss-par.C_ss-par.delta*par.ks_ss:12.8f}')
+            print(f'goods market clearing: {par.Y_ss-par.C_ss-par.delta*par.K_ss:12.8f}')
 
     def solve_household_ss(self,r,Va=None,do_print=False):
         """ gateway for solving the model in steady state """
@@ -216,8 +235,8 @@ class GEModelClass(ModelClass):
         if do_print:
             print(f'household problem solved in {elapsed(t0)} [{it} iterations]')
 
-    def solve_household_tp(self,tp_r,do_print=False):
-        """ gateway for solving the model along the transition path """
+    def solve_household_path(self,path_r,path_w=None,do_print=False):
+        """ gateway for solving the model along price path (with optimal update of path for w) """
 
         par = self.par
         sol = self.sol
@@ -227,23 +246,23 @@ class GEModelClass(ModelClass):
         self.create_grids()
 
         # c. solve
-        for t in reversed(range(par.tp_T)):
+        for t in reversed(range(par.path_T)):
             
             # i. prices
-            r = tp_r[t]
-            w = self.implied_w(tp_r[t])
+            r = path_r[t]
+            w = self.implied_w(path_r[t]) if path_w is None else path_w[t]
 
             # ii. next-period
-            if t == par.tp_T-1:
+            if t == par.path_T-1:
                 Va_p = sol.Va
             else:
-                Va_p = sol.tp_Va[t+1]
+                Va_p = sol.path_Va[t+1]
 
             # ii. solve
-            sol.tp_m[t] = (1+r)*par.a_grid[np.newaxis,:] + w*par.e_grid[:,np.newaxis]
+            sol.path_m[t] = (1+r)*par.a_grid[np.newaxis,:] + w*par.e_grid[:,np.newaxis]
 
             # iii. time iteration
-            time_iteration(par,r,w,Va_p,sol.tp_Va[t],sol.tp_a[t],sol.tp_c[t],sol.tp_m[t])
+            time_iteration(par,r,w,Va_p,sol.path_Va[t],sol.path_a[t],sol.path_c[t],sol.path_m[t])
 
         if do_print:
             print(f'household problem solved in {elapsed(t0)}')
@@ -265,15 +284,19 @@ class GEModelClass(ModelClass):
         if do_print:
             print(f'household problem simulated in {elapsed(t0)} [{it} iterations]')
 
-    def simulate_household_tp(self,do_print=False):
-        """ gateway for simulating the model along the transition path"""
+    def simulate_household_path(self,D0=None,do_print=False):
+        """ gateway for simulating the model along path"""
         
         par = self.par
         sol = self.sol
         sim = self.sim        
         t0 = time.time()
 
-        simulate_path(par,sol,sim)
+        # a. use steady state distribution if not specified
+        D0 = sim.D if D0 is None else D0
+
+        # b. simulate forward along path
+        simulate_path(par,sol,sim,D0)
 
         if do_print:
             print(f'household problem simulated in {elapsed(t0)}')
@@ -351,7 +374,7 @@ def simulate(par,sim,e_trans_T,D):
     """ simulate given weight indices are weight """
 
     # a. assuming e is constant
-    Dnew = np.zeros(D.shape)
+    D_upd = np.zeros(D.shape)
     for i_e in prange(par.Ne):
         for i_a in range(par.Na):
             
@@ -361,17 +384,17 @@ def simulate(par,sim,e_trans_T,D):
 
             # b. to
             i = sim.i[i_e,i_a]            
-            Dnew[i_e,i] += D_*w
-            Dnew[i_e,i+1] += D_*(1.0-w)
+            D_upd[i_e,i] += D_*w
+            D_upd[i_e,i+1] += D_*(1.0-w)
     
-    # b. account for transition probability of e
-    Dnew_ = e_trans_T@Dnew
+    # b. account for transition of e
+    D_upd_ = e_trans_T@D_upd
 
-    return Dnew_
+    return D_upd_
 
 @njit(parallel=True)        
 def simulate_ss(par,sol,sim,D):
-    """ simulate forwards to steady state """
+    """ simulate forward to steady state """
 
     # a. indices and weights
     find_i_and_w(par,sim,sol.a)
@@ -381,12 +404,12 @@ def simulate_ss(par,sol,sim,D):
     it = 0
     while True:
 
-        # i. new distribution
-        Dnew = simulate(par,sim,e_trans_T,D)
+        # i. update distribution
+        D_upd = simulate(par,sim,e_trans_T,D)
 
         # ii. check
-        if np.max(np.abs(Dnew-D)) < par.simulate_tol: break
-        D = Dnew
+        if np.max(np.abs(D_upd-D)) < par.simulate_tol: break
+        D = D_upd
 
         # iii. increment
         it += 1
@@ -396,19 +419,22 @@ def simulate_ss(par,sol,sim,D):
     sim.D = D
     return it
     
-def simulate_path(par,sol,sim):
-    """ simulate along transition path """
+@njit    
+def simulate_path(par,sol,sim,D0):
+    """ simulate along path """
 
     e_trans_T = par.e_trans.T.copy()
-    for t in range(par.tp_T):
+    for t in range(par.path_T):
 
         # a. indices and weights
-        find_i_and_w(par,sim,sol.tp_a[t])
+        
 
-        # b. new distribution
+        # b. update distribution
         if t == 0:
-            Dlag = sim.D
+            sim.path_D[t] = D0 # initial distribution is fixed
         else:
-            Dlag = sim.tp_D[t-1]
+            find_i_and_w(par,sim,sol.path_a[t-1])
+            sim.path_D[t] = simulate(par,sim,e_trans_T,sim.path_D[t-1])
 
-        sim.tp_D[t] = simulate(par,sim,e_trans_T,Dlag)
+        # c. capital
+        sim.path_K[t] = np.sum(sol.path_a[t]*sim.path_D[t])
