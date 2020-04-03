@@ -1,5 +1,7 @@
 ## Mini-Course in Dynamic Programming
 
+**Idea:** This course introduces you to dynamic programming using consumption-saving models as the primary example. 
+
 **Requirements:** You are assumed to know basic Python programming. Else see [Introduction to Programming and Numerical Analysis](https://numeconcopenhagen.netlify.com/).
 
 **Intended learning goal:** You are will be equipped to solve state-of-the-art consumption saving models, estimate them and embed them in general equilibrium models.
@@ -25,9 +27,12 @@
 4. Go through `03. A Full Blow Consumption Model.ipynb`
 5. Go through `04. Structural Estimation.ipynb`
 6. Go through `05. General equilibrium.ipynb`
-7. Read the paper [A Guide to Solve Non-Convex Consumption-Saving Models](https://drive.google.com/open?id=1V15dwMIrl_TJGoqu7qauhVWcDm0yqb-D)
-8. Go through the notebooks in `../BufferStockModel/` and `../DurableConsumptionModel/`
-9. Look at the ekstra material in `../Tools/` and `../Numba and C++/`
+
+To learn more about how to solve consumption-saving models efficiently: 
+
+1. Read the paper [A Guide to Solve Non-Convex Consumption-Saving Models](https://drive.google.com/open?id=1V15dwMIrl_TJGoqu7qauhVWcDm0yqb-D)
+2. Go through the notebooks in `../BufferStockModel/` and `../DurableConsumptionModel/`
+3. Look at the ekstra material in `../Tools/` and `../Numba and C++/`
 
 **Books:**
 
@@ -35,6 +40,7 @@
 2. Judd (1998): Numerical Methods
 3. Bertsekas (2005, 2012): Dynamic Programming and Optimal Control Vol. I-II
 4. Puterman (2008), Markov Decision Processes: Discrete-Stochastic Dynamic Programming
+5. Powell (2011), Approximate Dynamic Programming: Solving the Curses of Dimensionality
 
 **Online material:**
 
