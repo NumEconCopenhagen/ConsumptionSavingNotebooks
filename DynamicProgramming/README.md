@@ -6,27 +6,15 @@
 
 **Intended learning goal:** You are will be equipped to solve state-of-the-art consumption saving models, estimate them and embed them in general equilibrium models.
 
-**Why learn dynamic programming?**
-
-1. **Policy recommendations** are central for all social science
-2. Need models for **counter-factual analysis**
-3. Realistic models typically have **no analytical solution**
-  1. dynamic
-  2. multi-dimensional
-  3. uncertainty
-  4. heterogeneity
-  5. learning
-4. **Solving such models requires dynamic programming**
-5. Estimation gives you **laboratory economies**
-
 **This mini-course:**
 
 1. Go through this notebook, `01. Introduction.ipynb`
 2. Go through the notebook, `02. Your First Consumption-Saving Model`
-3. Read through the slides `ConsumptionSaving.pdf`
+3. Read the slides `ConsumptionSaving.pdf`
 4. Go through `03. A Full Blow Consumption Model.ipynb`
 5. Go through `04. Structural Estimation.ipynb`
-6. Go through `05. General equilibrium.ipynb`
+6. Read `A Note on Solving Heterogenous Agent General Equilibrium Models.pdf`
+7. Go through `05. General equilibrium.ipynb`
 
 To learn more about how to solve consumption-saving models efficiently: 
 

@@ -106,13 +106,16 @@ class GEModelClass(ModelClass):
         sim.path_w = np.zeros(path_sim_shape)
         sim.path_D = np.zeros(path_sim_shape)
         sim.path_K = np.zeros(par.path_T)
+        sim.path_C = np.zeros(par.path_T)
 
         # jacobians
         jac_shape = (par.path_T,par.path_T)
 
         sol.jac_curlyK_r = np.zeros(jac_shape)
         sol.jac_curlyK_w = np.zeros(jac_shape)
-        
+        sol.jac_C_r = np.zeros(jac_shape)
+        sol.jac_C_w = np.zeros(jac_shape)
+
         sol.jac_r_K = np.zeros(jac_shape)
         sol.jac_w_K = np.zeros(jac_shape)
         sol.jac_r_Z = np.zeros(jac_shape)
@@ -438,3 +441,4 @@ def simulate_path(par,sol,sim,D0):
 
         # c. capital
         sim.path_K[t] = np.sum(sol.path_a[t]*sim.path_D[t])
+        sim.path_C[t] = np.sum(sol.path_c[t]*sim.path_D[t])
