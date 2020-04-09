@@ -88,7 +88,11 @@
 \begin_body
 
 \begin_layout Title
-A Note on Solving Heterogenous Agent General Equilibrium Models
+A Note on Solving Heterogenous Agent 
+\begin_inset Newline newline
+\end_inset
+
+General Equilibrium Models
 \end_layout
 
 \begin_layout Author
@@ -219,7 +223,7 @@ addtocounter{page}{-1}
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Section*
 Overview
 \begin_inset CommandInset label
 LatexCommand label
@@ -236,7 +240,7 @@ name "sec:Overview"
 Section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Overview"
+reference "sec:Literature"
 plural "false"
 caps "false"
 noprefix "false"
@@ -245,7 +249,7 @@ noprefix "false"
 
 :
 \series default
- This section provides an overview of the note and the literature.
+ This section provides an overview of the literature.
 \end_layout
 
 \begin_layout Enumerate
@@ -310,6 +314,17 @@ literal "false"
 
 \begin_layout Standard
 \begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Literature
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Literature"
+
 \end_inset
 
 
@@ -782,7 +797,7 @@ literal "false"
 
 \end_inset
 
-,
+, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "schmedders_handbook_2013"
@@ -821,9 +836,41 @@ literal "false"
 \begin_layout Itemize
 
 \series bold
-Full local solution: 
+Local aggregate solution in 
+\emph on
+state space
+\emph default
+:
 \series default
+ Solve for the non-linear stationary equilibrium, and then linearize (first
+ order perturbation) wrt.
+ to the aggregate shocks.
+ Parametric approximation of value and policy must provide dimension reduction
+ to avoid a too large equation system.
+\end_layout
 
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+\emph on
+Ex ante
+\emph default
+ dimension reduction
+\emph on
+ before
+\emph default
+ finding stationary equilibrium:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "reiter_solving_2009"
+literal "false"
+
+\end_inset
+
+, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "winberry_method_2018"
@@ -831,18 +878,57 @@ literal "false"
 
 \end_inset
 
+ (
+\begin_inset CommandInset href
+LatexCommand href
+name "code I"
+target "http://www.thomaswinberry.com/research/winberryAlgorithmCodes.zip"
+literal "false"
 
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "code II"
+target "http://www.thomaswinberry.com/research/winberryAlgorithmCodes2.zip"
+literal "false"
+
+\end_inset
+
+) and in continuous time: 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ahn_when_2018"
+literal "false"
+
+\end_inset
+
+ (
+\begin_inset CommandInset href
+LatexCommand href
+name "code"
+target "https://github.com/gregkaplan/phact"
+literal "false"
+
+\end_inset
+
+)
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
-Local aggregate solution:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-State space: 
+\emph on
+Ex post
+\emph default
+ dimension reduction 
+\emph on
+after
+\emph default
+ finding stationary equilibrium:
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "bayer_solving_2019"
@@ -868,32 +954,20 @@ literal "false"
 
 \end_inset
 
-)
-\begin_inset Newline newline
-\end_inset
-
-Continuous time: 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "ahn_when_2018"
-literal "false"
-
-\end_inset
-
- (
-\begin_inset CommandInset href
-LatexCommand href
-name "code"
-target "https://github.com/gregkaplan/phact"
-literal "false"
-
-\end_inset
-
-)
+) - first attempt at a second-order perturbation
 \end_layout
 
-\begin_layout Enumerate
-Sequence space: 
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Local aggregate solution in 
+\emph on
+sequence space
+\emph default
+: 
+\series default
+
 \begin_inset CommandInset citation
 LatexCommand citet
 key "boppart_exploiting_2018"
@@ -921,7 +995,6 @@ literal "false"
 )
 \end_layout
 
-\end_deeper
 \begin_layout Itemize
 
 \series bold
@@ -2352,7 +2425,7 @@ aggregate dynamics
 \end_layout
 
 \begin_layout Section
-Sequence-Space Method
+Sequence Space Method
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Sequence-Space-Method"
@@ -3192,7 +3265,7 @@ How to use the computed jacobians to speed-up the solution of the fully
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintCited"
-bibfiles "2020_SEQJAC"
+bibfiles "ConSav"
 options "apa"
 
 \end_inset
