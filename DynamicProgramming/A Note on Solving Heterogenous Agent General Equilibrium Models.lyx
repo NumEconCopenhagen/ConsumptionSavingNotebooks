@@ -94,7 +94,7 @@ A Note on Solving Heterogenous Agent General Equilibrium Models
 \begin_layout Author
 Jeppe Druedahl
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -139,7 +139,7 @@ url{http://econ.ku.dk/druedahl}
 
 Christoffer Jessen Weissert
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -1033,7 +1033,8 @@ name "sec:Equilibrium-concepts"
 \end_layout
 
 \begin_layout Standard
-Throughout this note, we consider a simple one-asset without nominal frictions.
+Throughout this note, we consider a simple one-asset economy without nominal
+ frictions.
 \end_layout
 
 \begin_layout Enumerate
@@ -1050,7 +1051,7 @@ Households:
 
 \begin_deeper
 \begin_layout Enumerate
-Owns stocks, 
+Own stocks, 
 \begin_inset Formula $a_{t-1}$
 \end_inset
 
@@ -1058,7 +1059,7 @@ Owns stocks,
 \end_layout
 
 \begin_layout Enumerate
-Supplies labor with productivity 
+Supply labor with productivity 
 \begin_inset Formula $e_{t}$
 \end_inset
 
@@ -1070,7 +1071,7 @@ Supplies labor with productivity
 \end_layout
 
 \begin_layout Enumerate
-Consumes, 
+Consume, 
 \begin_inset Formula $c_{t}$
 \end_inset
 
@@ -1307,7 +1308,11 @@ over
 \begin_layout Itemize
 
 \series bold
-Supply of capital:
+Supply of capital: 
+\begin_inset Formula $\mathcal{K}_{t}=\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}$
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -1323,7 +1328,7 @@ Market clearing
  requires
 \begin_inset Formula 
 \begin{align*}
-\text{Capital: }K_{t} & =\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}\\
+\text{Capital: }K_{t} & =\mathcal{K}_{t}=\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}\\
 \text{Labour: }L_{t} & =\int e_{t}dD_{t}=1\\
 \text{Goods: }Y_{t} & =\int c^{\ast}(e_{t},a_{t-1})dD_{t}+\delta K_{t-1}
 \end{align*}
@@ -1551,7 +1556,7 @@ Note II:
 \begin_inset Formula $\omega$
 \end_inset
 
- can is a weight on each grid point calculated using linear interpolation
+ is a weight on each grid point calculated using linear interpolation
 \series bold
 
 \begin_inset Formula 
@@ -1590,7 +1595,7 @@ stationary equilibrium
 \begin_inset Formula $Z_{ss}$
 \end_inset
 
- is a
+ is one where
 \end_layout
 
 \begin_layout Enumerate
@@ -1599,22 +1604,26 @@ Quantities
 \end_inset
 
  and 
-\begin_inset Formula $L_{ss}$
+\begin_inset Formula $L_{ss},$
 \end_inset
 
- and prices 
+ 
+\end_layout
+
+\begin_layout Enumerate
+prices 
 \begin_inset Formula $r_{ss}$
 \end_inset
 
  and 
-\begin_inset Formula $w_{ss}$
+\begin_inset Formula $w_{ss},$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-A distribution 
+a distribution 
 \begin_inset Formula $D_{ss}$
 \end_inset
 
@@ -1630,7 +1639,7 @@ A distribution
 \end_layout
 
 \begin_layout Enumerate
-Policy functions 
+and policy functions 
 \begin_inset Formula $a_{ss}^{\ast}(e_{t},a_{t-1})$
 \end_inset
 
@@ -1642,7 +1651,7 @@ Policy functions
 \end_layout
 
 \begin_layout Standard
-such that
+are such that
 \end_layout
 
 \begin_layout Enumerate
@@ -1664,7 +1673,7 @@ such that
 \end_layout
 
 \begin_layout Enumerate
-Firms maximizes profit, 
+Firms maximize profits, 
 \begin_inset Formula $r_{ss}=r(K_{ss}/L_{ss},Z_{ss})$
 \end_inset
 
@@ -1736,7 +1745,7 @@ Simulate until convergence of
 
 \begin_layout Enumerate
 Calculate supply 
-\begin_inset Formula $k_{ss}^{s}=\int a_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
+\begin_inset Formula $\mathcal{K}_{ss}=\int a_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
 \end_inset
 
 
@@ -1744,7 +1753,7 @@ Calculate supply
 
 \begin_layout Enumerate
 Calculate demand 
-\begin_inset Formula $k_{ss}^{d}=k(r_{ss},Z_{ss})L_{ss}$
+\begin_inset Formula $K_{ss}=k(r_{ss},Z_{ss})L_{ss}$
 \end_inset
 
 
@@ -1758,7 +1767,7 @@ If for some tolerance
 
 \begin_inset Formula 
 \[
-\left|k_{ss}^{s}-k_{ss}^{d}\right|<\epsilon
+\left|\mathcal{K}_{ss}-K_{ss}\right|<\epsilon
 \]
 
 \end_inset
@@ -1869,7 +1878,7 @@ Firms maximizes profit,
 \begin_layout Enumerate
 The labor market clears, i.e.
  
-\begin_inset Formula $L_{t}=\int e_{t}d\kappa_{t}=1$
+\begin_inset Formula $L_{t}=\int e_{t}dD_{t}=1$
 \end_inset
 
 
@@ -2160,11 +2169,11 @@ is a
 \begin_inset Formula $D_{t}$
 \end_inset
 
- are implied by the household problem
+ is implied by the household problem
 \end_layout
 
 \begin_layout Enumerate
-Firm profit maximize 
+Firms profit maximize 
 \begin_inset Formula $r_{t}=r(K_{t-1}/L_{t},Z_{t})$
 \end_inset
 
@@ -2178,7 +2187,7 @@ Firm profit maximize
 \begin_layout Enumerate
 The labor market clears, i.e.
  
-\begin_inset Formula $L_{t}=\int e_{t}d\kappa_{t}=1$
+\begin_inset Formula $L_{t}=\int e_{t}dD_{t}=1$
 \end_inset
 
 
@@ -2299,7 +2308,7 @@ otherwise update
 \begin_inset Formula $\text{PLM}(k_{t},Z_{t},Z_{t+1})$
 \end_inset
 
- and return to step
+ and return to step 2
 \end_layout
 
 \end_deeper
@@ -2871,7 +2880,7 @@ MA representation:
 \begin_inset Newline newline
 \end_inset
 
-Assume that the TFP shocks have a 
+Assume that the TFP process has a 
 \begin_inset Formula $MA(\infty)$
 \end_inset
 
@@ -3011,8 +3020,8 @@ d\boldsymbol{X}^{o}=\boldsymbol{G}^{o,Z}d\boldsymbol{Z}=\boldsymbol{G}^{o,Z}\bol
 \series bold
 Certainty equivalence:
 \series default
- Because of certainty equivalence these two experiments yields the same
- result and therefore
+ Because of certainty equivalence these two experiments yield the same result
+ and therefore
 \begin_inset Formula 
 \begin{align*}
 d\boldsymbol{X}^{o} & =\mathbb{E}_{t}[d\tilde{\boldsymbol{X}}_{t}|\epsilon_{t}=1,\epsilon_{k}=0\forall k\neq t]\Leftrightarrow\\
@@ -3033,7 +3042,7 @@ covariance
  between any two output variables is given by
 \begin_inset Formula 
 \begin{align*}
-\text{Cov\ensuremath{(d\tilde{X_{t}^{o}},d\tilde{X_{t+k}^{o}})=}} & \mathbb{E}_{t}\text{\ensuremath{\left[d\tilde{X_{t}^{o}}\left(d\tilde{X}_{t+k}^{o}\right)^{T}\right]}}\\
+\text{Cov\ensuremath{(d\tilde{X_{t}^{o}},d\tilde{X}_{t+k}^{o})=}} & \mathbb{E}_{t}\text{\ensuremath{\left[d\tilde{X_{t}^{o}}\left(d\tilde{X}_{t+k}^{o}\right)^{T}\right]}}\\
 = & \mathbb{E}_{t}\text{\ensuremath{\left[\left(\boldsymbol{m}^{o,Z}\right)^{T}\boldsymbol{\epsilon}_{t}^{Z}\left(\boldsymbol{\epsilon}_{t+k}^{Z}\right)^{T}\boldsymbol{m}^{o,Z}\right]}}\\
 = & \sum_{s=0}^{\infty}m_{s}^{o,Z}m_{s+k}^{o,Z}
 \end{align*}
