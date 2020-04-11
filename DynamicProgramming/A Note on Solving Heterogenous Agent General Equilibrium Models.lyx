@@ -6,7 +6,6 @@
 \origin unavailable
 \textclass article
 \begin_preamble
-%\usepackage[pagebackref=false]{hyperref}
 \hypersetup{colorlinks=true,citecolor=blue}
 \hypersetup{colorlinks=true,linkcolor=blue}
 \hypersetup{colorlinks=true,urlcolor=blue}
