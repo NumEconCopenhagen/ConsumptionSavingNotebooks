@@ -98,7 +98,7 @@ General Equilibrium Models
 \begin_layout Author
 Jeppe Druedahl
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -143,7 +143,7 @@ url{http://econ.ku.dk/druedahl}
 
 Christoffer Jessen Weissert
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -488,6 +488,14 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
+key "guvenen_macroeconomics_2011"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
 key "krueger_chapter_2016"
 literal "false"
 
@@ -604,14 +612,6 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "acharya_understanding_2018"
-literal "false"
-
-\end_inset
-
-, 
-\begin_inset CommandInset citation
-LatexCommand citet
 key "bilbiie_capital_2020"
 literal "false"
 
@@ -629,6 +629,14 @@ literal "false"
 \begin_inset CommandInset citation
 LatexCommand citet
 key "auclert_intertemporal_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "acharya_understanding_2020"
 literal "false"
 
 \end_inset
@@ -757,6 +765,14 @@ literal "false"
 \begin_inset CommandInset citation
 LatexCommand citet
 key "wolf_missing_2020"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "guren_what_2020"
 literal "false"
 
 \end_inset
@@ -1340,7 +1356,7 @@ a_{t} & \geq & 0
 Optimal saving:
 \series default
  
-\begin_inset Formula $a^{\ast}(e_{t},a_{t-1})$
+\begin_inset Formula $a_{t}^{\ast}(e_{t},a_{t-1})$
 \end_inset
 
 
@@ -1352,7 +1368,7 @@ Optimal saving:
 Optimal consumption: 
 \series default
 
-\begin_inset Formula $c^{\ast}(e_{t},a_{t-1})$
+\begin_inset Formula $c_{t}^{\ast}(e_{t},a_{t-1})$
 \end_inset
 
 
@@ -2410,20 +2426,6 @@ rely on linearization of the aggregate dynamics, but solve for the full
  non-linear stationary equilibrium
 \end_layout
 
-\begin_layout Enumerate
-
-\series bold
-Older solution methods 
-\series default
-linearized both the 
-\series bold
-idiosyncratic 
-\series default
-and the 
-\series bold
-aggregate dynamics
-\end_layout
-
 \begin_layout Section
 Sequence Space Method
 \begin_inset CommandInset label
@@ -2459,7 +2461,7 @@ such that
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-K_{t}^{s} & =\int a^{\ast}(e_{t},a_{t-1})dD_{t}\label{eq:Ks}\\
+K_{t} & =\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}\label{eq:Ks}\\
  & \equiv\mathcal{K}_{t}\{\{r_{s},w_{s}\}_{s\geq0},D_{0})\}\nonumber 
 \end{align}
 
@@ -2521,7 +2523,7 @@ Linearization
 Total differentiation implies
 \begin_inset Formula 
 \begin{align}
-\boldsymbol{H}_{\boldsymbol{K}}\boldsymbol{H}_{\boldsymbol{Z}}d\boldsymbol{K}+\boldsymbol{H}_{\boldsymbol{Z}}d\boldsymbol{Z}=0 & \Leftrightarrow\nonumber \\
+\boldsymbol{H}_{\boldsymbol{K}}d\boldsymbol{K}+\boldsymbol{H}_{\boldsymbol{Z}}d\boldsymbol{Z}=0 & \Leftrightarrow\nonumber \\
 d\boldsymbol{K} & =-\boldsymbol{H}_{\boldsymbol{K}}^{-1}\boldsymbol{H}_{\boldsymbol{Z}}d\boldsymbol{Z}\label{eq:dk_dZ}
 \end{align}
 
@@ -2841,7 +2843,7 @@ Additional responses are easily calculated:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boldsymbol{G}^{r,Z}\equiv\frac{d\boldsymbol{r}}{d\boldsymbol{Z}}=\mathcal{J}^{r,Z}+\mathcal{J}^{r,K}\frac{d\boldsymbol{K}}{d\boldsymbol{Z}}
+\boldsymbol{G}^{r,Z}\equiv\frac{d\boldsymbol{r}}{d\boldsymbol{Z}}=\mathcal{J}^{r,Z}+\mathcal{J}^{r,K}\boldsymbol{G}^{K,Z}
 \]
 
 \end_inset
@@ -2852,7 +2854,7 @@ Additional responses are easily calculated:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boldsymbol{G}^{w,Z}\equiv\frac{d\boldsymbol{w}}{d\boldsymbol{Z}}=\mathcal{J}^{w,Z}+\mathcal{J}^{w,K}\frac{d\boldsymbol{K}}{d\boldsymbol{Z}}
+\boldsymbol{G}^{w,Z}\equiv\frac{d\boldsymbol{w}}{d\boldsymbol{Z}}=\mathcal{J}^{w,Z}+\mathcal{J}^{w,K}\boldsymbol{G}^{K,Z}
 \]
 
 \end_inset
@@ -2863,7 +2865,7 @@ Additional responses are easily calculated:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boldsymbol{G}^{C,Z}\equiv\frac{d\boldsymbol{C}}{d\boldsymbol{Z}}=\mathcal{J}^{C,r}\frac{d\boldsymbol{r}}{d\boldsymbol{Z}}+\mathcal{J}^{C,w}\frac{d\boldsymbol{w}}{d\boldsymbol{Z}}
+\boldsymbol{G}^{C,Z}\equiv\frac{d\boldsymbol{C}}{d\boldsymbol{Z}}=\mathcal{J}^{C,r}\boldsymbol{G}^{r,Z}+\mathcal{J}^{C,w}\boldsymbol{G}^{w,Z}
 \]
 
 \end_inset
@@ -2874,7 +2876,7 @@ Additional responses are easily calculated:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boldsymbol{G}^{Y,Z}\equiv\frac{d\boldsymbol{Y}}{d\boldsymbol{Z}}=\mathcal{J}^{Y,Z}+\mathcal{J}^{Y,K}\frac{d\boldsymbol{K}}{d\boldsymbol{Z}}
+\boldsymbol{G}^{Y,Z}\equiv\frac{d\boldsymbol{Y}}{d\boldsymbol{Z}}=\mathcal{J}^{Y,Z}+\mathcal{J}^{Y,K}\boldsymbol{G}^{K,Z}
 \]
 
 \end_inset
