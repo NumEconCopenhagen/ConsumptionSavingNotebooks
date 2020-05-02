@@ -39,7 +39,3 @@ The main notebooks are:
    * [Working with Numba](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Numba%20and%20C%2B%2B/Using%20NLopt%20in%20C%2B%2B.ipynb): Simple **Numba** examples
    * [Calling C++](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Numba%20and%20C%2B%2B/Calling%20C%2B%2B.ipynb): Examples for **interfacing to C++**
    * [Using NLopt in C++](https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/blob/master/Numba%20and%20C%2B%2B/Using%20NLopt%20in%20C%2B%2B.ipynb): Example of using the **NLopt** optimizers in C++
-
-**Additional projects** based on **ConSav:**
-
-* [WealthHet](https://github.com/JeppeDruedahl/WealthHet): On explaining wealth inequality.
