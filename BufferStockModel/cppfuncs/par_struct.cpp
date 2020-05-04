@@ -1,5 +1,6 @@
 typedef struct par_struct
 {
+ char *solmethod;
  int T;
  double beta;
  double rho;

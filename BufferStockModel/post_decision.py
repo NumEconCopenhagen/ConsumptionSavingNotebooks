@@ -18,7 +18,7 @@ def compute_wq(t,sol,par,compute_w=False,compute_q=False):
     q = sol.q
 
     # loop over outermost post-decision state
-    for ip in prange(par.Np): # in parallel
+    for ip in range(par.Np): # in parallel
 
         # a. permanent income
         p = par.grid_p[ip]

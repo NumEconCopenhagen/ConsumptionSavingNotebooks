@@ -45,6 +45,7 @@ class BufferStockModelClass(ModelClass):
         """ set baseline parameters """   
 
         par = self.par
+        par.solmethod = 'nvfi'
 
         # a. define list of non-float scalars (required!) 
         self.not_float_list = ['T','Npsi','Nxi','Nm','Np','Na','do_print','do_simple_w','simT','simN','sim_seed','cppthreads','Nshocks']
@@ -134,6 +135,9 @@ class BufferStockModelClass(ModelClass):
 
         par = self.par
         sol = self.sol
+        self.update_jit()
+        par_jit = self.par_jit
+        sol_jit = self.sol_jit
 
         # backwards induction
         for t in reversed(range(par.T)):
@@ -143,7 +147,7 @@ class BufferStockModelClass(ModelClass):
             # a. last period
             if t == par.T-1:
                 
-                last_period.solve(t,sol,par)
+                last_period.solve(t,sol_jit,par_jit)
 
             # b. all other periods
             else:
@@ -152,27 +156,27 @@ class BufferStockModelClass(ModelClass):
                 t0_w = time.time()
 
                 compute_w,compute_q = False,False
-                if self.solmethod in ['nvfi']:
-                    compute_w=True
-                elif self.solmethod in ['egm']:
-                    compute_q=True
+                if self.par.solmethod in ['nvfi']:
+                    compute_w = True
+                elif self.par.solmethod in ['egm']:
+                    compute_q = True
                 if compute_w or compute_q:
                     if self.par.do_simple_w:
-                        post_decision.compute_wq_simple(t,sol,par,compute_w=compute_w,compute_q=compute_q)
+                        post_decision.compute_wq_simple(t,sol_jit,par_jit,compute_w=compute_w,compute_q=compute_q)
                     else:
-                        post_decision.compute_wq(t,sol,par,compute_w=compute_w,compute_q=compute_q)
+                        post_decision.compute_wq(t,sol_jit,par_jit,compute_w=compute_w,compute_q=compute_q)
 
                 t1_w = time.time()
 
                 # ii. solve bellman equation
-                if self.solmethod == 'vfi':
-                    vfi.solve_bellman(t,sol,par)                    
-                elif self.solmethod == 'nvfi':
-                    nvfi.solve_bellman(t,sol,par)
-                elif self.solmethod == 'egm':
-                    egm.solve_bellman(t,sol,par)                    
+                if self.par.solmethod == 'vfi':
+                    vfi.solve_bellman(t,sol_jit,par_jit)                    
+                elif self.par.solmethod == 'nvfi':
+                    nvfi.solve_bellman(t,sol_jit,par_jit)
+                elif self.par.solmethod == 'egm':
+                    egm.solve_bellman(t,sol_jit,par_jit)                    
                 else:
-                    raise ValueError(f'unknown solution method, {self.solmethod}')
+                    raise ValueError(f'unknown solution method, {self.par.solmethod}')
 
             # c. print
             if self.par.do_print:
@@ -200,10 +204,10 @@ class BufferStockModelClass(ModelClass):
         # b. solve by EGM
         t0 = time.time()
        
-        if self.solmethod in ['egm']:
+        if self.par.solmethod in ['egm']:
             self.call_cpp(EGM,'solve')
         else:
-            raise ValueError(f'unknown cpp solution method, {self.solmethod}')            
+            raise ValueError(f'unknown cpp solution method, {self.par.solmethod}')            
         
         t1 = time.time()
 
@@ -238,7 +242,7 @@ class BufferStockModelClass(ModelClass):
         par = self.par
         sol = self.sol
         sim = self.sim
-
+        
         t0 = time.time()
 
         # a. allocate memory and draw random numbers
@@ -250,7 +254,9 @@ class BufferStockModelClass(ModelClass):
 
         # b. simulate
         par.simT = par.T
-        simulate.lifecycle(sim,sol,par)
+
+        self.update_jit()        
+        simulate.lifecycle(self.sim_jit,self.sol_jit,self.par_jit)
 
         if par.do_print:
             print(f'model simulated in {elapsed(t0)}')

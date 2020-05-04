@@ -1,8 +1,9 @@
 typedef struct par_struct
 {
+ char *name;
+ int N;
  double *X;
  double *Y;
- int N;
  double a;
  double b;
  int threads;
