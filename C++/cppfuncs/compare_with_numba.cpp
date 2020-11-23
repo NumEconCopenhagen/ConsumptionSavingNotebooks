@@ -18,11 +18,7 @@
 // 3. main //
 /////////////
 
-EXPORT void setup_omp(){ // required when using vs
-    SetEnvironmentVariable("OMP_WAIT_POLICY", "passive"); 
-}
-
-EXPORT void fun(double *X, double *Y, double *Z, int NX, int NY, int threads){
+EXPORT void test_func(double *X, double *Y, double *Z, int NX, int NY, int threads){
 
     #pragma omp parallel num_threads(threads)
     {

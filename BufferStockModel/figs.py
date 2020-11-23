@@ -6,6 +6,7 @@ from mpl_toolkits.mplot3d import Axes3D
 plt.style.use("seaborn-whitegrid")
 prop_cycle = plt.rcParams["axes.prop_cycle"]
 colors = prop_cycle.by_key()["color"]
+
 import ipywidgets as widgets
 
 def consumption_function(model,t):

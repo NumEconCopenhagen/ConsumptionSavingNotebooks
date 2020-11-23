@@ -1,4 +1,4 @@
-cd "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018.5.274/windows/bin/"
-call ipsxe-comp-vars.bat intel64 vs2017
-cd "C:\Users\gmf123\Dropbox\Repositories\ConsumptionSavingNotebooks\BufferStockModel"
-icl /LD /O3 /arch:CORE-AVX512 /openmp cppfuncs//EGM.cpp
+cd /d "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/"
+call vcvarsall.bat x64
+cd /d "C:\Users\gmf123\Documents\repositories\test\ConsumptionSavingNotebooks\BufferStockModel"
+cl /LD /EHsc /Ox /openmp cppfuncs/egm.cpp setup_omp.cpp  

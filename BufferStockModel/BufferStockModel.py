@@ -15,11 +15,12 @@ C. egm: endogenous grid point method (egm_cpp is in C++)
 
 import time
 import numpy as np
-from numba import boolean, int32, double
 
 # consav package
-from consav.misc import elapsed, nonlinspace, create_shocks
-from consav import ModelClass # baseline model class
+from consav.misc import elapsed
+from consav.grids import nonlinspace
+from consav.quadrature import create_PT_shocks
+from consav import ModelClass, jit # baseline model class
 
 # local modules
 import utility
@@ -41,14 +42,30 @@ class BufferStockModelClass(ModelClass):
     # setup #
     #########
     
+    def settings(self):
+
+        # a. namespaces
+        self.namespaces = ['par','sol','sim']
+        
+        # b. other attributes
+        self.other_attrs = []
+        
+        # c. savefolder
+        self.savefolder = 'saved'
+        
+        # d. list not-floates to safe type inferences
+        self.not_floats = ['T','Npsi','Nxi','Nm','Np','Na','do_print','do_simple_w','simT','simN','sim_seed','cppthreads','Nshocks']
+
+        # e. cpp
+        self.cpp_filename = 'cppfuncs/egm.cpp'
+        
     def setup(self):
         """ set baseline parameters """   
 
         par = self.par
-        par.solmethod = 'nvfi'
 
-        # a. define list of non-float scalars (required!) 
-        self.not_float_list = ['T','Npsi','Nxi','Nm','Np','Na','do_print','do_simple_w','simT','simN','sim_seed','cppthreads','Nshocks']
+        # a. solution method
+        par.solmethod = 'nvfi'
         
         # b. horizon
         par.T = 5
@@ -102,7 +119,7 @@ class BufferStockModelClass(ModelClass):
         par.grid_a = nonlinspace(1e-6,20,par.Na,1.1)
         
         # c. shocks (qudrature nodes and weights using GaussHermite)
-        shocks = create_shocks(
+        shocks = create_PT_shocks(
             par.sigma_psi,par.Npsi,par.sigma_xi,par.Nxi,
             par.pi,par.mu)
         par.psi,par.psi_w,par.xi,par.xi_w,par.Nshocks = shocks
@@ -133,57 +150,57 @@ class BufferStockModelClass(ModelClass):
     def solve(self):
         """ solve the model using solmethod """
 
-        par = self.par
-        sol = self.sol
-        self.update_jit()
-        par_jit = self.par_jit
-        sol_jit = self.sol_jit
 
-        # backwards induction
-        for t in reversed(range(par.T)):
-            
-            t0 = time.time()
-            
-            # a. last period
-            if t == par.T-1:
+        with jit(self) as model:
+
+            par = model.par
+            sol = model.sol
+
+            # backwards induction
+            for t in reversed(range(par.T)):
                 
-                last_period.solve(t,sol_jit,par_jit)
-
-            # b. all other periods
-            else:
+                t0 = time.time()
                 
-                # i. compute post-decision functions
-                t0_w = time.time()
+                # a. last period
+                if t == par.T-1:
+                    
+                    last_period.solve(t,sol,par)
 
-                compute_w,compute_q = False,False
-                if self.par.solmethod in ['nvfi']:
-                    compute_w = True
-                elif self.par.solmethod in ['egm']:
-                    compute_q = True
-                if compute_w or compute_q:
-                    if self.par.do_simple_w:
-                        post_decision.compute_wq_simple(t,sol_jit,par_jit,compute_w=compute_w,compute_q=compute_q)
-                    else:
-                        post_decision.compute_wq(t,sol_jit,par_jit,compute_w=compute_w,compute_q=compute_q)
-
-                t1_w = time.time()
-
-                # ii. solve bellman equation
-                if self.par.solmethod == 'vfi':
-                    vfi.solve_bellman(t,sol_jit,par_jit)                    
-                elif self.par.solmethod == 'nvfi':
-                    nvfi.solve_bellman(t,sol_jit,par_jit)
-                elif self.par.solmethod == 'egm':
-                    egm.solve_bellman(t,sol_jit,par_jit)                    
+                # b. all other periods
                 else:
-                    raise ValueError(f'unknown solution method, {self.par.solmethod}')
+                    
+                    # i. compute post-decision functions
+                    t0_w = time.time()
 
-            # c. print
-            if self.par.do_print:
-                msg = f' t = {t} solved in {elapsed(t0)}'
-                if t < self.par.T-1:
-                    msg += f' (w: {elapsed(t0_w,t1_w)})'                
-                print(msg)
+                    compute_w,compute_q = False,False
+                    if self.par.solmethod in ['nvfi']:
+                        compute_w = True
+                    elif self.par.solmethod in ['egm']:
+                        compute_q = True
+                    if compute_w or compute_q:
+                        if self.par.do_simple_w:
+                            post_decision.compute_wq_simple(t,sol,par,compute_w=compute_w,compute_q=compute_q)
+                        else:
+                            post_decision.compute_wq(t,sol,par,compute_w=compute_w,compute_q=compute_q)
+
+                    t1_w = time.time()
+
+                    # ii. solve bellman equation
+                    if self.par.solmethod == 'vfi':
+                        vfi.solve_bellman(t,sol,par)                    
+                    elif self.par.solmethod == 'nvfi':
+                        nvfi.solve_bellman(t,sol,par)
+                    elif self.par.solmethod == 'egm':
+                        egm.solve_bellman(t,sol,par)                    
+                    else:
+                        raise ValueError(f'unknown solution method, {self.par.solmethod}')
+
+                # c. print
+                if self.par.do_print:
+                    msg = f' t = {t} solved in {elapsed(t0)}'
+                    if t < self.par.T-1:
+                        msg += f' (w: {elapsed(t0_w,t1_w)})'                
+                    print(msg)
 
     def solve_cpp(self,compiler='vs'):
         """ solve the model using egm written in C++
@@ -194,25 +211,15 @@ class BufferStockModelClass(ModelClass):
 
         """
 
-        EGM = 'EGM'
-        
-        # a. compile
-        funcnames = ['solve','simulate']
-        self.setup_cpp()
-        self.link_cpp(EGM,funcnames)
-
-        # b. solve by EGM
+        # a. solve by EGM
         t0 = time.time()
        
         if self.par.solmethod in ['egm']:
-            self.call_cpp(EGM,'solve')
+            self.cpp.solve(self.par,self.sol)
         else:
             raise ValueError(f'unknown cpp solution method, {self.par.solmethod}')            
         
         t1 = time.time()
-
-        # c. delink
-        self.delink_cpp(EGM)
 
         return t0,t1
 
@@ -239,24 +246,24 @@ class BufferStockModelClass(ModelClass):
     def simulate(self):
         """ simulate model """
 
-        par = self.par
-        sol = self.sol
-        sim = self.sim
-        
-        t0 = time.time()
+        with jit(self) as model:
 
-        # a. allocate memory and draw random numbers
-        I = np.random.choice(par.Nshocks,
-            size=(par.T,par.simN), 
-            p=par.psi_w*par.xi_w)
-        sim.psi[:] = par.psi[I]
-        sim.xi[:] = par.xi[I]
+            par = model.par
+            sol = model.sol
+            sim = model.sim
+            
+            t0 = time.time()
 
-        # b. simulate
-        par.simT = par.T
+            # a. allocate memory and draw random numbers
+            I = np.random.choice(par.Nshocks,
+                size=(par.T,par.simN), 
+                p=par.psi_w*par.xi_w)
 
-        self.update_jit()        
-        simulate.lifecycle(self.sim_jit,self.sol_jit,self.par_jit)
+            sim.psi[:] = par.psi[I]
+            sim.xi[:] = par.xi[I]
+
+            # b. simulate
+            simulate.lifecycle(sim,sol,par)
 
         if par.do_print:
             print(f'model simulated in {elapsed(t0)}')
@@ -272,27 +279,4 @@ class BufferStockModelClass(ModelClass):
         figs.consumption_function_interact(self)
           
     def lifecycle(self):
-        figs.lifecycle(self)
-    
-    ########
-    # figs #
-    ########
-
-    def test(self):
-        """ method for specifying test """
-        
-        # a. save print status
-        do_print = self.par.do_print
-        self.par.do_print = False
-
-        # b. test run
-        self.solve()
-
-        # c. timed run
-        t0 = time.time()
-        self.solve()
-        print(f'solution time: {elapsed(t0)}')
-        self.checksum()
-
-        # d. reset print status
-        self.par.do_print = do_print
+        figs.lifecycle(self)        

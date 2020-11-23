@@ -18,13 +18,10 @@
 // 3. main //
 /////////////
 
-#include "par_struct.cpp"
+#include "par.cpp"
+#include "example_include.cpp"
 
-EXPORT void setup_omp(){ // required when using vs
-    SetEnvironmentVariable("OMP_WAIT_POLICY", "passive"); 
-}
-
-EXPORT void fun(par_struct *par){
+EXPORT void fun(par *par){
 
     #pragma omp parallel num_threads(par->threads)
     {
@@ -38,9 +35,11 @@ EXPORT void fun(par_struct *par){
     
     } // omp parallel
 
+    printf("test string: %s\n",par->txt);
+
 }
 
-EXPORT void fun_nostruct(double *X, double *Y, int N, double a, double b, int threads){
+EXPORT void fun_nostruct(double *X, double *Y, int N, double a, double b, int threads, char *txt){
 
     #pragma omp parallel num_threads(threads)
     {
@@ -54,4 +53,6 @@ EXPORT void fun_nostruct(double *X, double *Y, int N, double a, double b, int th
 
     } // omp parallel
     
+    printf("test string: %s\n",txt);
+
 }

@@ -157,6 +157,3 @@ int main()
 {
 
 }
-
-// required when using visual studio
-EXPORT void setup_omp(){ SetEnvironmentVariable("OMP_WAIT_POLICY", "passive"); }
