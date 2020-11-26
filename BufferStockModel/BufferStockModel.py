@@ -45,7 +45,7 @@ class BufferStockModelClass(ModelClass):
     def settings(self):
 
         # a. namespaces
-        self.namespaces = ['par','sol','sim']
+        self.namespaces = []
         
         # b. other attributes
         self.other_attrs = []
@@ -149,7 +149,6 @@ class BufferStockModelClass(ModelClass):
 
     def solve(self):
         """ solve the model using solmethod """
-
 
         with jit(self) as model:
 

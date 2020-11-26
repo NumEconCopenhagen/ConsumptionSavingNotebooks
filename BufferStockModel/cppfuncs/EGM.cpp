@@ -30,9 +30,9 @@
 // 4. structs //
 ////////////////
 
-#include "par.cpp"
-#include "sol.cpp"
-#include "sim.cpp"
+#include "par_struct.cpp"
+#include "sol_struct.cpp"
+#include "sim_struct.cpp"
 
 /////////////
 // 5. main //
@@ -91,7 +91,7 @@ double interp_2d(double *grid1, double *grid2, int Nx1, int Nx2, double *value, 
 
 }
 
-void compute_wq(int t, sol *sol, par *par){
+void compute_wq(int t, sol_struct* sol, par_struct* par){
 
     // loop over outermost post-decision state
     #pragma omp for
@@ -131,7 +131,7 @@ void compute_wq(int t, sol *sol, par *par){
 
 }
 
-void solve_bellman_egm(int t, sol *sol, par *par, double* m_temp, double *c_temp){
+void solve_bellman_egm(int t, sol_struct* sol, par_struct* par, double* m_temp, double *c_temp){
 
     #pragma omp for
     for(int ip = 0; ip < par->Np; ip++){
@@ -160,7 +160,7 @@ void solve_bellman_egm(int t, sol *sol, par *par, double* m_temp, double *c_temp
 
 }
 
-EXPORT void solve(par* par, sol* sol){
+EXPORT void solve(par_struct* par, sol_struct* sol){
 
     logs::write("log.txt",0,"EGM.cpp (threads = %d)\n",par->cppthreads);
 

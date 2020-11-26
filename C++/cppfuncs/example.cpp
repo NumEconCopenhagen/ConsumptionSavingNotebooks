@@ -18,10 +18,10 @@
 // 3. main //
 /////////////
 
-#include "par.cpp"
+#include "par_struct.cpp"
 #include "example_include.cpp"
 
-EXPORT void fun(par *par){
+EXPORT void fun(par_struct* par){
 
     #pragma omp parallel num_threads(par->threads)
     {

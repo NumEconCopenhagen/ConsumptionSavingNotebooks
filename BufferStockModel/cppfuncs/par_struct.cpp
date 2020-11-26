@@ -21,13 +21,13 @@ typedef struct par_struct
  int simT;
  int simN;
  int sim_seed;
- double *grid_m;
- double *grid_p;
- double *grid_a;
- double *psi;
- double *psi_w;
- double *xi;
- double *xi_w;
+ double* grid_m;
+ double* grid_p;
+ double* grid_a;
+ double* psi;
+ double* psi_w;
+ double* xi;
+ double* xi_w;
  int Nshocks;
 } par_struct;
 
