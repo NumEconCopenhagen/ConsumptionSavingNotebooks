@@ -22,7 +22,6 @@
 // 3. includes //
 /////////////////
 
-// a. generic
 #include "HighResTimer_class.hpp"
 #include "logs.cpp"
 
@@ -38,7 +37,7 @@
 // 5. main //
 /////////////
 
-int binary_search(int imin, int Nx, double *x, double xi){
+int binary_search(int imin, int Nx, double* x, double xi){
     int imid, half;
 
     // a. checks
@@ -59,7 +58,7 @@ int binary_search(int imin, int Nx, double *x, double xi){
 
 }
 
-double interp_1d(double *grid, int Nx, double *value, double xi){
+double interp_1d(double* grid, int Nx, double *value, double xi){
 
     // a. search
     int ix = binary_search(0,Nx,grid,xi);
@@ -72,7 +71,7 @@ double interp_1d(double *grid, int Nx, double *value, double xi){
 
 }
 
-double interp_2d(double *grid1, double *grid2, int Nx1, int Nx2, double *value, double xi1, double xi2){
+double interp_2d(double* grid1, double* grid2, int Nx1, int Nx2, double* value, double xi1, double xi2){
 
     // a. search in each dimension
     int ix1 = binary_search(0,Nx1,grid1,xi1);

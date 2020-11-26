@@ -5,7 +5,7 @@ Solves the Deaton-Carroll buffer-stock consumption model with either:
 
 A. vfi: standard value function iteration
 B. nvfi: nested value function iteration
-C. egm: endogenous grid point method (egm_cpp is in C++)
+C. egm: endogenous grid point method (also in C++)
 
 """
 
@@ -58,6 +58,7 @@ class BufferStockModelClass(ModelClass):
 
         # e. cpp
         self.cpp_filename = 'cppfuncs/egm.cpp'
+        self.cpp_options = {'compiler':'vs'}
         
     def setup(self):
         """ set baseline parameters """   
@@ -150,7 +151,7 @@ class BufferStockModelClass(ModelClass):
     def solve(self):
         """ solve the model using solmethod """
 
-        with jit(self) as model:
+        with jit(self) as model: # can now call jitted functions
 
             par = model.par
             sol = model.sol
@@ -201,14 +202,8 @@ class BufferStockModelClass(ModelClass):
                         msg += f' (w: {elapsed(t0_w,t1_w)})'                
                     print(msg)
 
-    def solve_cpp(self,compiler='vs'):
-        """ solve the model using egm written in C++
-        
-        Args:
-
-            compiler (str,optional): compiler choice (vs or intel)
-
-        """
+    def solve_cpp(self):
+        """ solve the model using egm written in C++ """
 
         # a. solve by EGM
         t0 = time.time()
@@ -245,7 +240,7 @@ class BufferStockModelClass(ModelClass):
     def simulate(self):
         """ simulate model """
 
-        with jit(self) as model:
+        with jit(self) as model: # can now call jitted functions 
 
             par = model.par
             sol = model.sol
