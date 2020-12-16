@@ -85,8 +85,8 @@ class DurableConsumptionModelClass(ModelClass):
         self.cpp.solve_nvfi_2d_adj_d1 = None
         self.cpp.solve_nvfi_2d_adj_d2 = None
 
-        self.cpp.solve_negm_keep = lambda sol, par: None
-        self.cpp.solve_negm_2d_keep = lambda sol, par: None
+        self.cpp.solve_negm_keep = None
+        self.cpp.solve_negm_2d_keep = None
 
     def setup(self):
         """ set baseline parameters """
