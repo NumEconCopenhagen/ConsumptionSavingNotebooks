@@ -110,32 +110,22 @@ venv.bak/
 # custom
 .vscode/
 
-BufferStockModel/cppfuncs/nlopt-2.4.2-dll64/
-BufferStockModel/data
-BufferStockModel/*.dll
-BufferStockModel/*.txt
-BufferStockModel/*.tex
-BufferStockModel/.numba_config.yaml
-BufferStockModel/run.py
+00. DynamicProgramming/saved
 
-DurableConsumptionModel/cppfuncs/nlopt-2.4.2-dll64/
-DurableConsumptionModel/data
-DurableConsumptionModel/*.dll
-DurableConsumptionModel/*.txt
-DurableConsumptionModel/*.tex
-DurableConsumptionModel/.numba_config.yaml
+01. BufferStockModel/saved
+01. BufferStockModel/*.txt
+01. BufferStockModel/*.tex
 
-G2EGM/data
-G2EGM/*.dll
-G2EGM/*.txt
-G2EGM/*.tex
-G2EGM/.numba_config.yaml
+02. DurableConsumptionModel/nlopt-2.4.2-dll64/
+02. DurableConsumptionModel/cppfuncs/nlopt-2.4.2-dll64/
+02. DurableConsumptionModel/saved
+02. DurableConsumptionModel/*.txt
+02. DurableConsumptionModel/*.tex
+02. DurableConsumptionModel/*.zip
 
-Numba and C++/cppfuncs/nlopt-2.4.2-dll64/
-Numba and C++/*.dll
-Numba and C++/*.txt
-Numba and C++/*.numba_config.yaml
+03. G2EGM/saved
+03. G2EGM/*.txt
+03. G2EGM/*.tex
 
-Tools/.numba_config.yaml
-
+*.yaml
 *.lyx~
