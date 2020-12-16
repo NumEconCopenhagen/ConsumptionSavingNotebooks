@@ -1,3 +1,0 @@
-disable_jit: 0
-num_threads: 64
-threading_layer: tbb
