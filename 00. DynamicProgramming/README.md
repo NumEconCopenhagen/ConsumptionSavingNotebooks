@@ -18,9 +18,9 @@
 
 To learn more about how to solve consumption-saving models efficiently: 
 
-1. Read the paper [A Guide to Solve Non-Convex Consumption-Saving Models](https://drive.google.com/open?id=1V15dwMIrl_TJGoqu7qauhVWcDm0yqb-D)
-2. Go through the notebooks in `../BufferStockModel/` and `../DurableConsumptionModel/`
-3. Look at the ekstra material in `../Tools/` and `../Numba and C++/`
+1. Read the paper [A Guide to Solve Non-Convex Consumption-Saving Models](https://doi.org/10.1007/s10614-020-10045-x)
+2. Go through the notebooks in `../01. BufferStockModel/` and `../02. DurableConsumptionModel/`
+3. Look at the ekstra material in `../04. Tools/` and `../05. C++/`
 
 **Books:**
 
@@ -39,3 +39,4 @@ To learn more about how to solve consumption-saving models efficiently:
 5. [Lecture notes by Fatih Guvenen](https://fatihguvenen.com/teaching/econ8185-phd-computation-empirics/)
 6. [Lecture notes by Gianluca Violante](https://sites.google.com/a/nyu.edu/glviolante/teaching/quantmacro15)
 7. [Lecture notes by Wouter J. den Haan](http://www.wouterdenhaan.com/notes.htm)
+8. [HANKEstim by Christian Bayer, Benjamin Born and Ralph Luetticke](https://github.com/BenjaminBorn/HANK_BusinessCycleAndInequality)
