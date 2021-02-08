@@ -119,13 +119,11 @@ venv.bak/
 02. DurableConsumptionModel/nlopt-2.4.2-dll64/
 02. DurableConsumptionModel/cppfuncs/nlopt-2.4.2-dll64/
 02. DurableConsumptionModel/saved
-02. DurableConsumptionModel/*.txt
 02. DurableConsumptionModel/*.tex
-02. DurableConsumptionModel/*.zip
+02. DurableConsumptionModel/*.dll
 
 03. G2EGM/saved
 03. G2EGM/*.txt
 03. G2EGM/*.tex
 
-*.yaml
 *.lyx~

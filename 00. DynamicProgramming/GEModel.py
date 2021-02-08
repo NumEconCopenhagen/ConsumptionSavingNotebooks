@@ -227,37 +227,46 @@ class GEModelClass(ModelClass):
 
         with jit(self) as model:
             
-            par = model.par
-            sol = model.sol
-            
-            # a. find wage from optimal firm behavior
-            w = self.implied_w(r)
+            success = True
+            try:
 
-            # b. create (or re-create) grids
-            self.create_grids()
-
-            # c. solve
-            sol.m[:,:] = (1+r)*par.a_grid[np.newaxis,:] + w*par.e_grid[:,np.newaxis]
-            sol.Va[:,:] = (1+r)*(0.1*sol.m)**(-par.sigma) if Va is None else Va
-
-            it = 0
-            while True:
-
-                # i. save
-                a_old = sol.a.copy()
-
-                # ii. egm
-                time_iteration(par,r,w,sol.Va,sol.Va,sol.a,sol.c,sol.m)
-
-                # ii. check
-                if np.max(np.abs(sol.a-a_old)) < par.solve_tol: break
+                par = model.par
+                sol = model.sol
                 
-                # iv. increment
-                it += 1
-                if it > par.max_iter_solve: raise Exception('too many iterations when solving for steady state')
+                # a. find wage from optimal firm behavior
+                w = self.implied_w(r)
 
+                # b. create (or re-create) grids
+                self.create_grids()
+
+                # c. solve
+                sol.m[:,:] = (1+r)*par.a_grid[np.newaxis,:] + w*par.e_grid[:,np.newaxis]
+                sol.Va[:,:] = (1+r)*(0.1*sol.m)**(-par.sigma) if Va is None else Va
+
+                it = 0
+                while True:
+
+                    # i. save
+                    a_old = sol.a.copy()
+
+                    # ii. egm
+                    time_iteration(par,r,w,sol.Va,sol.Va,sol.a,sol.c,sol.m)
+
+                    # ii. check
+                    if np.max(np.abs(sol.a-a_old)) < par.solve_tol: break
+                    
+                    # iv. increment
+                    it += 1
+                    if it > par.max_iter_solve: raise Exception('too many iterations when solving for steady state')
+
+            except:
+
+                success = False
+                
         if do_print:
             print(f'household problem solved in {elapsed(t0)} [{it} iterations]')
+
+        return success
 
     def solve_household_path(self,path_r,path_w=None,do_print=False):
         """ gateway for solving the model along price path (with optimal update of path for w) """
@@ -301,19 +310,28 @@ class GEModelClass(ModelClass):
 
         with jit(self) as model:
 
-            par = model.par
-            sol = model.sol
-            sim = model.sim        
+            success = True
+            try:
 
-            # a. intial guess
-            D = (np.repeat(par.e_ergodic,par.Na)/par.Na).reshape(par.Ne,par.Na) if D is None else D
+                par = model.par
+                sol = model.sol
+                sim = model.sim        
 
-            # b. simulate
-            it = simulate_ss(par,sol,sim,D)
+                # a. intial guess
+                D = (np.repeat(par.e_ergodic,par.Na)/par.Na).reshape(par.Ne,par.Na) if D is None else D
 
-            if do_print:
-                print(f'household problem simulated in {elapsed(t0)} [{it} iterations]')
+                # b. simulate
+                it = simulate_ss(par,sol,sim,D)
 
+                if do_print:
+                    print(f'household problem simulated in {elapsed(t0)} [{it} iterations]')
+
+            except:
+
+                success = False
+
+        return success
+        
     def simulate_household_path(self,D0=None,do_print=False):
         """ gateway for simulating the model along path"""
         
