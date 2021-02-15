@@ -116,8 +116,8 @@ venv.bak/
 01. BufferStockModel/*.txt
 01. BufferStockModel/*.tex
 
-02. DurableConsumptionModel/nlopt-2.4.2-dll64/
 02. DurableConsumptionModel/cppfuncs/nlopt-2.4.2-dll64/
+02. DurableConsumptionModel/cppfuncs/nlopt-2.4.2-dll64.zip
 02. DurableConsumptionModel/saved
 02. DurableConsumptionModel/*.tex
 02. DurableConsumptionModel/*.dll
