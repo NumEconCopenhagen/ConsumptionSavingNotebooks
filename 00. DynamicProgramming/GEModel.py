@@ -55,7 +55,10 @@ class GEModelClass(ModelClass):
         par.beta = 0.982 # discount factor
 
         # c. production
-        par.Z = 1.0 # technology level
+        par.Z = 1.0 # technology level in steady state
+        par.Z_sigma = 0.01 # shock
+        par.Z_rho = 0.90 # persistence
+
         par.alpha = 0.11 # Cobb-Douglas coefficient
         par.delta = 0.025 # depreciation rate
 
@@ -142,8 +145,10 @@ class GEModelClass(ModelClass):
 
         par = self.par
 
+        # a. assets
         par.a_grid[:] = equilogspace(0,par.a_max,par.Na)
 
+        # b. productivity
         e_objs = log_rouwenhorst(par.rho,par.sigma_e,par.Ne)
         par.e_grid[:] = e_objs[0]
         par.e_trans[:,:] = e_objs[1]
@@ -155,50 +160,56 @@ class GEModelClass(ModelClass):
     # solve #
     #########
     
-    def implied_r(self,k,Z=None):
+    def get_path_Z(self):
+        """ calculate Z path """
+
+        par = self.par
+
+        path_Z = np.ones(par.path_T)
+        path_Z[0] = par.Z*(1+par.Z_sigma)
+        for t in range(1,par.path_T):
+            path_Z[t] = (1-par.Z_rho)*par.Z + par.Z_rho*path_Z[t-1]
+
+        return path_Z
+
+    def implied_r(self,k,Z):
         """ implied r given k = K/L and optimal firm behavior """
 
         par = self.par
-        if Z is None: Z = par.Z
         r = Z*par.alpha*k**(par.alpha-1)-par.delta
         return r
 
-    def implied_w(self,r,Z=None):
+    def implied_w(self,r,Z):
         """ implied w given r and optimal firm behavior """
 
         par = self.par
-        if Z is None: Z = par.Z
         w = Z*(1.0-par.alpha)*((r+par.delta)/(Z*par.alpha))**(par.alpha/(par.alpha-1))
         return w
 
-    def firm_demand(self,r,Z=None):
+    def firm_demand(self,r,Z):
         """ firm demand for k = K/L given r and optimal firm behavior """
 
         par = self.par
-        if Z is None: Z = par.Z
         k = ((r+par.delta)/(Z*par.alpha))**(1/(par.alpha-1))
         return k
 
-    def firm_production(self,k,Z=None):
+    def firm_production(self,k,Z):
         """ firm production """
 
         par = self.par
-        if Z is None: Z = par.Z
         return Z*k**par.alpha
 
-    def steady_state(self,r_ss=None,do_print=True):
+    def steady_state(self,do_print=True):
         """ computate steady state statistics """
 
         par = self.par
         sol = self.sol
         sim = self.sim
 
-        if not r_ss is None: par.r_ss = r_ss
-
         # a. firm
-        par.w_ss = self.implied_w(par.r_ss)
-        par.kd_ss = self.firm_demand(par.r_ss)
-        par.Y_ss = self.firm_production(par.kd_ss)
+        par.w_ss = self.implied_w(par.r_ss,par.Z)
+        par.kd_ss = self.firm_demand(par.r_ss,par.Z)
+        par.Y_ss = self.firm_production(par.kd_ss,par.Z)
 
         # b. solve household problem
         self.solve_household_ss(par.r_ss,do_print=do_print)
@@ -234,7 +245,7 @@ class GEModelClass(ModelClass):
                 sol = model.sol
                 
                 # a. find wage from optimal firm behavior
-                w = self.implied_w(r)
+                w = self.implied_w(r,par.Z)
 
                 # b. create (or re-create) grids
                 self.create_grids()
@@ -268,7 +279,7 @@ class GEModelClass(ModelClass):
 
         return success
 
-    def solve_household_path(self,path_r,path_w=None,do_print=False):
+    def solve_household_path(self,path_r,path_w,do_print=False):
         """ gateway for solving the model along price path (with optimal update of path for w) """
 
         t0 = time.time()
@@ -286,7 +297,7 @@ class GEModelClass(ModelClass):
                 
                 # i. prices
                 r = path_r[t]
-                w = self.implied_w(path_r[t]) if path_w is None else path_w[t]
+                w = path_w[t]
 
                 # ii. next-period
                 if t == par.path_T-1:
@@ -332,7 +343,7 @@ class GEModelClass(ModelClass):
 
         return success
         
-    def simulate_household_path(self,D0=None,do_print=False):
+    def simulate_household_path(self,D0,do_print=False):
         """ gateway for simulating the model along path"""
         
         t0 = time.time()
@@ -343,10 +354,6 @@ class GEModelClass(ModelClass):
             sol = model.sol
             sim = model.sim        
 
-            # a. use steady state distribution if not specified
-            D0 = sim.D if D0 is None else D0
-
-            # b. simulate forward along path
             simulate_path(par,sol,sim,D0)
 
         if do_print:
@@ -477,16 +484,13 @@ def simulate_path(par,sol,sim,D0):
     e_trans_T = par.e_trans.T.copy()
     for t in range(par.path_T):
 
-        # a. indices and weights
-        
-
-        # b. update distribution
+        # a. update distribution
         if t == 0:
             sim.path_D[t] = D0 # initial distribution is fixed
         else:
             find_i_and_w(par,sim,sol.path_a[t-1])
             sim.path_D[t] = simulate(par,sim,e_trans_T,sim.path_D[t-1])
 
-        # c. capital
+        # b. capital
         sim.path_K[t] = np.sum(sol.path_a[t]*sim.path_D[t])
         sim.path_C[t] = np.sum(sol.path_c[t]*sim.path_D[t])

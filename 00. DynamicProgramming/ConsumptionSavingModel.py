@@ -75,7 +75,7 @@ class ConsumptionSavingModelClass(ModelClass):
         par.R = 1.04 # return factor
         par.borrowingfac = 0.0 # scales borrowing constraints
 
-        # e. certainty equivalence (CEV): (1+cev) is multiplied inot consumption in utility function
+        # e. certainty equivalence (CEV): (1+cev) is multiplied with consumption in utility function
         par.cev = 0.0
         par.do_cev = 0 
 
@@ -239,8 +239,8 @@ class ConsumptionSavingModelClass(ModelClass):
 
         par = self.par
 
-        # a. create (or re-create) grids
-        self.create_grids()
+        # a. reset solution and simulation arrays
+        self.allocate()
 
         # b. solve
         if par.solmethod == 'egm':
@@ -315,7 +315,7 @@ class ConsumptionSavingModelClass(ModelClass):
                     result = optimize.minimize_scalar(obj,method='bounded',bounds=(0,m))
 
                     sol.c[t,i_m] = result.x
-                    sol.inv_v[t,i_m]= -1/result.fun
+                    sol.inv_v[t,i_m]= -1.0/result.fun
                 
                 # save grid for m
                 sol.m[t,:] = par.grid_m[t,:]

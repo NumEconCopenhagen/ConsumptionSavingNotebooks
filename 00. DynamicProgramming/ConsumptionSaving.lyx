@@ -13,7 +13,7 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 
-\usetheme[progressbar=frametitle,block=fill]{metropolis}
+\usetheme[progressbar=frametitle,block=fill,subsectionpage=progressbar]{metropolis}
 
 % margin
 \setbeamersize{text margin right=1.5cm}
@@ -461,7 +461,9 @@ Housing and location choices
 \begin_layout Enumerate
 Households are the 
 \series bold
-cornerstone of general equilibrium models
+cornerstone of general equilibrium models 
+\series default
+to study the effect of heterogeneity and inequality
 \end_layout
 
 \end_deeper
@@ -569,23 +571,6 @@ status open
 \end_inset
 
 
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-
-\series bold
-before:
-\series default
- general introduction to dynamic programming
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-after:
-\series default
- estimation + general equilibrium
 \begin_inset ERT
 status open
 
@@ -601,11 +586,10 @@ vspace{3mm}
 
 \end_layout
 
-\end_deeper
 \begin_layout Itemize
 
 \series bold
-Focus in most of these slides: 
+Focus in the partial equilibrium (PE) part of these slides: 
 \series default
 
 \begin_inset Newline newline
@@ -614,33 +598,32 @@ Focus in most of these slides:
 Carroll (2020, QE), 
 \emph on
 Theoretical foundations of buffer stock saving
+\emph default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{3mm}
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-(partial equilibrium, PE)
+\end_inset
+
+
 \end_layout
 
-\end_deeper
 \begin_layout Itemize
 
 \series bold
-Follow up note on general equilibrium:
+Acknowledgments:
+\series default
+ Christoffer Jessen Weissert, Emil Holst Partsch, Anders Yding, previous
+ students in Dynamic Programming
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-\begin_inset Quotes ald
-\end_inset
-
-A Note on Solving General Equilibrium Models
-\begin_inset Quotes ard
-\end_inset
-
-
-\end_layout
-
-\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -1021,11 +1004,14 @@ Use
 \series bold
 terminal condition 
 \series default
-(why equality?)
+
+\begin_inset Formula $A_{T}=0$
+\end_inset
+
+ (why equality?)
 \begin_inset Formula 
 \begin{eqnarray*}
-A_{T}=0\Leftrightarrow R^{-T}A_{T}=0\Leftrightarrow RA_{-1}+\sum_{t=0}^{T}R^{-t}(P_{t}-C_{t}) & = & 0\Leftrightarrow\\
-B_{0}+H_{0} & = & \sum_{t=0}^{T}R^{-t}C_{t}
+R^{-T}A_{T}=0 & \Leftrightarrow & B_{0}+H_{0}=\sum_{t=0}^{T}R^{-t}C_{t}
 \end{eqnarray*}
 
 \end_inset
@@ -1427,7 +1413,7 @@ literal "false"
 Lottery studies 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "fagereng_mpc_2019"
+key "fagereng_mpc_2020"
 literal "false"
 
 \end_inset
@@ -1441,7 +1427,7 @@ literal "false"
 ARM payments studies 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "druedahl_intertemporal_2019,di_maggio_interest_2017"
+key "di_maggio_interest_2017,druedahl_intertemporal_2020"
 literal "false"
 
 \end_inset
@@ -1544,7 +1530,7 @@ High MPC: Norwegian lottery winners
 \series bold
 Source:
 \series default
- Fagereng, Holm, Natvik (WP, 2019)
+ Fagereng, Holm, Natvik (AEJ:Macro, 2020)
 \end_layout
 
 \end_deeper
@@ -2507,6 +2493,8 @@ vspace{-2mm}
 \end_inset
 
 
+\size small
+
 \begin_inset Formula 
 \begin{eqnarray*}
 \epsilon_{t+1} & \sim & \exp\mathcal{N}(-0.5\sigma_{\xi}^{2},\sigma_{\xi}^{2})\\
@@ -2635,7 +2623,7 @@ Szeidl (2006)
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Details
 \end_layout
 
@@ -2644,6 +2632,7 @@ Details
 status open
 
 \begin_layout Plain Layout
+Precautionary saving: 
 \begin_inset Formula $\sigma_{\psi}=0.10$
 \end_inset
 
@@ -2672,7 +2661,7 @@ status open
 \begin_layout Frame
 
 \series bold
-Target with standard risk:
+Target with baseline risk:
 \series default
  
 \begin_inset Formula $1.40$
@@ -2693,6 +2682,7 @@ Target with standard risk:
 status open
 
 \begin_layout Plain Layout
+Precautionary saving: 
 \begin_inset Formula $\sigma_{\psi}=0.15$
 \end_inset
 
@@ -3414,7 +3404,7 @@ Perfect foresight with
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Life-cycle
 \end_layout
 
@@ -3595,7 +3585,7 @@ Simulation: LIfe-cycle profiles (
 \begin_deeper
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3672,26 +3662,6 @@ Cash-on-hand,
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 Consumption, 
 \begin_inset Formula $C_{t}$
 \end_inset
@@ -3754,6 +3724,12 @@ End-of-period assets,
 
 \end_layout
 
+\begin_layout Standard
+
+\series bold
+What is most unrealistic here?
+\end_layout
+
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -3781,7 +3757,11 @@ Euler-equation
 
 \begin_deeper
 \begin_layout Itemize
-Reference: 
+
+\series bold
+Reference:
+\series default
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "carroll_method_2006"
@@ -4085,7 +4065,7 @@ consumption function
 \begin_inset Formula $c_{t}(m_{t})$
 \end_inset
 
-, is given by 
+, is given by interpolating
 \begin_inset Formula 
 \[
 \left\{ 0,c_{1},c_{2},\dots,c_{\#}\right\} \text{ for }\{\underline{a}_{t},m_{1},m_{2},\dots,m_{\#}\}
@@ -4453,6 +4433,362 @@ literal "false"
 status open
 
 \begin_layout Plain Layout
+Denmark: Consumption function fit
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename graphics/tj_fitcfuncs.png
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\series bold
+Source:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "jorgensen_lifecycle_2017"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Level of wealth and long-run dynamics I
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Best test of a life-cycle consumption-saving model: 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+A 
+\emph on
+sudden
+\emph default
+, 
+\emph on
+sizable
+\emph default
+ and 
+\emph on
+salient
+\emph default
+ shock to wealth
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
++ long panel to observe how the extra wealth is spend
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+My own research:
+\series default
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "druedahl_long-run_2018"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Compare individuals in the Danish register data who
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Receive a similar inheritance, but at different points in time
+\end_layout
+
+\begin_layout Enumerate
+From parents dying due to heart attacks or car crashes
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Level of wealth and long-run dynamics II
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename graphics/bs_fits_rhos.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Net worth: 
+\series default
+Good fit for different levels of risk-aversion (
+\begin_inset Formula $\rho$
+\end_inset
+
+) when re-calibrating patience (
+\begin_inset Formula $\beta$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Also dynamics: 
+\series default
+Good fit only if risk-aversion (
+\begin_inset Formula $\rho$
+\end_inset
+
+) is high
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MPC out of future shocks
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Central property of buffer-stock model:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Non-constrained:
+\series default
+ Increase consumption today when obtaining information of higher income
+ tomorrow
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Constrained: 
+\series default
+Increase consumption when cash flow arrives
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+How to test test this?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A paper of mine:
+\series default
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "The Intertemporal Marginal Propensity to Consume out of Future Persistent Cash-Flows"
+target "https://drive.google.com/file/d/1jAOuTJFd6A1eZW_JZQPTJA9dbN90XRCR/view?usp=sharing"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Data: 
+\series default
+Account data for all Nykredit customers
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Experiment:
+\series default
+ Letter with bank's expectations for interest rate in next mortgage auction
+ 2-3 months ahead
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Result: 
+\series default
+Observed behavior can be rationalized in a simple buffer-stock consumption
+ model
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Code: 
+\series default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub"
+target "https://github.com/JeppeDruedahl/MPCF"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
 Level of wealth and MPC
 \end_layout
 
@@ -4671,148 +5007,6 @@ W_{t}(A_{t},B_{t},P_{t})=\mathbb{E}_{t}[V_{t}(RA_{t}+P_{t}\psi_{t+1}\xi_{t+1},R_
 status open
 
 \begin_layout Plain Layout
-Level of wealth and long-run dynamics I
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Best test of a life-cycle consumption-saving model: 
-\series default
-
-\begin_inset Newline newline
-\end_inset
-
-A 
-\emph on
-sudden
-\emph default
-, 
-\emph on
-sizable
-\emph default
- and 
-\emph on
-salient
-\emph default
- shock to wealth
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-+ long panel to observe how the extra wealth is spend
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-My own research:
-\series default
- 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "druedahl_long-run_2018"
-literal "false"
-
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-Compare individuals in the Danish register data who
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Receive a similar inheritance, but at different points in time
-\end_layout
-
-\begin_layout Enumerate
-From parents dying due to heart attacks or car crashes
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Level of wealth and long-run dynamics II
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Graphics
-	filename graphics/bs_fits_rhos.pdf
-	width 90text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Net worth: 
-\series default
-Good fit for different levels of risk-aversion (
-\begin_inset Formula $\rho$
-\end_inset
-
-) when re-calibrating patience (
-\begin_inset Formula $\beta$
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Also dynamics: 
-\series default
-Good fit only if risk-aversion (
-\begin_inset Formula $\rho$
-\end_inset
-
-) is high
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
 Frontier topics - curated papers
 \end_layout
 
@@ -4838,7 +5032,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "harmenberg_consumption_2017"
+key "harmenberg_consumption_2020"
 literal "false"
 
 \end_inset
@@ -4930,7 +5124,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "druedahl_higher-order_2019"
+key "druedahl_higher-order_2020"
 literal "false"
 
 \end_inset
@@ -4969,7 +5163,7 @@ Imperfect information and bounded rationality
 \series default
 
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Plain Layout
 (learning, myopia, hyperbolic discounting, reference dependence, mental
@@ -5030,7 +5224,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "hubmer_sources_2019"
+key "hubmer_sources_2020"
 literal "false"
 
 \end_inset
@@ -5752,7 +5946,7 @@ literal "false"
 
 \end_inset
 
-,
+
 \end_layout
 
 \end_deeper
@@ -5882,14 +6076,6 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "luetticke_transmission_2019"
-literal "false"
-
-\end_inset
-
-, 
-\begin_inset CommandInset citation
-LatexCommand citet
 key "alves_further_2019"
 literal "false"
 
@@ -5904,6 +6090,14 @@ literal "false"
 \end_inset
 
 , 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "luetticke_transmission_2020"
+literal "false"
+
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand citet
 key "auclert_micro_2020"
@@ -5962,7 +6156,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "acharya_understanding_2018"
+key "acharya_understanding_2020"
 literal "false"
 
 \end_inset
@@ -6063,10 +6257,10 @@ literal "false"
 
 \end_inset
 
-,
+, 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "den_haan_unemployment_2017"
+key "ravn_job_2017"
 literal "false"
 
 \end_inset
@@ -6074,7 +6268,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "ravn_job_2017"
+key "den_haan_unemployment_2018"
 literal "false"
 
 \end_inset
@@ -6290,10 +6484,14 @@ Local aggregate solution:
 
 \begin_deeper
 \begin_layout Enumerate
-State space: 
+
+\emph on
+State space:
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "bayer_solving_2019"
+key "bayer_solving_2020"
 literal "false"
 
 \end_inset
@@ -6368,7 +6566,11 @@ status open
 \end_layout
 
 \begin_layout Enumerate
-Sequence space: 
+
+\emph on
+Sequence space:
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "boppart_exploiting_2018"
@@ -6376,7 +6578,11 @@ literal "false"
 
 \end_inset
 
-, 
+,
+\begin_inset Newline newline
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand citet
 key "auclert_micro_2020"
@@ -6613,6 +6819,2690 @@ status open
 )
 \end_layout
 
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stationary equilibrium
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The Aiyagari model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Households:
+\series default
+ Continuum of measure 
+\begin_inset Formula $1$
+\end_inset
+
+ who
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Own stocks, 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+ (end-of-period)
+\end_layout
+
+\begin_layout Enumerate
+Supply labor with productivity 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+(exogenous and stochastic, mean one)
+\end_layout
+
+\begin_layout Enumerate
+Consume, 
+\begin_inset Formula $c_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Firms: 
+\series default
+Rent capital and hire labor to produce
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Capital:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Predetermined: 
+\begin_inset Formula $Y_{t}=F(Z_{t},K_{t-1},L_{t})$
+\end_inset
+
+, where 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+ is technology, 
+\begin_inset Formula $K_{t-1}$
+\end_inset
+
+ is capital, and 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+ is labor
+\end_layout
+
+\begin_layout Enumerate
+Depreciates with rate 
+\begin_inset Formula $\delta$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Prices
+\series default
+ are taken as given by households and firms
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $r_{t}^{k}$
+\end_inset
+
+, rental rate
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $r_{t}=r_{t}^{k}-\delta$
+\end_inset
+
+,
+\series bold
+ 
+\series default
+interest rate
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, wage rate
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Firms
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Production function:
+\series default
+ 
+\begin_inset Formula $Y_{t}=Z_{t}K_{t-1}^{\alpha}L_{t}^{1-\alpha}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Define
+\series default
+ 
+\begin_inset Formula $k_{t-1}\equiv K_{t-1}/L_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Standard 
+\series bold
+pricing equations:
+\begin_inset Formula 
+\begin{align*}
+r_{t}^{k} & =\alpha Z_{t}k_{t-1}^{\alpha-1}\\
+w_{t} & =(1-\alpha)Z_{t}k_{t-1}^{\alpha}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Useful 
+\series bold
+implications:
+\begin_inset Formula 
+\begin{align*}
+k_{t-1} & =\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{1}{\alpha-1}}\equiv k(r_{t},Z_{t})\\
+r_{t} & =\alpha Z_{t}k_{t-1}^{\alpha-1}\equiv r(k_{t-1},Z_{t})\\
+w_{t} & =(1-\alpha)Z_{t}\left(\frac{r_{t}+\delta}{\alpha Z_{t}}\right)^{\frac{\alpha}{\alpha-1}}\equiv w(r_{t},Z_{t})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Households
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Perfect foresight: 
+\series default
+Price sequence known, 
+\begin_inset Formula $\{r_{t},w_{t}\}_{t\geq0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Households solve:
+\series default
+
+\begin_inset Formula 
+\begin{eqnarray*}
+v_{t}(e{}_{t},a_{t-1}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v_{t+1}(e_{t+1},a_{t})\right]\\
+ & \text{s.t.}\\
+a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
+a_{t} & \geq & 0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Value function: 
+\series default
+We could write 
+\series bold
+
+\begin_inset Formula 
+\[
+v_{t}(e{}_{t},a_{t-1})=\mathcal{V}(e_{t},a_{t-1},\{r_{k},w_{k}\}_{k\geq t})
+\]
+
+\end_inset
+
+
+\series default
+where 
+\begin_inset Formula $\mathcal{V}$
+\end_inset
+
+ does not have a time subscript, but where the price sequences are state
+ variables
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Optimal saving and consumption:
+\series default
+ 
+\begin_inset Formula $a_{t}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Supply of capital
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Distribution: 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ 
+\series default
+over 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Supply of capital: 
+\begin_inset Formula $\mathcal{K}_{t}=\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}=\int a_{t}dD_{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Details:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Formulation I:
+\series default
+ 
+\begin_inset Formula $\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}$
+\end_inset
+
+ is an integral over 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+ applying the optimal saving function in period 
+\begin_inset Formula $t$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $a_{t}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+, thus summing up savings at the end-of-period 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Formulation II: 
+\begin_inset Formula $\int a_{t}dD_{t+1}$
+\end_inset
+
+ 
+\series default
+is an integral over 
+\begin_inset Formula $e_{t+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{t}$
+\end_inset
+
+ directly summing up savings at the end-of-period 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equivalence:
+\series default
+ The two formulations gives the same result because 
+\begin_inset Formula $D_{t+1}$
+\end_inset
+
+ is generated from 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ assuming saving according to 
+\begin_inset Formula $a_{t}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+ (and the exogenous process for 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Market clearing
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Market clearing
+\series default
+ requires
+\begin_inset Formula 
+\begin{align*}
+\text{Capital: }K_{t} & =\mathcal{K}_{t}=\int a_{t}dD_{t+1}=\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}\\
+\text{Labour: }L_{t} & =\int e_{t}dD_{t}=1\\
+\text{Goods: }Y_{t} & =\int c_{t}^{\ast}(e_{t},a_{t-1})dD_{t}+\delta K_{t-1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+labor market clears trivially
+\series default
+, while we can leave out the 
+\series bold
+goods market
+\series default
+ due to 
+\series bold
+Walras's Law
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Solve household problem by EGM
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Grids:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $e_{t}\in\{e^{1},\dots,e^{\#_{e}}\}$
+\end_inset
+
+ (discretized with 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "tauchen_quadrature-based_1991"
+literal "true"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a_{t}\in\{a^{1},\dots,a^{\#_{a}}\}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Guess:
+\series default
+ 
+\begin_inset Formula $v_{a,t+1}(e^{i},a^{j}),\,\forall i,j$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Time iteration:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calculate: 
+\begin_inset Formula $q_{t}(e^{i},a^{j})=\sum_{k=1}^{\#_{e}}\text{Pr}[e^{k}|e^{i}]v_{a,t+1}(e^{i},a^{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\tilde{c}^{ij}=q_{t}(e^{i},a^{j})^{-\sigma}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{m}^{ij}=\tilde{c}^{ij}+a^{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Interpolate 
+\begin_inset Formula $\{\tilde{m}^{ij},a^{j}\}_{j=1}^{\#_{a}}$
+\end_inset
+
+ at 
+\begin_inset Formula $m^{j}=(1+r_{t})a^{j}+w_{t}e^{i}$
+\end_inset
+
+ to find 
+\begin_inset Formula $a^{\ast}(e^{i},a^{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $c^{\ast}(e^{i},a^{j})=m_{t}-a^{\ast}(e^{i},a^{j})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $v_{a,t+1}(e^{i},a^{j})=(1+r)c^{\ast}(e^{i},a^{j})^{-\sigma}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+(use of the envelope theorem)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Note: 
+\series default
+Any other 
+\emph on
+solution
+\emph default
+ method could have been used
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Simulate household behavior on grid
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Initial distribution:
+\series default
+ 
+\begin_inset Formula $D_{0}(e^{i},a^{j})=\frac{\text{Pr}[e^{i}]}{\#_{a}}$
+\end_inset
+
+ (
+\emph on
+ergodic
+\emph default
+ in 
+\begin_inset Formula $e$
+\end_inset
+
+, 
+\emph on
+uniform
+\emph default
+ in 
+\begin_inset Formula $a$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Idea:
+\series default
+ Re-distribute mass to grid points, where optimal decisions lie
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Update: 
+\series default
+Calculate 
+\begin_inset Formula $D_{t+1}(e^{k},a^{l})$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+\sum_{i=1}^{\#_{e}}\text{Pr}[e^{k}|e^{i}]\sum_{j=1}^{\#_{a}}D_{t}(e^{i},a^{j})\omega(a^{\star}(e^{i},a^{j}),a^{\max\{l-1,1\}},a^{l},a^{\min\{l+1,\#_{a}\}})
+\]
+
+\end_inset
+
+where
+\begin_inset Formula 
+\begin{align*}
+\omega(a,\underline{a},\tilde{a},\overline{a}) & =1\{a\in[\underline{a},\overline{a}]\}\begin{cases}
+\frac{\overline{a}-a}{\overline{a}-\tilde{a}} & \text{if }a\geq\tilde{a}\\
+\frac{a-\underline{a}}{\overline{\tilde{a}}-\underline{a}} & \text{if }a<\tilde{a}
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Weight: 
+\series default
+
+\begin_inset Formula $\omega$
+\end_inset
+
+ is a weight on each grid point calculated using linear interpolation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Note: 
+\series default
+Any other 
+\emph on
+simulation
+\emph default
+ method could have been used
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Stationary equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+A 
+\series bold
+stationary equilibrium
+\series default
+ for a given 
+\begin_inset Formula $Z_{ss}$
+\end_inset
+
+ is one where
+\end_layout
+
+\begin_layout Enumerate
+Quantities 
+\begin_inset Formula $K_{ss}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{ss},$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+prices 
+\begin_inset Formula $r_{ss}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{ss},$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+a distribution 
+\begin_inset Formula $D_{ss}$
+\end_inset
+
+ over 
+\begin_inset Formula $e_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+and policy functions 
+\begin_inset Formula $a_{ss}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{ss}^{\ast}(e_{t},a_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+are such that
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a_{ss}^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{ss}^{\ast}(\bullet)$
+\end_inset
+
+ solves the household problem
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{ss}$
+\end_inset
+
+ is the invariant distribution implied by the household problem
+\end_layout
+
+\begin_layout Enumerate
+Firms maximize profits, 
+\begin_inset Formula $r_{ss}=r(K_{ss}/L_{ss},Z_{ss})$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{ss}=w(r_{ss},Z_{ss})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L_{ss}=\int e_{t}dD_{ss}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K_{ss}=\int a_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The goods market clears, i.e.
+ 
+\begin_inset Formula $Y_{ss}=\int c_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}+\delta K_{ss}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Finding stationary equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Guess on 
+\begin_inset Formula $r_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $w_{ss}=w(r_{ss},Z_{ss})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the infinite horizon household problem
+\end_layout
+
+\begin_layout Enumerate
+Simulate until convergence of 
+\begin_inset Formula $D_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate supply 
+\begin_inset Formula $\mathcal{K}_{ss}=\int a_{ss}^{\ast}(e_{t},a_{t-1})dD_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate demand 
+\begin_inset Formula $K_{ss}=k(r_{ss},Z_{ss})L_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If for some tolerance 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left|\mathcal{K}_{ss}-K_{ss}\right|<\epsilon
+\]
+
+\end_inset
+
+then stop, otherwise update 
+\begin_inset Formula $r_{ss}$
+\end_inset
+
+ appropriately and return to step 2
+\end_layout
+
+\begin_layout Standard
+This is just a 
+\series bold
+root-finding problem
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Equilibrium interest rate
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Step 1:
+\series default
+ Perform grid search
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\series bold
+Step 2:
+\series default
+ Use standard root finder
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename figs/stationary_equilibrium.pdf
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Precautionary saving and the interest rate
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Baseline: 
+\begin_inset Formula $\sigma_{e}=0.1$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Interest rate: 
+\begin_inset Formula $r^{\ast}=0.0127$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Capital-output ratio: 
+\begin_inset Formula $2.92$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Higher risk: 
+\series default
+
+\begin_inset Formula $\sigma_{e}=0.2$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Interest rate: 
+\begin_inset Formula $r^{\ast}=0.0029$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Capital-output ratio: 
+\begin_inset Formula $3.95$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Intuition: 
+\series default
+Saving motive 
+\begin_inset Formula $\uparrow$
+\end_inset
+
+, marginal product of capital 
+\begin_inset Formula $\downarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Implication: 
+\series default
+Important for the 
+\begin_inset Quotes ald
+\end_inset
+
+natural
+\begin_inset Quotes ard
+\end_inset
+
+ interest rate!
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Example: 
+\series default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+color{DarkRed}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "On Secular Stagnation in the Industrialized World"
+target "https://www.brookings.edu/wp-content/uploads/2019/03/RachelSummers_web.pdf"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Transition path
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Transition path (to MIT shock)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+A 
+\series bold
+transition path
+\series default
+ for 
+\begin_inset Formula $t\in\{0,1,2,\dots\}$
+\end_inset
+
+, given an initial distribution 
+\begin_inset Formula $D_{0}$
+\end_inset
+
+ and a path of 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+, is paths of quantities 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+, prices 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, policy functions 
+\begin_inset Formula $a_{t}^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}^{\ast}(\bullet)$
+\end_inset
+
+, distributions 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+, such that for all 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a_{t}^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}^{\ast}(\bullet)$
+\end_inset
+
+ solve the household problem given price paths
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ are implied by the household problem given price paths and 
+\begin_inset Formula $D_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Firms maximizes profit, 
+\begin_inset Formula $r_{t}=r(K_{t-1}/L_{t},Z_{t})$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}=w(r_{t},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L_{t}=\int e_{t}dD_{t}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K_{t-1}=\int a_{t-1}dD_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The goods market clears, i.e.
+ 
+\begin_inset Formula $Y_{t}=\int c_{t}^{\ast}(\bullet)dD_{t}+\delta K_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+MIT shock 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ 
+\series default
+
+\begin_inset Quotes ald
+\end_inset
+
+Shock in a world without shocks
+\begin_inset Quotes ard
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Relaxation-method
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Guess on 
+\begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{r_{ss}\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+ (or something else)
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{w(r_{ss},Z_{t})\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the household problem backwards along the transition path
+\end_layout
+
+\begin_layout Enumerate
+Simulate households forward along the transition path
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{k_{t}\}_{t=0}^{\mathcal{T}}=\{\int a_{t}^{\ast}(\bullet)dD_{t-1}\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}=\{r(k_{t-1},Z_{t})\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Stop if for some tolerance 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\max_{t\in\{0,1,2,\dots,\mathcal{T}\}}\left|r_{t}-r_{t}^{\prime}\right|<\epsilon
+\]
+
+\end_inset
+
+otherwise return to step 2 with 
+\begin_inset Formula $\{r_{t}\}_{t=0}^{\mathcal{T}}=\{\nu r_{t}+(1-\nu)r_{t}^{\prime}\}_{t=0}^{\mathcal{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Note: 
+\series default
+Typically the relaxation parameter is 
+\begin_inset Formula $\nu=0.90$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "kirkby_transition_2017"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Transition path
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/transition_path.pdf
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Remember:
+\series default
+ We also have a transition path for 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ we can calculate distribution of utility effects!
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sequence space method
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Reformulation
+\series default
+: 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ given by initial distribution and price sequence
+\begin_inset Formula 
+\begin{align*}
+K_{t} & =\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}\\
+ & \equiv\mathcal{K}_{t}\{\{r_{s},w_{s}\}_{s\geq0},D_{0})\}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Define:
+\series default
+ 
+\begin_inset Formula $\boldsymbol{K}=(K_{0},K_{1},\dots$
+\end_inset
+
+) and 
+\begin_inset Formula $\boldsymbol{Z}=(Z_{0},Z_{1},\dots)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transition path
+\series default
+ is, for given 
+\begin_inset Formula $\boldsymbol{Z}$
+\end_inset
+
+, solution for 
+\begin_inset Formula $t=0,1,\dots$
+\end_inset
+
+, to 
+\begin_inset Formula 
+\[
+H_{t}(\boldsymbol{K},\boldsymbol{Z},D_{0})\equiv\mathcal{K}_{t}(\{r(Z_{s},K_{s-1}),w(Z_{s},K_{s-1})\}_{s\geq0},D_{0})-K_{t}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+or in 
+\series bold
+time-stacked form: 
+\begin_inset Formula 
+\[
+\boldsymbol{H}(\boldsymbol{K},\boldsymbol{Z},D_{0})=\boldsymbol{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Standard:
+\series default
+ 
+\begin_inset Formula $D_{0}=D_{ss}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Time-stacked form
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Total differentiation
+\series default
+ implies
+\begin_inset Formula 
+\begin{align*}
+\boldsymbol{H}_{\boldsymbol{K}}d\boldsymbol{K}+\boldsymbol{H}_{\boldsymbol{Z}}d\boldsymbol{Z}=0 & \Leftrightarrow d\boldsymbol{K}=-\boldsymbol{H}_{\boldsymbol{K}}^{-1}\boldsymbol{H}_{\boldsymbol{Z}}d\boldsymbol{Z}
+\end{align*}
+
+\end_inset
+
+where
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-3mm}
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+
+\begin_inset Formula 
+\[
+\boldsymbol{H}_{\boldsymbol{K}}=\left[\begin{array}{ccc}
+\frac{\partial H_{0}}{\partial K_{0}} & \frac{\partial H_{0}}{\partial K_{1}} & \cdots\\
+\frac{\partial H_{1}}{\partial K_{0}} & \ddots & \ddots\\
+\vdots & \ddots & \ddots
+\end{array}\right],\,\boldsymbol{H}_{\boldsymbol{Z}}=\left[\begin{array}{ccc}
+\frac{\partial H_{0}}{\partial Z_{0}} & \frac{\partial H_{0}}{\partial Z_{1}} & \cdots\\
+\frac{\partial H_{1}}{\partial Z_{0}} & \ddots & \ddots\\
+\vdots & \ddots & \ddots
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Decomposition: 
+\series default
+
+\begin_inset Formula 
+\begin{align*}
+\boldsymbol{H}_{\boldsymbol{K}} & =\mathcal{J}^{\mathcal{K},r}\mathcal{J}^{r,K}+\mathcal{J}^{\mathcal{K},w}\mathcal{J}^{w,K}-\boldsymbol{I}\\
+\boldsymbol{H}_{Z} & =\mathcal{J}^{\mathcal{K},r}\mathcal{J}^{r,Z}+\mathcal{J}^{\mathcal{K},w}\mathcal{J}^{w,Z}
+\end{align*}
+
+\end_inset
+
+where generically
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-3mm}
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+
+\begin_inset Formula 
+\[
+\mathcal{J}^{x,y}=\left[\begin{array}{ccc}
+\frac{\partial x_{0}}{\partial y_{0}} & \frac{\partial x_{0}}{\partial y_{1}} & \cdots\\
+\frac{\partial x_{1}}{\partial y_{0}} & \ddots & \ddots\\
+\vdots & \ddots & \ddots
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Calculating Jacobians
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Analytical:
+\series default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-5mm}
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+
+\begin_inset Formula 
+\begin{align*}
+\mathcal{J}^{r,K} & =\alpha(\alpha-1)Z_{t}K_{t}^{\alpha-2}\begin{bmatrix}0 & 0 & \cdots & 0\\
+1 & 0 & \cdots & 0\\
+\vdots & 1 & 0 & \vdots\\
+0 & 0 & \ddots & 0\\
+0 & 0 & \cdots & 1
+\end{bmatrix},\mathcal{J}^{r,Z}=\alpha K_{t}^{\alpha-1}\boldsymbol{I}\\
+\mathcal{J}^{w,K} & =(1-\alpha)\alpha Z_{t}K_{t}^{\alpha-1}\begin{bmatrix}0 & 0 & \cdots & 0\\
+1 & 0 & \cdots & 0\\
+\vdots & 1 & 0 & \vdots\\
+0 & 0 & \ddots & 0\\
+0 & 0 & \cdots & 1
+\end{bmatrix},\mathcal{J}^{w,Z}=(1-\alpha)K_{t}^{\alpha}\boldsymbol{I}
+\end{align*}
+
+\end_inset
+
+
+\series bold
+\size default
+Note
+\series default
+ 
+\begin_inset Formula $\forall t\neq s-1:\frac{\partial r_{t}}{\partial K_{s}}=\frac{\partial w_{t}}{\partial K_{s}}=0$
+\end_inset
+
+ and 
+\begin_inset Formula $\forall s\neq t:\frac{\partial r_{t}}{\partial Z_{s}}=\frac{\partial w_{s}}{\partial Z_{s}}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Numerical:
+\series default
+ 
+\begin_inset Formula $\mathcal{J}^{\mathcal{K},r}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{J}^{\mathcal{K},w}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Truncation:
+\series default
+ The matrices are truncated such that they are 
+\begin_inset Formula $T\times T$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Interpreting Jacobians
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Along a row:
+\series default
+ The effect on a variable in a given period of a shock in an arbitrary period
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Along a column: 
+\series default
+The effect of a shock in a given period on a variable in an arbitrary period
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/jacobians.pdf
+	width 105text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Transition path after MIT shock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Assume we 
+\series bold
+start in the stationary equilibrium
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+MIT-shock: 
+\series default
+Known path of future 
+\begin_inset Formula $\boldsymbol{Z}$
+\end_inset
+
+, i.e.
+ in terms of changes from steady state 
+\begin_inset Formula $d\boldsymbol{Z}=\boldsymbol{Z}-Z_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Question:
+\series default
+ What happens to aggregate capital?
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Answer:
+\series default
+ To a first order we have
+\begin_inset Formula 
+\[
+\boldsymbol{G}^{K,Z}\equiv\frac{d\boldsymbol{K}}{d\boldsymbol{Z}}=-\boldsymbol{H}_{\boldsymbol{K}}^{-1}\boldsymbol{H}_{\boldsymbol{Z}}
+\]
+
+\end_inset
+
+where all derivatives are 
+\series bold
+evaluated at the stationary equilibrium
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Additionally:
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\boldsymbol{G}^{r,Z}\equiv\frac{d\boldsymbol{r}}{d\boldsymbol{Z}}=\mathcal{J}^{r,Z}+\mathcal{J}^{r,K}\boldsymbol{G}^{K,Z},\,\,\,\boldsymbol{G}^{w,Z}\frac{d\boldsymbol{w}}{d\boldsymbol{Z}}=\mathcal{J}^{w,Z}+\mathcal{J}^{w,K}\boldsymbol{G}^{K,Z}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\boldsymbol{G}^{C,Z}\equiv\frac{d\boldsymbol{C}}{d\boldsymbol{Z}}=\mathcal{J}^{C,r}\boldsymbol{G}^{r,Z}+\mathcal{J}^{C,w}\boldsymbol{G}^{w,Z},\,\,\,\boldsymbol{G}^{Y,Z}\equiv\frac{d\boldsymbol{Y}}{d\boldsymbol{Z}}=\mathcal{J}^{Y,Z}+\mathcal{J}^{Y,K}\boldsymbol{G}^{K,Z}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+News shock vs.
+ persistent shock
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/news_vs_persistent_shock.pdf
+	width 105text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\series bold
+Persistent shock: 
+\series default
+
+\begin_inset Formula $Z_{t}=(1-\rho_{Z})Z_{ss}+\rho Z_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $Z_{0}=(1+\sigma_{Z})Z_{ss}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\series bold
+Note: 
+\series default
+One Jacobian, infinite impulse-respones!
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Impulse-responses
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/irfs.pdf
+	width 105text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Linear vs.
+ non-linear
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Beyond first order approximation? 
+\series default
+\emph on
+Solve full non-linear equation system using the Jacobian at the stationary
+ equilibrium as an approximation of the true Jacobians along the transition
+ path
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Comparison:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/non_linear.pdf
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Dynamic equilibrium
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Household problem with aggregate shocks
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Aggregate shocks: 
+\series default
+Assume 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+ is a stochastic process
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Root problem: 
+\series default
+There is no longer perfect foresight wrt.
+ 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Extended problem:
+\series default
+
+\begin_inset Formula 
+\begin{eqnarray*}
+v(e_{t},a_{t-1},Z_{t},D_{t}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v(e_{t+1},a_{t},Z_{t+1},D_{t+1})\right]\\
+ & \text{s.t.}\\
+a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
+k_{t-1} & = & \int a_{t-1}dD_{t}\\
+r_{t} & = & r(k_{t-1},Z_{t})\\
+w_{t} & = & w(r_{t},Z_{t})\\
+a_{t} & \geq & 0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ultimate problem:
+\series default
+ 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ is not easy to discretize...
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Approximate household problem
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Krusell-Smith idea: 
+\series default
+Approximate 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ with some selected moments, e.g.
+ just the mean
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Approximate problem:
+\series default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-3mm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+v(e_{t},a_{t-1},Z_{t},k_{t-1}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}\left[v(e_{t+1},a_{t},Z_{t+1},k_{t})\right]\\
+ & \text{s.t.}\\
+a_{t}+c_{t} & = & (1+r_{t})a_{t-1}+w_{t}e_{t}\\
+r_{t} & = & r(k_{t-1},Z_{t})\\
+w_{t} & = & w(r_{t},Z_{t})\\
+k_{t} & = & \text{PLM}(k_{t-1},Z_{t})\\
+a_{t} & \geq & 0
+\end{eqnarray*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\text{PLM}(k_{t-1},Z_{t})$
+\end_inset
+
+ is the 
+\series bold
+perceived law of motion
+\begin_inset Newline newline
+\end_inset
+
+For example:
+\series default
+ 
+\begin_inset Formula $\text{PLM}(k_{t-1},Z_{t})=\beta_{Z_{t}}+\alpha_{Z_{t}}\log k_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Dynamic equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+An 
+\series bold
+(approximate) dynamic equilibrium 
+\series default
+is a 
+\begin_inset Formula $\text{PLM}$
+\end_inset
+
+, policy functions 
+\begin_inset Formula $a^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c^{\ast}(\bullet)$
+\end_inset
+
+, and paths of quantities 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+, prices 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, distributions 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ such that for all 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $a^{\ast}(\bullet)$
+\end_inset
+
+ and 
+\begin_inset Formula $c^{\ast}(\bullet)$
+\end_inset
+
+ solve the household problem given the 
+\begin_inset Formula $\text{PLM}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ is implied by the household problem
+\end_layout
+
+\begin_layout Enumerate
+Firms profit maximize 
+\begin_inset Formula $r_{t}=r(K_{t-1}/L_{t},Z_{t})$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}=w(r_{t},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L_{t}=\int e_{t}dD_{t}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K_{t}=\int a^{\ast}(e_{t},a_{t-1})dD_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The goods market clears, i.e.
+ 
+\begin_inset Formula $Y_{t}=\int c^{\ast}(e_{t},a_{t-1})dD_{t}+\delta K_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\text{PLM}(k_{t-1},Z_{t})$
+\end_inset
+
+ does not imply systematic expectations errors
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Note: 
+\series default
+When 
+\begin_inset Formula $Z_{t}=Z_{ss}\forall Z_{t}$
+\end_inset
+
+ the dynamic equilibrium does 
+\emph on
+not 
+\emph default
+converge to the stationary equilibrium unless the households know 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+ is actually not stochastic.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Finding dynamic equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Guess on the 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\text{PLM}(k_{t-1},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the household problem
+\end_layout
+
+\begin_layout Enumerate
+Simulate a path of 
+\begin_inset Formula $Z_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $k_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Compare simulated behavior with the 
+\begin_inset Formula $\text{PLM}(k_{t-1},Z_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Stop if 
+\begin_inset Quotes ald
+\end_inset
+
+good enough
+\begin_inset Quotes ard
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+otherwise update 
+\begin_inset Formula $\text{PLM}(k_{t-1},Z_{t})$
+\end_inset
+
+ and return to step 2
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\series bold
+Terminology:
+\end_layout
+
+\begin_layout Enumerate
+The Krusell-Smith method is a 
+\series bold
+global solution method
+\end_layout
+
+\begin_layout Enumerate
+The newest
+\series bold
+ local
+\series default
+ 
+\series bold
+solution methods 
+\series default
+rely on linearization of the aggregate dynamics, but solve for the full
+ non-linear stationary equilibrium
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Connection to sequence space
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Insights in 
+\series default
+
+\begin_inset CommandInset citation
+LatexCommand citet
+key "auclert_using_2020"
+literal "false"
+
+\end_inset
+
+
+\series bold
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+In the limit where the shock variance disappears the dynamic equilibrium
+ path converge to the stationary equilibrium.
+\end_layout
+
+\begin_layout Enumerate
+In the limit where the shock variance disappears the transition path to
+ the MIT shock around the stationary equilibrium is the same as the impulse-resp
+onse in the dynamic equilibrium.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Implications: 
+\series default
+From the transition paths first order approximations of variances and co-varianc
+es of all variables can be calculated.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Estimation: 
+\series default
+Parameters affecting
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The stationary equilibrium are computationally 
+\emph on
+very costly
+\end_layout
+
+\begin_layout Enumerate
+Only the Jacobians are computationally 
+\emph on
+rather costly
+\end_layout
+
+\begin_layout Enumerate
+Only affecting e.g.
+ the shock process are computationally 
+\emph on
+cheap
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain

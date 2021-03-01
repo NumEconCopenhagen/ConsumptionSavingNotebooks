@@ -13,7 +13,6 @@
 3. Read the slides `ConsumptionSaving.pdf`
 4. Go through `03. A Full Blow Consumption Model.ipynb`
 5. Go through `04. Structural Estimation.ipynb`
-6. Read `A Note on Solving Heterogenous Agent General Equilibrium Models.pdf`
 7. Go through `05. General equilibrium.ipynb`
 
 To learn more about how to solve consumption-saving models efficiently: 
