@@ -426,7 +426,7 @@ status open
 
 \end_inset
 
-Labor supply, retirement, family and choices
+Labor supply, retirement, and fertility choices
 \end_layout
 
 \begin_layout Enumerate
@@ -463,7 +463,7 @@ Households are the
 \series bold
 cornerstone of general equilibrium models 
 \series default
-to study the effect of heterogeneity and inequality
+designed to study the cause and effect of inequality
 \end_layout
 
 \end_deeper
@@ -3478,7 +3478,8 @@ Demographics
 \begin_inset Formula $z_{t}$
 \end_inset
 
- (exogenous)
+ (exogenous).
+ What could it be specifically?
 \end_layout
 
 \begin_layout Itemize
@@ -3727,7 +3728,7 @@ End-of-period assets,
 \begin_layout Standard
 
 \series bold
-What is most unrealistic here?
+What is the most unrealistic here?
 \end_layout
 
 \end_deeper
@@ -4984,6 +4985,23 @@ A_{t} & \geq & -\omega P_{t}.
 \end_inset
 
 
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-4mm}
+\end_layout
+
+\end_inset
+
+
+\size small
+
 \begin_inset Formula 
 \[
 W_{t}(A_{t},B_{t},P_{t})=\mathbb{E}_{t}[V_{t}(RA_{t}+P_{t}\psi_{t+1}\xi_{t+1},R_{b}B_{t},P_{t}\psi_{t+1})]
@@ -5108,7 +5126,7 @@ income uncertainty
 : 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "de_nardi_nonlinear_2018"
+key "guvenen_what_2019"
 literal "false"
 
 \end_inset
@@ -5116,7 +5134,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "guvenen_what_2019"
+key "de_nardi_nonlinear_2020"
 literal "false"
 
 \end_inset
@@ -5163,7 +5181,7 @@ Imperfect information and bounded rationality
 \series default
 
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 (learning, myopia, hyperbolic discounting, reference dependence, mental
@@ -6076,14 +6094,6 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "alves_further_2019"
-literal "false"
-
-\end_inset
-
-, 
-\begin_inset CommandInset citation
-LatexCommand citet
 key "hagedorn_fiscal_2019"
 literal "false"
 
@@ -6092,15 +6102,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "luetticke_transmission_2020"
-literal "false"
-
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand citet
-key "auclert_micro_2020"
+key "alves_further_2020"
 literal "false"
 
 \end_inset
@@ -6108,7 +6110,7 @@ literal "false"
 , 
 \begin_inset CommandInset citation
 LatexCommand citet
-key "bayer_shocks_2020"
+key "auclert_micro_2020"
 literal "false"
 
 \end_inset
@@ -6269,6 +6271,14 @@ literal "false"
 \begin_inset CommandInset citation
 LatexCommand citet
 key "den_haan_unemployment_2018"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "luetticke_transmission_2020"
 literal "false"
 
 \end_inset
@@ -7417,7 +7427,7 @@ Calculate:
 
 \begin_layout Enumerate
 Calculate 
-\begin_inset Formula $\tilde{c}^{ij}=q_{t}(e^{i},a^{j})^{-\sigma}$
+\begin_inset Formula $\tilde{c}^{ij}=q_{t}(e^{i},a^{j})^{-\frac{1}{\sigma}}$
 \end_inset
 
  and 
@@ -8222,7 +8232,7 @@ Guess on
 
 \begin_layout Enumerate
 Calculate 
-\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{w(r_{ss},Z_{t})\}_{t=0}^{\mathcal{T}}$
+\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{w(r_{t},Z_{t})\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
 
@@ -8528,6 +8538,10 @@ vspace{-3mm}
 
 \series bold
 Decomposition: 
+\begin_inset Formula $H_{t}=\mathcal{K}_{t}(\{r(Z_{s},K_{s-1}),w(Z_{s},K_{s-1})\}_{s\geq0},D_{0})-K_{t}$
+\end_inset
+
+
 \series default
 
 \begin_inset Formula 
@@ -8876,7 +8890,7 @@ Persistent shock:
 \series bold
 Note: 
 \series default
-One Jacobian, infinite impulse-respones!
+One Jacobian, infinite many impulse-respones!
 \end_layout
 
 \begin_layout Standard
