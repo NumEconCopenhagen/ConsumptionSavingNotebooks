@@ -554,7 +554,7 @@ color{DarkRed}
 \begin_inset CommandInset href
 LatexCommand href
 name "ConsumptionSavingNotebooks/DynamicProgramming"
-target "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/tree/master/DynamicProgramming#mini-course-in-dynamic-programming"
+target "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks/tree/master/00.%20DynamicProgramming#mini-course-in-dynamic-programming"
 literal "false"
 
 \end_inset
