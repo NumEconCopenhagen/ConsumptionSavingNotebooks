@@ -54,7 +54,7 @@ def plot_consumption_function_convergence(model):
     bbox = {'boxstyle':'square','ec':'white','fc':'white'}
     ax.text(1.5,0.5,f'$\\beta = {par.beta:.2f}$, $R = {par.R:.2f}$, $G = {par.G:.2f}$',bbox=bbox)
     ax.set_xlabel('$m_t$')
-    ax.set_ylabel('$-1.0/v_t(m_t)$')
+    ax.set_ylabel(r'$c_t^{\star}(m_t)$')
     ax.legend(loc='upper left',frameon=True)
 
     fig.savefig(f'figs/cons_converge_{model.name}.pdf')

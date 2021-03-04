@@ -4922,6 +4922,84 @@ vspace{-4mm}
 \size small
 
 \begin_inset Formula 
+\begin{align*}
+V_{t}(M_{t},N_{t},P_{t}) & =\max_{B_{t},C_{t}}u(C_{t},B_{t})+\beta\mathbb{E}_{t}[V_{t+1}(M_{t+1},N_{t+1},P_{t+1})]\\
+ & \text{s.t.}\\
+A_{t} & =M_{t}-C_{t}+(N_{t}-B_{t})-1\{N_{t}\neq B_{t}\}\omega\\
+M_{t+1} & =R+P_{t+1}\xi_{t+1}\\
+N_{t+1} & =R_{b}B_{t}\\
+P_{t+1} & =P_{t}\psi_{t+1}\\
+A_{t} & \geq-\lambda P_{t}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cost of liquidation:
+\series default
+ 
+\begin_inset Formula $\omega$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Illiquid assets give higher return:
+\series default
+ 
+\begin_inset Formula $R_{b}>R$
+\end_inset
+
+ (+ potentially utility)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Kaplan-Violante model (two-asset model)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-4mm}
+\end_layout
+
+\end_inset
+
+
+\size small
+
+\begin_inset Formula 
 \[
 V_{t}(M_{t},N_{t},P_{t})=\max\left\{ v_{t}^{keep}(M_{t},N_{t},P_{t}),v_{t}^{adj.}(M_{t}+N_{t}-\lambda,P_{t})\right\} 
 \]
@@ -7697,7 +7775,11 @@ are such that
 \begin_inset Formula $c_{ss}^{\ast}(\bullet)$
 \end_inset
 
- solves the household problem
+ solves the household problem with 
+\begin_inset Formula $\{r_{ss},w_{ss}\}_{k\geq t}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -8213,6 +8295,89 @@ Shock in a world without shocks
 status open
 
 \begin_layout Plain Layout
+Solving the house problem along the transition path
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Assumption:
+\series default
+ Back at stationary equilibrium after 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ periods
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Consequence:
+\series default
+ 
+\begin_inset Formula $v_{\mathcal{T}+1}(e_{t},a_{t-1})=v_{ss}(e_{t},a_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Perfect foresight price paths:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\{r_{k},w_{k}\}_{k\geq\mathcal{T}}=\{r_{\mathcal{T}},w_{\mathcal{T}},r_{ss},w_{ss}\dots\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\{r_{k},w_{k}\}_{k\geq\mathcal{T}-1}=\{r_{\mathcal{T}-1},w_{\mathcal{T}-1},r_{\mathcal{T}},w_{\mathcal{T}},r_{ss},w_{ss}\dots\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\{r_{k},w_{k}\}_{k\geq0}=\{r_{0},w_{0},\dots,r_{\mathcal{T}},w_{\mathcal{T}},r_{ss},w_{ss}\dots\}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
 Relaxation-method
 \end_layout
 
@@ -8388,8 +8553,8 @@ Reformulation
  given by initial distribution and price sequence
 \begin_inset Formula 
 \begin{align*}
-K_{t} & =\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}\\
- & \equiv\mathcal{K}_{t}\{\{r_{s},w_{s}\}_{s\geq0},D_{0})\}
+K_{t} & =\mathcal{K}_{t}(\{r_{s},w_{s}\}_{s\geq0},D_{0}))\\
+ & =\int a_{t}^{\ast}(e_{t},a_{t-1})dD_{t}
 \end{align*}
 
 \end_inset
@@ -8681,7 +8846,7 @@ Numerical:
 Truncation:
 \series default
  The matrices are truncated such that they are 
-\begin_inset Formula $T\times T$
+\begin_inset Formula $\mathcal{T}\times\mathcal{T}$
 \end_inset
 
 
@@ -8890,7 +9055,7 @@ Persistent shock:
 \series bold
 Note: 
 \series default
-One Jacobian, infinite many impulse-respones!
+One set of Jacobians, infinite many impulse-respones!
 \end_layout
 
 \begin_layout Standard
