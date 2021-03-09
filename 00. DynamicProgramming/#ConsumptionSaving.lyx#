@@ -7664,11 +7664,7 @@ Calculate
 
 \end_inset
 
-where 
-\begin_inset Formula $\omega$
-\end_inset
-
- is a weight calculated using linear interpolation
+where
 \begin_inset Formula 
 \begin{align*}
 \omega(a,\underline{a},\tilde{a},\overline{a}) & =1\{a\in[\underline{a},\overline{a}]\}\begin{cases}
@@ -7679,7 +7675,11 @@ where
 
 \end_inset
 
+and 
+\begin_inset Formula $\omega$
+\end_inset
 
+ is a weight calculated using linear interpolation
 \end_layout
 
 \begin_layout Itemize
@@ -9244,56 +9244,7 @@ Fast Jacobians
 status open
 
 \begin_layout Plain Layout
-Problem formulation
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Problem:
-\series default
- Calculating the Jacobians 
-\begin_inset Formula $\mathcal{J}^{\mathcal{K},r}$
-\end_inset
-
- and 
-\begin_inset Formula $\mathcal{J}^{\mathcal{K},w}$
-\end_inset
-
- using direct numerical derivatives is very costly
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Central result in Auclert et.
- al.
- (2020): 
-\series default
-A much simpler algorithm can be constructed.
- See their paper for the proof and some intuition.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Reformulation with linear interpolation
+Reformulation
 \end_layout
 
 \end_inset
@@ -9323,7 +9274,7 @@ Productivity:
 \begin_inset Formula $\Pi^{e}$
 \end_inset
 
- with elements
+ with canonical element
 \begin_inset Formula 
 \[
 \pi_{[i,i+]}^{e}=\text{Pr}[e_{t+1}=e^{i+1}|e_{t}=e^{i}]
@@ -9382,7 +9333,7 @@ and policy functions:
  with
 \begin_inset Formula 
 \begin{align*}
-\boldsymbol{v}_{[i,j]} & =u(\boldsymbol{c}_{[i,j]}^{\ast})+\sum_{j_{+}=0}^{\#_{a}-1}\boldsymbol{Q}_{[j,j_{+}]}^{i}\beta\sum_{k=0}^{\#_{e}-1}\pi_{[i,i_{+}]}^{e}v_{[i_{+}j_{+}]}
+\boldsymbol{v}_{[i,j]} & =u(c_{[i,j]}^{\ast})+\sum_{j_{+}=0}^{\#_{a}-1}q_{[j,j_{+}]}^{i}\beta\sum_{k=0}^{\#_{e}-1}\pi_{ii_{+}}^{e}v_{[i_{+}j_{+}]}
 \end{align*}
 
 \end_inset
@@ -9392,7 +9343,7 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $\boldsymbol{Q}_{[j,k]}^{i}$
+\begin_inset Formula $q_{[j,k]}^{i}$
 \end_inset
 
  are the weights implied by linear interpolation of 
@@ -9400,13 +9351,13 @@ where
 \end_inset
 
  at 
-\begin_inset Formula $\boldsymbol{a}_{[i,j]}^{\text{\ensuremath{\ast}}}=a^{\ast}(e_{i},a_{j})$
+\begin_inset Formula $a_{[i,j]}^{\text{\ensuremath{\ast}}}=a^{\ast}(e_{i},a_{j})$
 \end_inset
 
  given by
 \begin_inset Formula 
 \[
-\boldsymbol{Q}_{[j,k]}^{i}=\begin{cases}
+q_{[j,k]}^{i}=\begin{cases}
 \frac{a_{ij}^{\text{\ensuremath{\ast}}}-a^{j_{+}-1}}{a^{j_{+}}-a^{j_{+}-1}} & \text{if }j_{+}>0,\text{and }a_{ij}^{\text{\ensuremath{\ast}}}\in[a^{j_{+}-1},a^{j_{+}}]\\
 \frac{a_{ij}^{\text{\ensuremath{\ast}}}-a^{j_{+}}}{a^{j_{+}+1}-a^{j_{+}}} & \text{if }j_{+}<\#_{a}-1,\text{and }a_{ij}^{\text{\ensuremath{\ast}}}\in[a^{j_{+}},a^{j_{+}+1}]\\
 0 & \text{else}
@@ -9431,7 +9382,7 @@ where
 status open
 
 \begin_layout Plain Layout
-Reformulation in matrix form
+Matrix form
 \end_layout
 
 \end_inset
@@ -9466,7 +9417,7 @@ can be written
 
 \begin_inset Formula 
 \[
-\boldsymbol{\overrightarrow{v}_{t}}=u(\boldsymbol{\overrightarrow{c}}_{t}^{\ast})+\beta\boldsymbol{Q}_{t}\tilde{\Pi}^{e}\overrightarrow{\boldsymbol{v}}_{t+1}
+\boldsymbol{\overrightarrow{v}_{t}}=u(\boldsymbol{\overrightarrow{c}}_{t}^{\ast})+\beta Q_{t}\tilde{\Pi}\overrightarrow{\boldsymbol{v}}_{t+1}
 \]
 
 \end_inset
@@ -9486,14 +9437,16 @@ where
 
 \begin_inset Formula 
 \[
-\boldsymbol{Q}_{t}=\left[\begin{array}{ccc}
-\boldsymbol{Q}_{t}^{0} & \boldsymbol{0} & \boldsymbol{0}\\
+Q_{t}=\left[\begin{array}{ccc}
+Q_{t}^{0} & \boldsymbol{0} & \boldsymbol{0}\\
 \boldsymbol{0} & \ddots & \boldsymbol{0}\\
-\boldsymbol{0} & \boldsymbol{0} & \boldsymbol{Q}_{t}^{\#_{e}-1}
-\end{array}\right],\,\boldsymbol{Q}_{t}^{i}=\left[\begin{array}{ccc}
-\ddots & \vdots & \iddots\\
-\cdots & q_{[j,j_{+}]}^{i} & \cdots\\
-\iddots & \vdots & \ddots
+\boldsymbol{0} & \boldsymbol{0} & Q_{t}^{\#_{e}-1}
+\end{array}\right],\,Q_{t}^{i}=\left[\begin{array}{ccccc}
+q_{[1,1]}^{i} & \cdots & \cdots & \cdots & q_{[0,\#_{a}-1]}^{i}\\
+\vdots & \ddots &  &  & \vdots\\
+\vdots &  & q_{[j,j_{+}]}^{i} &  & \vdots\\
+\vdots &  &  & \ddots & \vdots\\
+q_{[\#_{a}-1,1]}^{i} & \cdots & \cdots & \cdots & q_{[\#_{a}-1,\#_{a}-1]}^{i}
 \end{array}\right]
 \]
 
@@ -9508,18 +9461,10 @@ where
 Simulation
 \series default
  is now the inverse operation: 
-\begin_inset Formula 
-\[
-\overrightarrow{D}_{t+1}=\tilde{\Pi}^{e\prime}\boldsymbol{Q}_{t}^{\prime}\overrightarrow{D}_{t}
-\]
-
+\begin_inset Formula $\overrightarrow{D}_{t+1}=\tilde{\Pi}^{e\prime}\boldsymbol{Q}_{t}^{\prime}\overrightarrow{D}_{t}$
 \end_inset
 
-where 
-\begin_inset Formula $\prime$
-\end_inset
 
- denoted transpose
 \end_layout
 
 \begin_deeper
@@ -9529,10 +9474,10 @@ where
 Numerically: 
 \series default
 The sparsity of 
-\begin_inset Formula $\boldsymbol{Q}_{t}$
+\begin_inset Formula $Q_{t}$
 \end_inset
 
- should be used
+ should be used.
 \end_layout
 
 \end_deeper
@@ -9549,7 +9494,7 @@ The sparsity of
 status open
 
 \begin_layout Plain Layout
-Important result in Auclert et.
+Import result in Auclert et.
  al.
  (2020)
 \end_layout
@@ -9560,16 +9505,12 @@ Important result in Auclert et.
 \end_layout
 
 \begin_deeper
-\begin_layout Standard
+\begin_layout Itemize
 
 \series bold
 Step 1: 
 \series default
-Solve backwards 
-\begin_inset Formula $T-1$
-\end_inset
-
- periods from a shock 
+Solve backwards from shock 
 \begin_inset Formula $\Delta_{x}$
 \end_inset
 
@@ -9578,57 +9519,38 @@ Solve backwards
 \end_inset
 
 .
- 
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset space ~
-\end_inset
-
-
+ Let 
 \begin_inset Formula $\boldsymbol{a}_{s}^{\ast,x}$
 \end_inset
 
- is the optimal saving policy with 
+ and 
+\begin_inset Formula $\boldsymbol{c}_{s}^{\ast,x}$
+\end_inset
+
+ denote the policy functions matrices with 
 \begin_inset Formula $s$
 \end_inset
 
- periods until shock arrival
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset space ~
-\end_inset
-
-
+ until shock arrival.
+ Denote the associated policy matrix by 
 \begin_inset Formula $\boldsymbol{Q}_{s}^{x}$
 \end_inset
 
- is the associated policy matrix
+.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \series bold
 Step 2: 
 \series default
 \emph on
-Numerical derivatives,
+Numerical derivatives
 \emph default
 
 \begin_inset Formula 
 \begin{align*}
-\Delta_{D,x}^{s} & =\frac{\tilde{\Pi}^{e\prime}\boldsymbol{Q}_{s}^{x\prime}\overrightarrow{D}_{ss}-\overrightarrow{D}_{ss}}{\Delta_{x}},\Delta_{a,x}^{s}=\frac{\overrightarrow{\boldsymbol{a}}_{s}^{\ast,x\prime}\overrightarrow{D}_{ss}-\overrightarrow{\boldsymbol{a}_{ss}}^{\ast,\prime}\overrightarrow{D}_{ss}}{\Delta_{x}}
+\Delta_{D,x}^{s} & =\frac{\tilde{\Pi}^{e\prime}Q_{s}^{x\prime}\overrightarrow{D}_{ss}-\overrightarrow{D}_{ss}}{\Delta_{x}},\Delta_{a,x}^{s}=\frac{\overrightarrow{\boldsymbol{a}}_{s}^{\ast,x\prime}\overrightarrow{D}_{ss}-\overrightarrow{\boldsymbol{a}_{ss}}^{\ast,\prime}\overrightarrow{D}_{ss}}{\Delta_{x}}
 \end{align*}
 
 \end_inset
@@ -9636,25 +9558,22 @@ Numerical derivatives,
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \series bold
 Step 3: 
 \series default
-\emph on
-Expectation factors
-\emph default
-, 
+Expectation factors, 
 \begin_inset Formula $\mathcal{E}_{t}=\begin{cases}
 \boldsymbol{a}_{ss}^{\ast} & \text{if }t=0\\
-\boldsymbol{Q}_{ss}\tilde{\Pi}^{e}\mathcal{E}_{t-1} & \text{else}
+\boldsymbol{Q}_{ss}\tilde{\Pi}^{e}\mathcal{E}_{t} & \text{else}
 \end{cases}$
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \series bold
 Step 4: 
@@ -9665,30 +9584,26 @@ Fake news matrix,
 \end_inset
 
 
-\emph default
-
-\begin_inset Formula $\mathcal{F}_{[t,s]}^{a}=\begin{cases}
+\begin_inset Formula $\mathcal{F}_{[t,s]}^{\mathcal{K}}=\begin{cases}
 \Delta_{a,x}^{s} & \text{if }t=0\\
-\overrightarrow{\mathcal{E}}_{t-1}\Delta_{D,x}^{s} & \text{else }
+\overrightarrow{\mathcal{E}_{t}}\Delta_{D,x}^{s} & \text{else }
 \end{cases}$
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \series bold
 Step 5:
 \series default
  
 \emph on
-Jacobian, 
-\emph default
-
-\begin_inset Formula $\mathcal{J}_{[t,s]}^{\mathcal{K},x}=\begin{cases}
-\mathcal{F}_{[t,s]}^{a} & \text{if \ensuremath{t=0\lor s=0}}\\
-\sum_{k=0}^{\min\{t,s\}}\mathcal{F}_{[t-k,s-k]}^{a} & \text{\ensuremath{\text{else}}}
+Jacobian 
+\begin_inset Formula $\mathcal{J}_{[t,s]}=\begin{cases}
+\mathcal{F}_{[t,s]} & \text{if \ensuremath{t=0\lor s=0}}\\
+\sum_{k=0}^{\min\{t,s\}}\mathcal{F}_{[t-1][s-1]} & \text{\ensuremath{\text{else}}}
 \end{cases}$
 \end_inset
 
