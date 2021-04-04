@@ -346,8 +346,11 @@ class ConsumptionSavingModelClass(ModelClass):
         m_plus = (par.R/fac)*a + xi            
 
         # c. continuation value
-        inv_v_plus = np.zeros(m_plus.size)
-        linear_interp.interp_1d_vec(sol.m[t+1,:],sol.inv_v[t+1,:],m_plus,inv_v_plus)
+        if still_working_next_period:
+            inv_v_plus = np.zeros(m_plus.size)
+            linear_interp.interp_1d_vec(sol.m[t+1,:],sol.inv_v[t+1,:],m_plus,inv_v_plus)
+        else:
+            inv_v_plus = linear_interp.interp_1d(sol.m[t+1,:],sol.inv_v[t+1,:],m_plus)
         v_plus = 1/inv_v_plus
         
         # d. value-of-choice
@@ -539,3 +542,5 @@ def simulate_time_loop(par,sol,sim):
                     p[i,t+1] = np.log(par.G) + np.log(par.L[t]) + p[i,t] + np.log(sim.psi[i,t+1])   
                     if sim.xi[i,t+1] > 0:
                         y[i,t+1] = p[i,t+1] + np.log(sim.xi[i,t+1])
+                    else:
+                        y[i,t+1] = -np.inf
