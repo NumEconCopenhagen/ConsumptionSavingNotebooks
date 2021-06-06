@@ -26,4 +26,5 @@ The main folder are:
 * **02. DurableConsumptionModel/** Example with the solution method proposed in [A Guide to Solve Non-Convex Consumption-Saving Models](https://doi.org/10.1007/s10614-020-10045-x), [Druedahl](https://sites.google.com/view/jeppe-druedahl/), 2021, *Computational Economics*.
 * **03. G2EGM/** Python version of the G2EGM algorithm from [A General Endogenous Grid Method for Multi-Dimensional Models with Non-Convexities and Constraints](https://doi.org/10.1016/j.jedc.2016.11.005), [Druedahl](https://sites.google.com/view/jeppe-druedahl/) and [Jørgensen](http://www.tjeconomics.com/), 2017, *Journal of Economic Dynamics and Control*, 74 ([MATLAB version](https://github.com/JeppeDruedahl/G2EGM)).
 * **04. Tools/** Showcases the various tools.
-* **05. C++/** Showcases the interface to C++.
+
+The repository **[EconModelNotebooks](https://github.com/NumEconCopenhagen/EconModelNotebooks)** contains a number of examples on using the underlying model class.
