@@ -12,9 +12,10 @@ If you are **new to Python** then try out this online course, [Introduction to p
 
 **To get started:**
 
-1. Install the ConSav package (requires git): ``pip install git+https://github.com/NumEconCopenhagen/ConsumptionSaving``
-2. Clone or download this repository
-3. Open your notebook of choice
+1. Install the EconModel package: ``pip install EconModel``
+2. Install the ConSav package: ``pip install ConSav``
+3. Clone or download this repository
+4. Open your notebook of choice
 
 We recommend running the notebooks in [JupyerLab](https://jupyterlab.readthedocs.io/en/stable/). A set of guides on how to install Python and JupyterLab is available [here](https://numeconcopenhagen.netlify.com/guides/).
 
