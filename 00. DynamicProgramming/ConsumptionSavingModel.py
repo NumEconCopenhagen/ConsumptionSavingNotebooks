@@ -514,17 +514,20 @@ def simulate_time_loop(par,sol,sim):
     c = sim.c
     a = sim.a
 
+    sol_c = sol.c
+    sol_m = sol.m
+
     # loop over first households and then time
     for i in prange(par.simN):
         for t in range(par.simT):
             
             # a. solution
             if par.simlifecycle == 0:
-                grid_m = sol.m[0,:]
-                grid_c = sol.c[0,:]
+                grid_m = sol_m[0,:]
+                grid_c = sol_c[0,:]
             else:
-                grid_m = sol.m[t,:]
-                grid_c = sol.c[t,:]
+                grid_m = sol_m[t,:]
+                grid_c = sol_c[t,:]
             
             # b. consumption
             c[i,t] = linear_interp.interp_1d(grid_m,grid_c,m[i,t])
