@@ -3,10 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sns
-sns.set_style("whitegrid")
-prop_cycle = plt.rcParams["axes.prop_cycle"]
-colors = prop_cycle.by_key()["color"]
+colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+plt.rcParams.update({"axes.grid" : True, "grid.color": "black", "grid.alpha":"0.25", "grid.linestyle": "--"})
+plt.rcParams.update({'font.size': 14})
 import ipywidgets as widgets
 
 from consav import linear_interp
@@ -35,7 +34,7 @@ def decision_functions(model):
         t=widgets.Dropdown(description='t', 
             options=list(range(model.par.T)), value=0),
         i_p=widgets.Dropdown(description='ip', 
-            options=list(range(model.par.Np)), value=np.int(model.par.Np/2)),
+            options=list(range(model.par.Np)), value=np.int_(model.par.Np/2)),
         name=widgets.Dropdown(description='name', 
             options=['discrete','adj','keep','post_decision'], value='discrete')
         )

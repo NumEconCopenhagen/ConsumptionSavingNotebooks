@@ -21,5 +21,3 @@ The repository **[EconModelNotebooks](https://github.com/NumEconCopenhagen/EconM
 4. Open your notebook of choice
 
 If you are **new to Python** then try out this online course, [Introduction to programming and numerical analysis](https://sites.google.com/view/numeconcph-introprog/home).
-
-We recommend running the notebooks in [JupyerLab](https://jupyterlab.readthedocs.io/en/stable/). A set of guides on how to install Python and JupyterLab is available [here](https://sites.google.com/view/numeconcph-introprog/guides).

@@ -4,9 +4,10 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 
-plt.style.use("seaborn-whitegrid")
 prop_cycle = plt.rcParams["axes.prop_cycle"]
 colors = prop_cycle.by_key()["color"]
+plt.rcParams.update({"axes.grid" : True, "grid.color": "black", "grid.alpha":"0.25", "grid.linestyle": "--"})
+plt.rcParams.update({'font.size': 14})
 
 color1 = np.array([3.0/255.0,103.0/255.0,166.0/255.0])
 color2 = np.array([242.0/255.0,62.0/255.0,46.0/255.0])

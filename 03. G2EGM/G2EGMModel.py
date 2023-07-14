@@ -133,11 +133,11 @@ class G2EGMModelClass(ModelClass):
         par.grid_n_nd, par.grid_m_nd = np.meshgrid(par.grid_n,par.grid_m,indexing='ij')
 
         # c. working: w interpolant (and wa and wb and wq)
-        par.Na_pd = np.int64(np.floor(par.pd_fac*par.Nm))
+        par.Na_pd = np.int_(np.floor(par.pd_fac*par.Nm))
         par.a_max = par.m_max + par.a_add
         par.grid_a_pd = nonlinspace(0,par.a_max,par.Na_pd,par.phi_m)
     
-        par.Nb_pd = np.int64(np.floor(par.pd_fac*par.Nn))
+        par.Nb_pd = np.int_(np.floor(par.pd_fac*par.Nn))
         par.b_max = par.n_max + par.b_add
         par.grid_b_pd = nonlinspace(0,par.b_max,par.Nb_pd,par.phi_n)
     
@@ -151,15 +151,15 @@ class G2EGMModelClass(ModelClass):
             par.d_dcon = np.zeros((par.Na_pd,par.Nb_pd),dtype=np.float_,order='C')
                 
             # ii. acon
-            par.Nc_acon = np.int64(np.floor(par.Na_pd*par.acon_fac))
-            par.Nb_acon = np.int64(np.floor(par.Nb_pd*par.acon_fac))
+            par.Nc_acon = np.int_(np.floor(par.Na_pd*par.acon_fac))
+            par.Nb_acon = np.int_(np.floor(par.Nb_pd*par.acon_fac))
             par.grid_b_acon = nonlinspace(0,par.b_max,par.Nb_acon,par.phi_n)
             par.a_acon = np.zeros(par.grid_b_acon.shape)
             par.b_acon = par.grid_b_acon
 
             # iii. con
-            par.Nc_con = np.int64(np.floor(par.Na_pd*par.con_fac))
-            par.Nb_con = np.int64(np.floor(par.Nb_pd*par.con_fac))
+            par.Nc_con = np.int_(np.floor(par.Na_pd*par.con_fac))
+            par.Nb_con = np.int_(np.floor(par.Nb_pd*par.con_fac))
             
             par.grid_c_con = nonlinspace(par.eps,par.m_max,par.Nc_con,par.phi_m)
             par.grid_b_con = nonlinspace(0,par.b_max,par.Nb_con,par.phi_n)
