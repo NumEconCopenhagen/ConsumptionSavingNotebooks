@@ -17,10 +17,14 @@ int binary_search(int imin, int Nx, double *x, double xi)
     }
 
     // b. binary search
-    while((half = Nx/2)){
+    half = Nx/2;
+    while(half){
         imid = imin + half;
-        imin = (x[imid] <= xi) ? imid:imin;
-        Nx  -= half;
+        if (xi > x[imid]) {
+            imin = imid;
+        }
+        Nx -= half;
+        half = Nx/2;
     }
 
     return imin;
@@ -81,7 +85,7 @@ void _interp_1d_mon_vec(int *prep, double *grid1, int Nx1, double *value,
         for(int i = 0; i < Nyi; i++){
             if(monotone && i > 0){
                 int j1 = prep[i-1];
-                while(xi1[i] >= grid1[j1+1] && j1 < Nx1-1){
+                while(xi1[i] >= grid1[j1+1] && j1 < Nx1-2){
                     j1 += 1;
                 }
                 prep[i] = j1;
@@ -93,10 +97,11 @@ void _interp_1d_mon_vec(int *prep, double *grid1, int Nx1, double *value,
 
     // b. interpolation
     for(int i = 0; i < Nyi; i++){
-        for(int k1 = 0; k1 < 1; k1++){
+        yi[i] = 0.0; // initialize
+        for(int k1 = 0; k1 < 2; k1++){
             int j1 = prep[i];
             double nom_1 = k1 == 0 ? grid1[j1+1]-xi1[i] : xi1[i]-grid1[j1];            
-            yi[i] += nom_1*nom_1*value[j1+k1];
+            yi[i] += nom_1*value[j1+k1];
         }
     }
 
@@ -120,7 +125,7 @@ void interp_1d_vec_mon_noprep(double *grid1, int Nx1, double *value,
 {
     
     int *prep = interp_1d_prep(Nyi);
-    _interp_1d_mon_vec(prep,grid1,Nx1,value,xi1,yi,Nyi,true,false);
+    _interp_1d_mon_vec(prep,grid1,Nx1,value,xi1,yi,Nyi,true,true);
     delete[] prep;
 
 }
